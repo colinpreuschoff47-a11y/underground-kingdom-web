@@ -9,8 +9,19 @@
     toggle.addEventListener("click", () => {
       const open = nav.classList.toggle("nav-open");
       toggle.setAttribute("aria-expanded", String(open));
+      toggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
     });
   }
+
+  const closeNav = () => {
+    nav?.classList.remove("nav-open");
+    toggle?.setAttribute("aria-expanded", "false");
+    toggle?.setAttribute("aria-label", "Open menu");
+  };
+
+  links?.querySelectorAll("a").forEach((a) => {
+    a.addEventListener("click", () => closeNav());
+  });
 
   document.querySelectorAll('a[href^="#"]').forEach((a) => {
     a.addEventListener("click", (event) => {
@@ -20,8 +31,7 @@
       if (!target) return;
       event.preventDefault();
       target.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-      nav?.classList.remove("nav-open");
-      toggle?.setAttribute("aria-expanded", "false");
+      closeNav();
       if (typeof target.focus === "function") {
         target.setAttribute("tabindex", "-1");
         target.focus({ preventScroll: true });
@@ -31,8 +41,7 @@
 
   document.querySelectorAll("[data-coming-soon]").forEach((el) => {
     el.addEventListener("click", () => {
-      nav?.classList.remove("nav-open");
-      toggle?.setAttribute("aria-expanded", "false");
+      closeNav();
       if (dialog && typeof dialog.showModal === "function") dialog.showModal();
     });
   });
@@ -43,17 +52,13 @@
   });
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape") {
-      nav?.classList.remove("nav-open");
-      toggle?.setAttribute("aria-expanded", "false");
-    }
+    if (event.key === "Escape") closeNav();
   });
 
   document.addEventListener("click", (event) => {
     if (!nav?.classList.contains("nav-open")) return;
     if (nav.contains(event.target)) return;
-    nav.classList.remove("nav-open");
-    toggle?.setAttribute("aria-expanded", "false");
+    closeNav();
   });
 
   const revealAll = () => {

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The pipeline — Underground Kingdom</title>
+  <meta name="description" content="Prompt to FEATURE brief to Gate B plan to implement to accept to git push. Difficulty classes and Architect gates.">
+  <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="The pipeline">
+  <meta property="og:description" content="Prompt to FEATURE brief to Gate B plan to implement to accept to git push. Difficulty classes and Architect gates.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html" aria-current="page">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero-inner reveal">
+        <p class="crumb"><a href="index.html">Home</a> · <span>Workflow</span></p>
+        <p class="kicker">Gate B</p>
+        <h1>Prompt to push</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
+        <p class="lede">A plain-language idea becomes a FEATURE_* brief, then a no-code coding plan, then implementation — only after the Architect says so. Difficulty class first. One task at a time.</p>
+        <div class="page-actions"><a class="btn" href="briefs.html">Example briefs</a> <a class="btn btn-mute" href="plans.html">Example plans</a></div>
+      </div>
+    </header>
+    <section class="section diary" data-reveal>
+      <div class="section-inner article">
+        <h2>The pipeline</h2>
+        <p>Quoted and adapted from the project’s AGENTS.md and pipeline kickoffs. Briefs are delivered, not approved. Gate B starts only when the Architect explicitly says “start Gate B.”</p>
+        <ol class="pipeline">
+          <li>
+            <strong>Prompt</strong>
+            <span>Architect states a plain-language idea (German or English). Incomplete is fine. Brief Writer must ask when numbers, scope, or player-facing behavior are unclear — and must not invent game rules.</span>
+          </li>
+          <li>
+            <strong>Brief Writer → FEATURE_* brief</strong>
+            <span>Grok Build, in Brief Writer mode, turns the idea into a task brief under architecture_docs/briefs/features/. Naming: FEATURE_&lt;SHORT_NAME&gt;_V1_GROK_BUILD_BRIEF.md. A Coding Agent kickoff block is pasted in chat. Then STOP. Do not start Gate B.</span>
+          </li>
+          <li>
+            <strong>Architect says start Gate B</strong>
+            <span>Silence is not permission. “Brief written” is not permission. The instruction applies to that task only.</span>
+          </li>
+          <li>
+            <strong>Gate B Phase 1 — coding plan (no code)</strong>
+            <span>Restate the goal. List in/out of scope. Propose architecture, APIs, risks. Write the full plan to architecture_docs/coding_plans/. Present it in chat. Chat-only plans are a process fail. Then STOP and wait.</span>
+          </li>
+          <li>
+            <strong>Architect approves the plan</strong>
+            <span>If edits are requested, patch the same plan file and STOP again. Phase 2 implements the plan file, not a remembered chat summary.</span>
+          </li>
+          <li>
+            <strong>Phase 2 — implement</strong>
+            <span>Touch only files required for the task. Keep changes localized. Do not redesign unrelated systems. Do not change public APIs or save formats unless the approval included that.</span>
+          </li>
+          <li>
+            <strong>Phase 3 — validation</strong>
+            <span>Report what changed, why, how to verify, side effects, docs updated, and optional suggestions that must not be implemented. Then STOP.</span>
+          </li>
+          <li>
+            <strong>Architect accept</strong>
+            <span>Play-test and accept the completed slice. Validation report alone is not acceptance.</span>
+          </li>
+          <li>
+            <strong>Git commit + push</strong>
+            <span>Engineer commits at the Unity project root and pushes to origin after explicit accept. Then STOP. Do not start the next phase unless tasked.</span>
+          </li>
+        </ol>
+
+        <h2>Difficulty classes</h2>
+        <p>Before writing a FEATURE_* / PERF_* brief and before starting Gate B Phase 1, the Engineer must classify the coding task and state the class in the first reply. When unsure, pick the harder class. If the task touches World volume, path graphs, save format, or a public interface, the class is at least advanced.</p>
+        <table class="sheet">
+          <caption>AGENTS.md — task difficulty (LOCKED)</caption>
+          <thead>
+            <tr><th>Class</th><th>Typical meaning</th><th>Brief?</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Very simple</td>
+              <td>One obvious, local change: a locked constant, a typo, a single-file wiring already specified. No new public API, module, or save/spatial/pipeline change.</td>
+              <td>No brief. Engineer states the class and proceeds with Gate B Phase 1 in the same turn.</td>
+            </tr>
+            <tr>
+              <td>Simple</td>
+              <td>Localized coding, few files, existing APIs, no new cross-module contract.</td>
+              <td>Ask whether a brief is required, then STOP until the Architect answers.</td>
+            </tr>
+            <tr>
+              <td>Advanced</td>
+              <td>New or changed public API, several modules, new sim/presentation contract, or a roadmap slice with real design surface.</td>
+              <td>Brief always required. Write it, then STOP. Do not start Gate B until explicitly told.</td>
+            </tr>
+            <tr>
+              <td>Complex</td>
+              <td>Cross-cutting space/save/path/render change, many modules, or a cutover.</td>
+              <td>Brief always required. Same stop rule as advanced.</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <h2>What a brief is for</h2>
+        <p>The Brief Writer’s one job is a complete task brief plus a ready-to-paste Coding Agent kickoff. It does not implement game features. It does not write a Gate B plan — that is the Coding session’s job. Gold briefs use tables, hard forbids, testable exits, and a “do not rebuild” baseline.</p>
+        <p>See real excerpts: <a href="briefs.html">Food Hunger Starvation</a>, Volume Pathfinding, Inspection Tool. See real plans: <a href="plans.html">Dig Marks</a>, Depth-1 occupy, Ladder path fix.</p>
+        <ul class="cross-links">
+          <li><a href="develop.html">Roles and stack</a></li>
+          <li><a href="briefs.html">Briefs</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="progress.html">Progress</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

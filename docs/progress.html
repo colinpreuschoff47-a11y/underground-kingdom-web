@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Progress — Underground Kingdom</title>
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V3. Remaining: V4 V5 F G.">
+  <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="Progress">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V3. Remaining: V4 V5 F G.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html" aria-current="page">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero-inner reveal">
+        <p class="crumb"><a href="index.html">Home</a> · <span>Progress</span></p>
+        <p class="kicker">Studio diary</p>
+        <h1>Progress over time</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
+        <p class="lede">Dates come from the git log. Eras follow the Unity migration, then needs and production, then Volume World and 2.5D parity, then the Volume product slices. Remaining work is named. Nothing here is a store date.</p>
+        
+      </div>
+    </header>
+    <section class="section diary" data-reveal>
+      <div class="section-inner article">
+        <p>Architect-accepted slices only. Grok Build implements; Colin accepts; then commit. Pre-alpha. Not released.</p>
+        <ol class="eras">
+          <li class="era">
+            <p class="when">July 2026 · Unity migration</p>
+            <h3>Phases 0–16 <span class="badge badge-done">Implemented</span></h3>
+            <p>Skeleton to a playable 2D colony: world, pathfinding, dig, build, population, fog/harvest, combat, save, content. Accepted in a tight run from 21–27 Jul 2026.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-07-21">21 Jul 2026</time><span class="done">Phase 0 skeleton (UK-P0-SKELETON). Phase 1 content+world. Phase 2 pathfinding+motor. Phase 3 economy+inventory+tasks. Phase 4 dig loop.</span></li>
+              <li><time datetime="2026-07-24">24 Jul 2026</time><span class="done">Phase 5 build loop. Phase 6 population + housing.</span></li>
+              <li><time datetime="2026-07-26">26 Jul 2026</time><span class="done">Phase 7 harvest + regrowth + fog. Phase 7.1 camera zoom + pan. Phase 8 jobs + task UX. Phase 9 upgrades + demolish. Phase 10 production economy.</span></li>
+              <li><time datetime="2026-07-27">27 Jul 2026</time><span class="done">Phase 11 combat. Phase 12 presentation + audio + menus. Phase 13 savegame v1. Phase 14 content + balance. Phase 15 hardening. Phase 16 post-roadmap expansion. Bag utilization + edge-scroll.</span></li>
+            </ul>
+          </li>
+          <li class="era">
+            <p class="when">Late July – early August 2026</p>
+            <h3>Food, production, sleep, inspection, world gen, art <span class="badge badge-done">Implemented</span></h3>
+            <p>The hall starts to live: inspect the stack, starve if you do not cook, sleep if attention fails, caves and plants, a first visual pass.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-07-31">31 Jul 2026</time><span class="done">Inspection Tool V1 (UK-FEAT-INSPECTION-TOOL-V1).</span></li>
+              <li><time datetime="2026-08-03">3 Aug 2026</time><span class="done">Visual Art Pass V1. Plant Spawn V1. World Gen Caves &amp; Resources V1. Main Menu Settings V1.</span></li>
+              <li><time datetime="2026-08-04">4 Aug 2026</time><span class="done">Food Hunger Starvation V1. Food Eat Auto V1. Building Production Service V1. Building Output Egress V1. Large-service splits (Labor blackboard, forge coordinator, session HUD).</span></li>
+              <li><time datetime="2026-08-05">5 Aug 2026</time><span class="done">Building Structure Functions V1. Sleep &amp; Attention V1.</span></li>
+              <li><time datetime="2026-08-09">9 Aug 2026</time><span class="done">Edit Mode + Test Map + F9 stress V1. Perf: WallCombat, Labor multi-goal claim.</span></li>
+              <li><time datetime="2026-08-10">10 Aug 2026</time><span class="done">Incremental fog overlay paint. Multi-tile footprint movement V1.</span></li>
+              <li><time datetime="2026-08-11">11 Aug 2026</time><span class="done">Earth seamless wiring V1.</span></li>
+              <li><time datetime="2026-08-12">12 Aug 2026</time><span class="done">Earth edge overlays V2. Door gold + palette snapshot.</span></li>
+            </ul>
+          </li>
+          <li class="era">
+            <p class="when">Mid August 2026</p>
+            <h3>Volume World, pathfinding, 2.5D Phases A–E <span class="badge badge-done">Implemented</span></h3>
+            <p>One sim, two views. Then HUD, recipes, enemies/fog/plants in the cutaway, and live Z. Volume product roadmap dated 26 Aug 2026 records Phases A–E as done, including Phase E live Z (feet Z, volume Labor/move, save posZ, ±Y on ladders in the volume graph). There is no separate “Phase E accepted” line in the commit log excerpt; live-stand work landed 19 Aug, Phases A–D 20–23 Aug.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-08-16">16 Aug 2026</time><span class="done">3D playspace spike V1. Standable volume V1 (DefaultDepth = 5).</span></li>
+              <li><time datetime="2026-08-17">17 Aug 2026</time><span class="done">Volume pathfinding V1. Volume World View V1. Building recipe fireplace + door.</span></li>
+              <li><time datetime="2026-08-18">18 Aug 2026</time><span class="done">Meeting hall kit + catalog layouts. World gen volume depth. Volume World atmosphere V1.</span></li>
+              <li><time datetime="2026-08-19">19 Aug 2026</time><span class="done">Live standable path V1. Live structure stand V1.</span></li>
+              <li><time datetime="2026-08-20">20 Aug 2026</time><span class="done">Phase A — one sim, two views (UK-FEAT-25D-PHASE-A-V1).</span></li>
+              <li><time datetime="2026-08-21">21 Aug 2026</time><span class="done">Phase B input and HUD parity. Phase C building recipes.</span></li>
+              <li><time datetime="2026-08-23">23 Aug 2026</time><span class="done">Phase D enemies, fog, plants V1.</span></li>
+            </ul>
+          </li>
+          <li class="era">
+            <p class="when">Late August – 1 September 2026</p>
+            <h3>Volume product V1–V3 <span class="badge badge-done">Implemented</span></h3>
+            <p>The Volume World roadmap (26 Aug 2026) is the remaining-work source of truth. V1 starter depth, V2 dig marks, V3 occupy z=0 are accepted. Process: push to origin after Architect accept.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-08-30">30 Aug 2026</time><span class="done">Process/doc hygiene H1–H7. Require git push to origin after Architect accepts a slice.</span></li>
+              <li><time datetime="2026-09-01">1 Sep 2026</time><span class="done">Volume V1 starter depth + 5-deep placement. Volume V2 dig marks. Volume V3 occupy z=0.</span></li>
+            </ul>
+            <div class="remain-box">
+              <h4>Remaining (honest)</h4>
+              <ul>
+                <li><span class="badge badge-wait">Remaining</span> V4 — 1-tile-tall ladder and wall visuals (traps inherit unless a later slice splits the kit).</li>
+                <li><span class="badge badge-wait">Remaining</span> V5 — back-wall climb: colonists walk to z = d−1, then ±Y. Hop 0.5 s. Enemies not in V5. Volume ladder playtest (E4) was not accepted; V5 is the upstairs path.</li>
+                <li><span class="badge badge-wait">Remaining</span> F — cutover: New Game / Load default to Volume World. Leave 2D Gameplay as a debug scene.</li>
+                <li><span class="badge badge-wait">Remaining</span> G — art (kit_block / kit_floor / kit_pillar / kit_arch / kit_trim). Color fallbacks valid until G. Does not block F.</li>
+              </ul>
+              <p style="margin:0.8rem 0 0">Ladder path fix V1 has an <a href="plans.html#plan-ladder">Approved</a> coding plan (26 Aug 2026) and no accept commit. We do not mark it implemented.</p>
+            </div>
+          </li>
+        </ol>
+        <ul class="cross-links">
+          <li><a href="develop.html">How it is built</a></li>
+          <li><a href="workflow.html">The pipeline</a></li>
+          <li><a href="code.html">Code</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>How features are coded — Underground Kingdom</title>
+  <meta name="description" content="Real C# from GameplayComposer, EventBus, Volume A*, DamageCalculator, Colonist needs, and FogService.">
+  <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="How features are coded">
+  <meta property="og:description" content="Real C# from GameplayComposer, EventBus, Volume A*, DamageCalculator, Colonist needs, and FogService.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html">Workflow</a></li>
+        <li><a href="code.html" aria-current="page">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero-inner reveal">
+        <p class="crumb"><a href="index.html">Home</a> · <span>Code</span></p>
+        <p class="kicker">Production C#</p>
+        <h1>How features are coded</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
+        <p class="lede">You designate work. Dwarves execute. The hall is defended on the same map. These excerpts are real production C# from the Unity project — trimmed, never dumped whole. LaborService is over four thousand lines; it is not pasted here.</p>
+        <div class="page-actions"><a class="btn" href="workflow.html">How a slice is tasked</a> <a class="btn btn-mute" href="progress.html">What landed when</a></div>
+      </div>
+    </header>
+    <section class="section studio" data-reveal>
+      <div class="section-inner article">
+        <p>Grok Build writes this. Colin approves the plan first. Concrete service construction lives only in the composition root unless a brief says otherwise.</p>
+
+        <article class="artifact" aria-labelledby="c-composer">
+          <header>
+            <h3 id="c-composer">Composition root</h3>
+            <p class="file-path">Assets/_Project/Scripts/Session/GameplayComposer.cs</p>
+          </header>
+          <div class="body">
+            <p>New Game is not a scatter of FindObjectOfType calls. GameplayComposer manually constructs World, Fog, Pathfinding, Economy, Tasks, Combat, Agents, Labor, and Buildings, then late-binds displacement so doors and walls can eject units. That is how a designated dig becomes a claimed task on a living dwarf.</p>
+          </div>
+          <pre class="code"><code><span class="cmt">    /// &lt;summary&gt;</span>
+<span class="cmt">    /// Manual composition root (ADR-0005). Concrete construction of domain services lives only here.</span>
+<span class="cmt">    /// &lt;/summary&gt;</span>
+    public sealed class GameplayComposer : IDisposable
+    {
+        public GameplayComposer(TerrainCatalog terrainCatalog, ResourceCatalog resourceCatalog = null)
+        {
+<span class="cmt">            // ...</span>
+            EventBus = new EventBus();
+            Clock = new SimulationClock();
+            MotionSpace = new MotionSpaceState();
+            Settings = new SettingsService();
+            Settings.Load();
+
+            World = new WorldService(
+                EventBus,
+                TerrainCatalog,
+                WorldConstants.DefaultWidth,
+                WorldConstants.DefaultHeight);
+
+            Fog = new FogService(WorldConstants.DefaultWidth, WorldConstants.DefaultHeight);
+
+<span class="cmt">            // Colonist pathfinding needs buildings for floors/doors; bind Structures after Buildings.</span>
+            ColonistWalk = new ColonistWalkabilityMap(World);
+            Pathfinding = new PathfindingService(ColonistWalk, World, World);
+
+            Economy = new EconomyService(EventBus);
+            Combat = new CombatService(EventBus);
+            Tasks = new TaskService(EventBus, Pathfinding, World, MotionSpace);
+<span class="cmt">            // ...</span>
+            Buildings = new BuildingService(
+                EventBus,
+                World,
+                Economy,
+                Tasks,
+                BuildingAccess,
+                Stockpile,
+                BuildingsCatalog,
+                () =&gt; Pathfinding.InvalidatePathCache(),
+                tiles =&gt; displacementHolder?.EjectFromTiles(tiles),
+                tiles =&gt;
+                {
+                    agentsHolder?.ClearPathsThroughTiles(tiles);
+                    enemiesHolder?.ClearPathsThroughTiles(tiles);
+                });
+            Agents = new AgentService(
+                Buildings, World, Stockpile, EventBus, new DwarfNamePool(),
+                Fog, Combat, Tasks, MotionSpace);
+            Enemies = new EnemyService(
+                EventBus, World, Pathfinding, Agents, Combat,
+                Buildings as IStructurePassabilityQuery, MotionSpace);
+            Labor = new LaborService(
+                Agents, Tasks, World, Pathfinding, Economy, Stockpile,
+                Buildings, ResourceCatalog, Enemies, MotionSpace);
+<span class="cmt">            // ...</span>
+        }
+    }</code></pre>
+        </article>
+        <article class="artifact" aria-labelledby="c-bus">
+          <header>
+            <h3 id="c-bus">Typed event bus</h3>
+            <p class="file-path">Assets/_Project/Scripts/Core/EventBus.cs</p>
+          </header>
+          <div class="body">
+            <p>Events are structs. Publish is synchronous. Handlers are snapshotted so a subscriber may unsubscribe mid-broadcast without corrupting the list. Building constructed, dwarf died, stock changed — the hall talks to itself without a god object.</p>
+          </div>
+          <pre class="code"><code>        public void Publish&lt;T&gt;(T evt) where T : struct
+        {
+            if (!_handlers.TryGetValue(typeof(T), out var list) || list.Count == 0)
+            {
+                return;
+            }
+
+<span class="cmt">            // Snapshot so handlers may subscribe/unsubscribe during publish.</span>
+            var snapshot = list.ToArray();
+            for (var i = 0; i &lt; snapshot.Length; i++)
+            {
+                if (snapshot[i] is Action&lt;T&gt; action)
+                {
+                    action.Invoke(evt);
+                }
+            }
+        }
+
+        public IDisposable Subscribe&lt;T&gt;(Action&lt;T&gt; handler) where T : struct
+        {
+            if (handler == null)
+            {
+                throw new ArgumentNullException(nameof(handler));
+            }
+
+            var type = typeof(T);
+            if (!_handlers.TryGetValue(type, out var list))
+            {
+                list = new List&lt;Delegate&gt;();
+                _handlers[type] = list;
+            }
+
+            list.Add(handler);
+            return new Subscription(() =&gt; Unsubscribe(type, handler));
+        }</code></pre>
+        </article>
+        <article class="artifact" aria-labelledby="c-astar">
+          <header>
+            <h3 id="c-astar">Volume A*</h3>
+            <p class="file-path">Assets/_Project/Scripts/Pathfinding/VolumeAStarPathfinder.cs</p>
+          </header>
+          <div class="body">
+            <p>Dwarves walk XYZ. Neighbors are ±X ±Z on a floor, and ±Y on a ladder live-stand. The search is capped at 1000 expansions — CapExceeded is a real status, not an infinite crawl through the cave. Designate a cell; this is how a dwarf finds a legal stand beside it.</p>
+          </div>
+          <pre class="code"><code><span class="cmt">    /// &lt;summary&gt;</span>
+<span class="cmt">    /// Live volume A*: occupy = live-stand + walk at that z; ±X ±Z; ±Y on ladder live-stand.</span>
+<span class="cmt">    /// Optional &lt;see cref="IVolumePlanThrough"/&gt; for enemy bash planning.</span>
+<span class="cmt">    /// Max 1000 expansions.</span>
+<span class="cmt">    /// &lt;/summary&gt;</span>
+    internal sealed class VolumeAStarPathfinder
+    {
+        public const int MaxExpansions = 1000;
+<span class="cmt">        // ...</span>
+        public VolumePathResult FindPath(Vector3Int start, Vector3Int goal)
+        {
+            if (_volume == null)
+            {
+                return VolumePathResult.Failure(PathStatus.OutOfBounds);
+            }
+
+            var startIn = _volume.InBounds(start.x, start.y, start.z);
+            var goalIn = _volume.InBounds(goal.x, goal.y, goal.z);
+            if (!startIn || !goalIn)
+            {
+                return VolumePathResult.Failure(PathStatus.OutOfBounds);
+            }
+
+            if (!VolumeLiveStep.CanVisit(
+                    _volume, _walkability, _ladders, _planThrough, start.x, start.y, start.z))
+            {
+                return VolumePathResult.Failure(PathStatus.NonWalkableStart);
+            }
+
+            if (!VolumeLiveStep.CanVisit(
+                    _volume, _walkability, _ladders, _planThrough, goal.x, goal.y, goal.z))
+            {
+                return VolumePathResult.Failure(PathStatus.NonWalkableGoal);
+            }
+
+            if (start == goal)
+            {
+                return VolumePathResult.Success(new[] { start });
+            }
+<span class="cmt">            // ...</span>
+            return Search(start, goal);
+        }
+<span class="cmt">        // ...</span>
+                if (expansions &gt;= MaxExpansions)
+                {
+                    return VolumePathResult.Failure(PathStatus.CapExceeded);
+                }
+<span class="cmt">        // ...</span>
+    }</code></pre>
+        </article>
+        <article class="artifact" aria-labelledby="c-dmg">
+          <header>
+            <h3 id="c-dmg">Combat kernel</h3>
+            <p class="file-path">Assets/_Project/Scripts/Combat/DamageCalculator.cs</p>
+          </header>
+          <div class="body">
+            <p>Actual damage is max(0, raw − defense). Health never goes below zero. A Giant Rat on the stockpile and an Ork at the door use the same pure function. Starvation is a separate apply that ignores defense — that lock lived in the Food brief, not here.</p>
+          </div>
+          <pre class="code"><code><span class="cmt">    /// &lt;summary&gt;</span>
+<span class="cmt">    /// Pure damage rules. Actual = max(0, raw − defense); health clamped to [0, max].</span>
+<span class="cmt">    /// &lt;/summary&gt;</span>
+    public static class DamageCalculator
+    {
+        public static int ComputeActualDamage(int rawDamage, int defense)
+        {
+            if (rawDamage &lt;= 0)
+            {
+                return 0;
+            }
+
+            if (defense &lt; 0)
+            {
+                defense = 0;
+            }
+
+            var actual = rawDamage - defense;
+            return actual &lt; 0 ? 0 : actual;
+        }
+
+        public static DamageResult Apply(int currentHealth, int maxHealth, int defense, int rawDamage)
+        {
+<span class="cmt">            // ... clamps currentHealth to [0, maxHealth]</span>
+            var actual = ComputeActualDamage(rawDamage, defense);
+            var remaining = currentHealth - actual;
+            if (remaining &lt; 0)
+            {
+                remaining = 0;
+            }
+
+<span class="cmt">            // Lethal when HP reaches 0 (including already-dead; callers treat Kill as idempotent).</span>
+            return new DamageResult(actual, remaining, remaining &lt;= 0);
+        }
+    }</code></pre>
+        </article>
+        <article class="artifact" aria-labelledby="c-needs">
+          <header>
+            <h3 id="c-needs">Colonist needs</h3>
+            <p class="file-path">Assets/_Project/Scripts/Agents/Colonist.cs</p>
+          </header>
+          <div class="body">
+            <p>Food and Attention are meters, not flavor text. Food drops 1 per 10 sim-seconds; auto-eat seeks at 50. Sleep restores faster in a tent than on stone, faster still in living quarters. Keep food, sleep, safety — these constants are the law the Labor service ticks.</p>
+          </div>
+          <pre class="code"><code>        public const int DefaultMaxHealth = 100;
+        public const int DefaultMaxFood = 100;
+        public const int DefaultMaxAttention = 100;
+<span class="cmt">        /// &lt;summary&gt;Sim-seconds between −1 Food (while Food &gt; 0) or −1 HP starvation (while Food == 0).&lt;/summary&gt;</span>
+        public const float FoodNeedIntervalSeconds = 10f;
+<span class="cmt">        /// &lt;summary&gt;Auto-eat AI creates/claims Eat when Food is at or below this (Food Eat Auto V1).&lt;/summary&gt;</span>
+        public const int AutoEatFoodThreshold = 50;
+
+<span class="cmt">        /// &lt;summary&gt;Sim-seconds between −1 Attention while awake and Attention &gt; 0.&lt;/summary&gt;</span>
+        public const float AttentionNeedIntervalSeconds = 10f;
+<span class="cmt">        /// &lt;summary&gt;Auto-sleep AI creates/claims Sleep when Attention is at or below this.&lt;/summary&gt;</span>
+        public const int AutoSleepAttentionThreshold = 50;
+<span class="cmt">        /// &lt;summary&gt;Attention at or below this (and &gt; 0) applies ×0.7 move mult.&lt;/summary&gt;</span>
+        public const int AttentionSlowThreshold = 40;
+        public const float AttentionMoveMultLow = 0.7f;
+        public const float AttentionMoveMultZero = 0.4f;
+<span class="cmt">        /// &lt;summary&gt;+1 Attention per this many sim-seconds while sleeping on free tile.&lt;/summary&gt;</span>
+        public const float SleepRestoreIntervalGroundSeconds = 2f;
+<span class="cmt">        /// &lt;summary&gt;+1 Attention per this many sim-seconds while sleeping in a tent.&lt;/summary&gt;</span>
+        public const float SleepRestoreIntervalTentSeconds = 1.5f;
+<span class="cmt">        /// &lt;summary&gt;+1 Attention per this many sim-seconds while sleeping in living quarters.&lt;/summary&gt;</span>
+        public const float SleepRestoreIntervalLivingQuartersSeconds = 1f;</code></pre>
+        </article>
+        <article class="artifact" aria-labelledby="c-fog">
+          <header>
+            <h3 id="c-fog">Fog of the unexplored</h3>
+            <p class="file-path">Assets/_Project/Scripts/Fog/FogService.cs</p>
+          </header>
+          <div class="body">
+            <p>The cavern stays dark until a dwarf walks or a fireplace burns. Visibility is max-merge on Chebyshev rings; already-satisfied rings are skipped; only dirty cells wake the overlay. That is firelight against cave dusk as a grid, not as a filter.</p>
+          </div>
+          <pre class="code"><code>        public void ApplyExplore(Vector2Int origin) =&gt;
+            ApplyRing(origin, FogConstants.DwarfFullRadius, FogConstants.DwarfSoftRadius);
+
+        public void ApplyFireplaceLight(Vector2Int origin) =&gt;
+            ApplyRing(origin, FogConstants.FireplaceFullRadius, FogConstants.FireplaceSoftRadius);
+
+        private void ApplyRing(Vector2Int origin, int fullRadius, int softRadius)
+        {
+            if (!InBounds(origin.x, origin.y))
+            {
+                return;
+            }
+
+<span class="cmt">            // D: skip entire ring when every cell already meets its target visibility.</span>
+            if (RingAlreadySatisfied(origin, fullRadius, softRadius))
+            {
+                return;
+            }
+
+            var changed = false;
+            var r = softRadius;
+            for (var dy = -r; dy &lt;= r; dy++)
+            {
+                for (var dx = -r; dx &lt;= r; dx++)
+                {
+                    var x = origin.x + dx;
+                    var y = origin.y + dy;
+                    if (!InBounds(x, y))
+                    {
+                        continue;
+                    }
+
+                    var d = Math.Max(Math.Abs(dx), Math.Abs(dy));
+                    float v;
+                    if (d &lt;= fullRadius)
+                    {
+                        v = FogConstants.FullVisibility;
+                    }
+                    else if (d &lt;= softRadius)
+                    {
+                        v = FogConstants.SoftVisibility;
+                    }
+                    else
+                    {
+                        continue;
+                    }
+
+                    var old = _visibility[x, y];
+                    if (v &gt; old)
+                    {
+                        _visibility[x, y] = v;
+                        MarkDirty(x, y);
+                        changed = true;
+                    }
+                }
+            }
+<span class="cmt">            // ... Generation++ if changed</span>
+        }</code></pre>
+        </article>
+        <p>LaborService.cs and BuildingProductionService.cs are thousands of lines. They own claim order, cook/smith executors, and haul packing. They are not dumped on a public page. The composer above is how they are born; the briefs are how they are tasked.</p>
+        <ul class="cross-links">
+          <li><a href="briefs.html">Briefs</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="hall.html">The Hall</a></li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

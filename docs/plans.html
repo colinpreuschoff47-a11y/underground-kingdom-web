@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Example Gate B coding plans — Underground Kingdom</title>
+  <meta name="description" content="Real excerpts from Dig Marks, Depth-1 occupy, and Ladder path fix coding plans. Implemented / Approved badges.">
+  <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="Example Gate B coding plans">
+  <meta property="og:description" content="Real excerpts from Dig Marks, Depth-1 occupy, and Ladder path fix coding plans. Implemented / Approved badges.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html" aria-current="page">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero-inner reveal">
+        <p class="crumb"><a href="index.html">Home</a> · <a href="workflow.html">Workflow</a> · <span>Plans</span></p>
+        <p class="kicker">Gate B Phase 1</p>
+        <h1>Example coding plans</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
+        <p class="lede">No production code in Phase 1. The plan restates the goal, draws in/out of scope, and names architecture. Status comes from the plan header: Implemented, Approved, or Draft. These are real excerpts.</p>
+        <div class="page-actions"><a class="btn" href="briefs.html">Briefs</a> <a class="btn btn-mute" href="code.html">The C# that followed</a></div>
+      </div>
+    </header>
+    <section class="section studio" data-reveal>
+      <div class="section-inner article">
+        <p>Plans live under architecture_docs/coding_plans/. Same stem as the brief: _GROK_BUILD_BRIEF → _CODING_PLAN. Chat-only plans are a process fail.</p>
+
+        <article class="artifact" aria-labelledby="plan-dig">
+          <header>
+            <h3 id="plan-dig">Volume dig marks V1 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md · 2026-08-26 · class advanced</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Header</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-DIG-MARKS-V1</td></tr>
+                <tr><td>Brief</td><td>FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md</td></tr>
+                <tr><td>Status</td><td>Implemented</td></tr>
+              </tbody>
+            </table>
+            <h3>Restated goal</h3>
+            <p>Volume DIG marks sit on the z = 0 cutaway, in front of the earth voxel, facing the dollhouse camera. Dig stays XY. Do not put marks on the chamber back. Harvest/build marks stay as they are.</p>
+            <h3>In scope / out of scope</h3>
+            <p><strong>In:</strong> a pure WorldVolumeDigMarkPose helper (XY → position + rotation); Dig uses that pose; unlit mark, no collider; EditMode pose tests without GPU; Presentation README + decisions.</p>
+            <p><strong>Out:</strong> chamber-back marks; dig at z &gt; 0; harvest/build polish; V1/V3–V5; cutover; art; 2D overlay into Volume; Task XY / dig sim / save format.</p>
+            <h3>Architecture notes</h3>
+            <p>Why z = 0.07 failed (verified at implement): earth columns are Solid for z in [0,1). Center (x+0.5, y+0.5, 0.07) sits inside the voxel; the cutaway face is at z = 0. Camera pitch 18° looks +Z. Facade lock: z = −0.05, identity rotation so the quad faces the camera. Wiring was already bound — this was pose, not a missing Bind.</p>
+            <p>Accepted 1 Sep 2026 (UK-FEAT-VOLUME-DIG-MARKS-V1).</p>
+          </div>
+        </article>
+
+        <article class="artifact" aria-labelledby="plan-occupy">
+          <header>
+            <h3 id="plan-occupy">Depth-1 occupy z = 0 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_DEPTH1_OCCUPY_Z0_V1_CODING_PLAN.md · 2026-08-30 · class complex</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Header</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1</td></tr>
+                <tr><td>Status</td><td>Implemented</td></tr>
+                <tr><td>Class</td><td>complex</td></tr>
+              </tbody>
+            </table>
+            <h3>Restated goal</h3>
+            <p>Depth-1 stamps occupy z = 0 of their XY column. Volume World colonists use per-voxel occupy so they can walk z ≥ 1 behind a wall or locked door in a d = 5 hall and continue. Floors stay illegal as feet on the slab at any z. 5-deep solid cells still block all z. Enemies / bash stay XY. Do not flatten d. Do not raise MaxExpansions. Do not keep 2D-then-lift as the only colonist volume planner.</p>
+            <h3>In scope / out of scope</h3>
+            <p><strong>In:</strong> IVolumeWalkabilityMap + VolumeWalkRules; BuildingService.IsMovementPassable(x, y, z, isEnemy); FindColonistVolumePath uses volume A* first; motors/spawn inherit; 2D 1×2 and enemy maps unchanged; EditMode tests; READMEs.</p>
+            <p><strong>Out:</strong> flatten d; raise the 1000 expansion cap; floor tiles occupy-legal; enemy behind-wall; 5-deep interiors; delete 2D scene; save bump; V4/V5/F/G.</p>
+            <h3>Architecture notes</h3>
+            <p>Why XY IsWalkable cannot stay the volume gate: stamps do not write d. A wall on a d = 5 tunnel is still Air at z ≥ 1. VolumeLiveStep.CanOccupy ANDed walkability.IsWalkable(x, y) for every z → the column was dead. Fix occupy, then search the volume graph. Pathfinding must not reference Buildings — World grows IVolumeWalkabilityMap; Session’s ColonistWalkabilityMap implements it.</p>
+            <p>Accepted 1 Sep 2026 (UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1).</p>
+          </div>
+        </article>
+
+        <article class="artifact" aria-labelledby="plan-ladder">
+          <header>
+            <h3 id="plan-ladder">Ladder path fix V1 <span class="badge badge-go">Approved</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_LADDER_PATH_FIX_V1_CODING_PLAN.md · 2026-08-26 · class advanced</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Header</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-LADDER-PATH-FIX-V1</td></tr>
+                <tr><td>Status</td><td>Approved — implementing</td></tr>
+                <tr><td>Class</td><td>advanced</td></tr>
+              </tbody>
+            </table>
+            <h3>Restated goal</h3>
+            <p>Make Volume World colonist move and Labor walks climb stacked completed ladders to an occupy-legal upstairs goal, including in a d=5 hall that also has walls/floors/doors. The 2D 1×2 dwarf graph used as the climb skeleton must expand only cells that are volume-occupiable at z = 0: IsLiveStandable(x, y, 0, ladders) and walkability.IsWalkable(x, y). Keep FindColonistVolumePath as 2D-then-lift (3D A* stays fallback only). Volume move pick must pass the ladder query and skip non-occupy-legal cells so a floor slab is not a stand goal.</p>
+            <h3>In scope / out of scope</h3>
+            <p><strong>In:</strong> FootprintPassability 1×2 + volume predicate; keep 2D-then-lift; Volume move pick occupy-legal; EditMode tests including a wall on the slice; README one-liners. Labor inherits via existing FindColonistVolumePath.</p>
+            <p><strong>Out:</strong> re-flatten structure d; raise MaxExpansions as the fix; replace 2D-then-lift with a 3D-only colonist planner; live Z on 2D Gameplay; Phase F; making floor tiles occupy-legal.</p>
+            <h3>Architecture notes</h3>
+            <p>After stamps stopped flattening d, a wall/floor in a chamber keeps Air, so IsStandable is true while occupy still required XY IsWalkable. Lift died on the first wall; 3D fallback fanned out in d=5 and missed the climb. Proposed 1×2 + volume: legal feet iff live-stand at z=0 AND IsWalkable. GameplayComposer always constructs PathfindingService with a volume query — the same predicate in both 2D Gameplay and Volume World. That is not live Z on the 2D tilemap; motors stay z = 0 in Slice2D.</p>
+            <p>Honest status: this plan is Approved, not Implemented. The Volume product roadmap (26 Aug 2026) records E4 / ladder playtest as not accepted; V5 back-wall climb is the remaining upstairs path. No accept commit for this task ID is in the public log.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

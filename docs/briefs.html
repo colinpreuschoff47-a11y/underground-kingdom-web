@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Example Grok Build briefs — Underground Kingdom</title>
+  <meta name="description" content="Real excerpts from Food Hunger Starvation, Volume Pathfinding, and Inspection Tool briefs. Engineer: Grok Build.">
+  <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="index,follow">
+  <meta property="og:title" content="Example Grok Build briefs">
+  <meta property="og:description" content="Real excerpts from Food Hunger Starvation, Volume Pathfinding, and Inspection Tool briefs. Engineer: Grok Build.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
+  <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html" aria-current="page">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+    <header class="page-hero">
+      <div class="page-hero-inner reveal">
+        <p class="crumb"><a href="index.html">Home</a> · <a href="workflow.html">Workflow</a> · <span>Briefs</span></p>
+        <p class="kicker">Task law</p>
+        <h1>Example Grok Build briefs</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
+        <p class="lede">A FEATURE_* brief is delivered, not accepted. It is task law for one Coding session: goal, in/out of scope, locks, forbids. Gate B starts only when the Architect explicitly says so. These are real excerpts — not the full files.</p>
+        <div class="page-actions"><a class="btn" href="workflow.html">The pipeline</a> <a class="btn btn-mute" href="plans.html">Coding plans</a></div>
+      </div>
+    </header>
+    <section class="section studio" data-reveal>
+      <div class="section-inner article">
+        <p>Engineer on every brief: <strong>Grok Build</strong> (sole coder). Architect: human (Colin) — approvals and acceptance. Unity project root in the originals is redacted here to <strong>Unity project root</strong>.</p>
+
+        <article class="artifact" aria-labelledby="brief-food">
+          <header>
+            <h3 id="brief-food">Food, hunger, starvation V1</h3>
+            <p class="file-cap">FEATURE_FOOD_HUNGER_STARVATION_V1_GROK_BUILD_BRIEF.md</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Metadata</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-FOOD-HUNGER-STARVATION-V1</td></tr>
+                <tr><td>Feature / version</td><td>Dwarf Food meter + starvation damage/death + grilled mushroom cook production (Kitchen / Fireplace) V1</td></tr>
+                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
+                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
+                <tr><td>Product</td><td>Underground Kingdom (Unity / C#)</td></tr>
+                <tr><td>Unity project root</td><td>Unity project root</td></tr>
+              </tbody>
+            </table>
+            <h3>Architect intent (excerpt)</h3>
+            <ol>
+              <li>Dwarfs have a Food meter (0–100). 100 = fully fed; 0 = starving. Avoid “hunger bar” wording.</li>
+              <li>Meter drains over sim time; at 0, dwarfs take HP damage at the same pace and can die.</li>
+              <li>Starvation damage ignores defense.</li>
+              <li>Only dwarfs are affected (not enemies or buildings).</li>
+              <li>Add one food item: Grilled Mushroom (restores +20 Food when eaten later).</li>
+              <li>Drinks (ale) do not affect the Food meter.</li>
+              <li>Kitchen and Fireplace can cook grilled mushroom via order-based production, output in building output slots.</li>
+              <li>Eating / auto-eat / consume API was out of scope for this V1 session — restore value is content for the item.</li>
+            </ol>
+            <h3>Goal (one paragraph)</h3>
+            <p>Introduce a per-dwarf Food need (0–100, start full) that drains at 1 point per 10 sim-seconds and, at 0, applies 1 HP per 10 sim-seconds with defense ignored, using the existing death pipeline when HP reaches 0. Add content item grilled_mushroom. Enable order-based cooking at Kitchen and Fireplace: consume cave_mushroom from building input slots, after 5 s per unit write grilled mushroom into building output slots. Show Food X/100 on dwarf Inspect; persist Food in agents save/load. No auto-eat AI and no consume API in V1.</p>
+            <p>Later accepted as UK-FEAT-FOOD-HUNGER-STARVATION-V1 (4 Aug 2026). Auto-eat followed in a separate slice the same day.</p>
+          </div>
+        </article>
+
+        <article class="artifact" aria-labelledby="brief-path">
+          <header>
+            <h3 id="brief-path">Volume pathfinding V1</h3>
+            <p class="file-cap">FEATURE_VOLUME_PATHFINDING_V1_GROK_BUILD_BRIEF.md</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Metadata</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-PATHFINDING-V1</td></tr>
+                <tr><td>Feature / version</td><td>Standable-volume A* / nearest-stand V1 (roadmap step 12)</td></tr>
+                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
+                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
+                <tr><td>Status (as written)</td><td>Brief delivered. Gate B starts only when the Architect explicitly starts it. No production code until Architect approves the Gate B plan.</td></tr>
+                <tr><td>Unity project root</td><td>Unity project root</td></tr>
+              </tbody>
+            </table>
+            <h3>Architect intent (excerpt)</h3>
+            <ol>
+              <li>Pathfinding must walk the standable volume (±X, ±Z on a floor), not only the 2D slice.</li>
+              <li>Keep New Game 2D-playable: add a volume path API; do not replace the live mover graph yet.</li>
+              <li>Do not put live dwarves on Z in this task. Tests and the new API prove XZ routes (including front→back 4 hops on a depth-5 hallway).</li>
+              <li>Ladders / ramps / changing feet Y stay out.</li>
+            </ol>
+            <h3>Goal (one paragraph)</h3>
+            <p>Add volume pathfinding that searches standable cells: 4-neighbors ±X and ±Z at the same feet Y; 1 tile X = 1 tile Z. Keep all existing 2D FindPath / FindNearestWalkable overloads behaviorally unchanged for live Labor and colonists. New overloads take feet (x, y, z) and use IsStandable only. CapExceeded 1000. EditMode tests: X hallway, Z hallway, depth-5 front→back is 4 hops and not 3. Do not move AgentMotor or the 2D view onto Z.</p>
+            <p>Later accepted as UK-FEAT-VOLUME-PATHFINDING-V1 (17 Aug 2026).</p>
+          </div>
+        </article>
+
+        <article class="artifact" aria-labelledby="brief-inspect">
+          <header>
+            <h3 id="brief-inspect">Inspection tool V1</h3>
+            <p class="file-cap">FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md</p>
+          </header>
+          <div class="body">
+            <table class="sheet">
+              <caption>Metadata</caption>
+              <thead><tr><th>Field</th><th>Value</th></tr></thead>
+              <tbody>
+                <tr><td>Task ID</td><td>UK-FEAT-INSPECTION-TOOL-V1</td></tr>
+                <tr><td>Feature / version</td><td>Unified world inspection: rotating tile stack, blue highlight, 3-section info windows V1</td></tr>
+                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
+                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
+                <tr><td>Unity project root</td><td>Unity project root</td></tr>
+              </tbody>
+            </table>
+            <h3>Architect intent (excerpt)</h3>
+            <ol>
+              <li>Players need an inspection tool that shows information about things in the game world, with type-specific content and actions.</li>
+              <li>Left-click a world object/tile (in default navigate) opens inspection for that tile’s stack.</li>
+              <li>Rotating selection cycles multiple objects on the same grid tile (e.g. dwarf on plant on cave).</li>
+              <li>Selected tile and selected object use a blue border; a list of stack objects appears under the tile.</li>
+              <li>An info window (header / content / interaction) appears for the selected object — one window at a time.</li>
+            </ol>
+            <h3>Goal (one paragraph)</h3>
+            <p>Replace fragmented world-click selection (dwarf-first priority, separate plant dump, no enemies/sites/terrain stack) with a unified default-navigate inspection system: LMB builds a rotating stack of inspectable objects on a fog-visible tile, highlights the tile and active object in blue, shows an under-tile object list, and opens a single fixed left-side 3-section info window per selected type — with harvest/dig actions from plant/resource panels and existing dwarf/building interactions retained (minus Deselect buttons; RMB dismisses).</p>
+            <p>Later accepted as UK-FEAT-INSPECTION-TOOL-V1 (31 Jul 2026).</p>
+          </div>
+        </article>
+        <p>Full private brief files are hundreds of lines (locks, forbids, kickoff blocks). Captions name the files; they are not downloads.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
+</body>
+</html>

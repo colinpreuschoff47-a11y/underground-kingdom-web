@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Underground Kingdom — a dwarven colony sim</title>
-  <meta name="description" content="Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. Dig tunnels, raise masonry, and keep the hearth lit. PC. Unity 6. In development.">
+  <meta name="description" content="Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. Dig tunnels, raise masonry, and keep the hearth lit. Developed 100% with Grok Build. PC. Unity 6. In development.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Underground Kingdom">
-  <meta property="og:description" content="Carve a home in the hostile deep. A dwarven colony sim of logistics, craft, and real-time defense.">
+  <meta property="og:description" content="Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. Dig tunnels, raise masonry, and keep the hearth lit. Developed 100% with Grok Build. PC. Unity 6. In development.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/hero-cavern.svg">
   <meta name="twitter:card" content="summary_large_image">
@@ -26,7 +26,7 @@
   <a class="skip" href="#main">Skip to content</a>
 
   <header class="site-nav">
-    <a class="wordmark" href="#top">
+    <a class="wordmark" href="index.html" aria-current="page">
       <img src="assets/logo.svg" width="80" height="88" alt="">
       <span>Underground Kingdom</span>
     </a>
@@ -35,16 +35,20 @@
     </button>
     <nav aria-label="Primary">
       <ul class="nav-links" id="site-links">
-        <li><a href="#world">World</a></li>
-        <li><a href="#hall">The Hall</a></li>
-        <li><a href="#threats">Threats</a></li>
-        <li><a href="#features">Features</a></li>
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
         <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
       </ul>
     </nav>
   </header>
 
   <main id="main">
+
     <section class="hero" id="top" aria-labelledby="game-title">
       <div class="hero-art">
         <img src="assets/hero-cavern.svg" width="1600" height="900" alt="">
@@ -57,7 +61,7 @@
         <p class="lede">Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. You are not a hero on a raid; you are the mind of a hall.</p>
         <p class="lede">Dig tunnels, raise masonry, and turn a foothold of firelight into a working settlement while the wilderness stays dark, hungry, and close.</p>
         <div class="hero-actions">
-          <a class="btn btn-fire" href="#world">Explore the world</a>
+          <a class="btn btn-fire" href="world.html">Explore the world</a>
           <button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button>
         </div>
         <ul class="status-chips">
@@ -69,6 +73,18 @@
       </div>
     </section>
 
+    <section class="band" aria-labelledby="ai-title" data-reveal>
+      <div class="band-inner">
+        <p class="kicker">How it is made</p>
+        <h2 id="ai-title">Developed 100% with Grok Build</h2>
+        <p>Every line of production C# is written by <strong>Grok Build</strong>, the sole Engineer. Colin Preuschoff is the <strong>Architect</strong>: design, priorities, scope, and approvals. No code until a plan is approved. One task at a time.</p>
+        <div class="page-actions">
+          <a class="btn" href="develop.html">The studio method</a>
+          <a class="btn btn-mute" href="workflow.html">The pipeline</a>
+        </div>
+      </div>
+    </section>
+
     <section class="section world" id="world" aria-labelledby="world-title" data-reveal>
       <div class="section-inner split">
         <div class="copy">
@@ -77,6 +93,7 @@
           <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
           <p>The wilderness stays dark, hungry, and close. Fog hides what you have not yet carved. The cavern is hostile; the settlement is warm — soot, stone, and antique metal, not comedy or candy magic.</p>
           <p>You farm the cave’s edges. Unexplored dark waits beyond the last lantern. <strong>The mountain does not care if you are pretty. It cares if the hearth stays lit.</strong></p>
+          <a class="tease-link" href="world.html">The cavern in full →</a>
         </div>
         <figure class="frame">
           <img src="assets/world-dusk.svg" width="800" height="640" alt="A small firelit hall against a cold, unexplored cavern.">
@@ -92,7 +109,6 @@
         <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
         <p>Your dwarves eat, sleep, haul, cook, smith, and fight. You designate work — mining, building, farming the cave’s edges — and the colony executes.</p>
         <p>Combat is real-time and local. Survive the first nights, then deepen the hall: storage, forges, doors, walls, meeting space. The long game is systems and logistics.</p>
-
         <ul class="works">
           <li><span class="mark" aria-hidden="true"></span><span>Storage</span></li>
           <li><span class="mark" aria-hidden="true"></span><span>Tents / housing</span></li>
@@ -104,7 +120,6 @@
           <li><span class="mark" aria-hidden="true"></span><span>Ladders</span></li>
           <li><span class="mark" aria-hidden="true"></span><span>Meeting hall</span></li>
         </ul>
-
         <ul class="labor" aria-label="Dwarf labor">
           <li>Haul</li>
           <li>Cook</li>
@@ -114,6 +129,7 @@
           <li>Build</li>
           <li>Fight</li>
         </ul>
+        <a class="tease-link" href="hall.html">Colony, labor, and buildings →</a>
       </div>
     </section>
 
@@ -123,7 +139,6 @@
         <h2 id="threats-title">The dark lives next to your stockpiles</h2>
         <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
         <p>Combat is real-time and local. Giant Rats, Goblins, Orks, and Cave Trolls share the cavern with your stores, forges, and sleeping dwarves. Keep food, sleep, and safety — then survive the next threat.</p>
-
         <ul class="threat-grid">
           <li class="threat">
             <img src="assets/threat-rat.svg" width="320" height="220" alt="">
@@ -154,6 +169,7 @@
             </div>
           </li>
         </ul>
+        <a class="tease-link" href="threats.html">The four that reach the hall →</a>
       </div>
     </section>
 
@@ -163,7 +179,6 @@
         <h2 id="features-title">Systems over skirmish</h2>
         <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
         <p>The fantasy is atmospheric and grounded. Deep systems play over deathmatch. You keep a hall alive — you do not queue a deathmatch.</p>
-
         <ul class="feature-grid">
           <li class="feature">
             <h3>Dark-fantasy colony</h3>
@@ -190,7 +205,6 @@
             <p>Survive the first nights, then deepen the hall. The mountain cares if the hearth stays lit.</p>
           </li>
         </ul>
-
         <div class="loop">
           <h3>Core loop</h3>
           <ol>
@@ -206,12 +220,16 @@
 
     <aside class="status" data-reveal>
       <p class="dev">In development · Pre-alpha · PC · Unity 6</p>
-      <p>Not released. No store page yet. Developer: Colin Preuschoff. Store and social — coming soon.</p>
+      <p>Not released. No store page yet. Developer: Colin Preuschoff. Production C# by Grok Build. Store and social — coming soon.</p>
     </aside>
+
   </main>
 
   <footer class="site-foot">
-    <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
     <span class="soon">Store &amp; social · Coming soon</span>
   </footer>
 

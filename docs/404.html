@@ -4,23 +4,89 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Lost in the dark — Underground Kingdom</title>
-  <meta name="robots" content="noindex">
+  <meta name="description" content="This tunnel is empty. Return to Underground Kingdom.">
   <meta name="theme-color" content="#080A0E">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Lost in the dark">
+  <meta property="og:description" content="This tunnel is empty. Return to Underground Kingdom.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta name="twitter:card" content="summary_large_image">
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
   <link rel="stylesheet" href="css/styles.css">
+  <script>document.documentElement.classList.add("js");</script>
 </head>
 <body>
-  <main class="section" style="min-height:100vh;display:grid;align-content:center;text-align:center">
-    <div class="section-inner">
-      <p class="kicker">Unexplored dark</p>
-      <h1 style="font-family:var(--font-display);letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);font-size:clamp(2rem,6vw,3.4rem)">This tunnel is empty</h1>
-      <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="" style="margin-inline:auto">
-      <p>The page is not carved yet. Return to the hall.</p>
-      <p><a class="btn" href="index.html">Underground Kingdom</a></p>
-    </div>
+  <div class="grain" aria-hidden="true"></div>
+  <div class="vignette" aria-hidden="true"></div>
+
+  <a class="skip" href="#main">Skip to content</a>
+
+  <header class="site-nav">
+    <a class="wordmark" href="index.html">
+      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <span>Underground Kingdom</span>
+    </a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
+      <span></span>
+    </button>
+    <nav aria-label="Primary">
+      <ul class="nav-links" id="site-links">
+        <li><a href="world.html">World</a></li>
+        <li><a href="hall.html">The Hall</a></li>
+        <li><a href="threats.html">Threats</a></li>
+        <li><a href="develop.html">Develop</a></li>
+        <li><a href="workflow.html">Workflow</a></li>
+        <li><a href="code.html">Code</a></li>
+        <li><a href="progress.html">Progress</a></li>
+        <li><button class="btn btn-mute" type="button" data-coming-soon>Coming soon</button></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <section class="section" style="min-height:70vh;display:grid;align-content:center;text-align:center">
+      <div class="section-inner">
+        <p class="kicker">Unexplored dark</p>
+        <h1 style="font-family:var(--font-display);letter-spacing:.08em;text-transform:uppercase;color:var(--gold-light);font-size:clamp(2rem,6vw,3.4rem)">This tunnel is empty</h1>
+        <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="" style="margin-inline:auto">
+        <p>The page is not carved yet. Return to the hall, or pick a known passage.</p>
+        <p><a class="btn" href="index.html">Underground Kingdom</a></p>
+        <ul class="lost-links">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="world.html">World</a></li>
+          <li><a href="hall.html">The Hall</a></li>
+          <li><a href="threats.html">Threats</a></li>
+          <li><a href="develop.html">Develop</a></li>
+          <li><a href="workflow.html">Workflow</a></li>
+          <li><a href="briefs.html">Briefs</a></li>
+          <li><a href="plans.html">Plans</a></li>
+          <li><a href="code.html">Code</a></li>
+          <li><a href="progress.html">Progress</a></li>
+        </ul>
+      </div>
+    </section>
+
   </main>
+
+  <footer class="site-foot">
+    <div>
+      <small>© 2026 Colin Preuschoff. Underground Kingdom.</small>
+      <span class="credit">Developed 100% with Grok Build</span>
+    </div>
+    <span class="soon">Store &amp; social · Coming soon</span>
+  </footer>
+
+  <dialog class="soon-dialog" id="coming-soon" aria-labelledby="soon-title">
+    <h2 id="soon-title">Coming soon</h2>
+    <p>Store pages and social channels are not live. Underground Kingdom is in pre-alpha on PC and is not released.</p>
+    <button class="btn" type="button">Close</button>
+  </dialog>
+
+  <script src="js/main.js"></script>
 </body>
 </html>

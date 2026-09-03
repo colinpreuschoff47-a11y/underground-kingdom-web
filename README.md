@@ -1,8 +1,8 @@
 # Underground Kingdom — public site
 
-Official marketing site for **Underground Kingdom**, a dwarven colony sim by Colin Preuschoff. PC. Unity 6. In development / pre-alpha. Not released.
+Official marketing and studio-diary site for **Underground Kingdom**, a dwarven colony sim by Colin Preuschoff. Developed **100% with Grok Build** (Colin is Architect; Grok Build writes all production C#). PC. Unity 6. In development / pre-alpha. Not released.
 
-This repository is the public website only.
+This repository is the public website only. It is not the game.
 
 Live (GitHub Pages, `/docs` on the default branch):
 
@@ -18,9 +18,22 @@ python3 -m http.server 8080
 
 Open http://localhost:8080/
 
-Asset URLs are relative (`css/styles.css`, `assets/logo.svg`) so the site works at the GitHub Pages base path `/underground-kingdom-web/` and as a local folder.
+Asset URLs are relative (`css/styles.css`, `js/main.js`, `assets/logo.svg`, `index.html`) so the site works at the GitHub Pages base path `/underground-kingdom-web/` and as a local folder. Do not prefix assets with `/` or `/underground-kingdom-web/`.
 
-## Pages
+## Sitemap
 
-- `docs/index.html` — single scrolling site
-- `docs/404.html` — unexplored-dark fallback
+- `docs/index.html` — Home. Cinematic pitch, Grok Build band, world / hall / threats teasers.
+- `docs/world.html` — The cavern: firelight against cave dusk.
+- `docs/hall.html` — Colony, labor, buildings.
+- `docs/threats.html` — Giant Rat, Goblin, Ork, Cave Troll.
+- `docs/develop.html` — Built 100% with Grok Build. Roles, stack, human-gated process.
+- `docs/workflow.html` — Prompt → brief → Gate B plan → implement → accept → git push.
+- `docs/briefs.html` — Example Grok Build briefs (excerpts).
+- `docs/plans.html` — Example Gate B coding plans (excerpts).
+- `docs/code.html` — How features are coded (trimmed real C#).
+- `docs/progress.html` — Timeline from commits and roadmaps.
+- `docs/404.html` — Unexplored-dark fallback with sitemap links.
+
+## Identity
+
+Void `#080A0E`, cave `#163040` / `#14181E`, gold `#C9A03A` / `#E6C05C`, teal `#2C6670`, fire `#E07020`, glow `#8AD0E2`. Cinzel + Source Serif 4.
