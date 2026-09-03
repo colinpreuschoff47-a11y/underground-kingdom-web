@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 640" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+  <defs>
+    <linearGradient id="wbg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#163040"/>
+      <stop offset="0.55" stop-color="#14181E"/>
+      <stop offset="1" stop-color="#080A0E"/>
+    </linearGradient>
+    <radialGradient id="wglow" cx="70%" cy="30%" r="40%">
+      <stop offset="0" stop-color="#8AD0E2" stop-opacity="0.2"/>
+      <stop offset="1" stop-color="#163040" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="wfire" cx="22%" cy="78%" r="30%">
+      <stop offset="0" stop-color="#E07020" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#080A0E" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="640" fill="url(#wbg)"/>
+  <ellipse cx="560" cy="180" rx="260" ry="160" fill="url(#wglow)"/>
+  <ellipse cx="180" cy="500" rx="220" ry="140" fill="url(#wfire)"/>
+  <path fill="#080A0E" d="M0 0 H800 V90 C600 40 500 130 320 70 C180 24 80 90 0 50 Z"/>
+  <path fill="#0D141A" d="M0 640 C120 480 220 520 340 430 C480 320 620 410 800 300 V640 Z"/>
+  <path fill="#14181E" d="M480 0 L510 140 L545 0 Z"/>
+  <path fill="#163040" d="M620 20 L646 110 L676 20 Z"/>
+  <path fill="#080A0E" d="M710 0 L740 160 L780 0 Z"/>
+  <!-- small foothold of hall -->
+  <path fill="#1A1612" d="M40 640 V430 H250 V640 Z"/>
+  <path fill="#E07020" d="M110 640c4-50 16-80 35-80s31 30 35 80H110z"/>
+  <rect x="40" y="422" width="210" height="8" fill="#C9A03A" opacity="0.55"/>
+  <path fill="none" stroke="#C9A03A" stroke-width="1.5" opacity="0.4" d="M40 430 C40 360 250 360 250 430"/>
+  <!-- fog veil -->
+  <path fill="#8AD0E2" opacity="0.08" d="M300 360 C420 300 560 340 800 240 V520 C600 480 440 540 300 500 Z"/>
+  <path fill="#080A0E" opacity="0.5" d="M360 640 C500 420 680 400 800 360 V640 Z"/>
+</svg>

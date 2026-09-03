@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 88" role="img" aria-labelledby="logoTitle">
+  <title id="logoTitle">Underground Kingdom</title>
+  <defs>
+    <linearGradient id="gold" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#E6C05C"/>
+      <stop offset="1" stop-color="#C9A03A"/>
+    </linearGradient>
+    <radialGradient id="hearth" cx="50%" cy="70%" r="50%">
+      <stop offset="0" stop-color="#E07020"/>
+      <stop offset="0.55" stop-color="#C9A03A"/>
+      <stop offset="1" stop-color="#E07020" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="none" stroke="url(#gold)" stroke-width="2.2" d="M10 74 V42 L40 12 L70 42 V74"/>
+  <path fill="none" stroke="#2C6670" stroke-width="1.2" d="M18 74 V46 L40 24 L62 46 V74"/>
+  <path fill="url(#hearth)" d="M32 74c0-10 4.5-16 8-16s8 6 8 16H32z"/>
+  <path fill="none" stroke="#E6C05C" stroke-width="1.4" d="M28 74 H52"/>
+  <circle cx="40" cy="58" r="2.2" fill="#E6C05C"/>
+</svg>
