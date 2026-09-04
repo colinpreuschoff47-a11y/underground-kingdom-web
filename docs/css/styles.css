@@ -1143,3 +1143,110 @@ table.data {
 pre.code {
   max-width: 100%;
 }
+
+
+/* Spoilers — full briefs / plans */
+.spoiler {
+  margin: 1.25rem 0 0;
+  border: 1px solid color-mix(in srgb, var(--gold) 28%, transparent);
+  background: color-mix(in srgb, var(--cave-deep) 72%, var(--void));
+  border-radius: 2px;
+}
+.spoiler > summary {
+  cursor: pointer;
+  list-style: none;
+  padding: 0.85rem 1.1rem;
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  letter-spacing: 0.04em;
+  color: var(--gold-light);
+  user-select: none;
+}
+.spoiler > summary::-webkit-details-marker { display: none; }
+.spoiler > summary::before {
+  content: "▸ ";
+  color: var(--fire);
+  margin-right: 0.35rem;
+}
+.spoiler[open] > summary::before { content: "▾ "; }
+.spoiler > summary:hover { color: var(--gold); }
+.spoiler-body {
+  padding: 0 1.1rem 1.35rem;
+  border-top: 1px solid color-mix(in srgb, var(--gold) 18%, transparent);
+  max-height: min(70vh, 48rem);
+  overflow: auto;
+}
+.md-doc {
+  font-size: 0.98rem;
+  line-height: 1.65;
+  color: var(--parchment-dim);
+}
+.md-doc h1, .md-doc h2, .md-doc h3, .md-doc h4 {
+  font-family: var(--font-display);
+  color: var(--gold-light);
+  letter-spacing: 0.03em;
+  margin: 1.4rem 0 0.55rem;
+  line-height: 1.25;
+}
+.md-doc h1 { font-size: 1.45rem; }
+.md-doc h2 { font-size: 1.2rem; }
+.md-doc h3 { font-size: 1.05rem; }
+.md-doc p, .md-doc li { color: var(--parchment); }
+.md-doc a { color: var(--gold-light); }
+.md-doc code {
+  font-family: ui-monospace, "Cascadia Code", "SF Mono", Menlo, Consolas, monospace;
+  font-size: 0.88em;
+  color: var(--glow);
+  background: color-mix(in srgb, var(--void) 70%, transparent);
+  padding: 0.08em 0.35em;
+  border-radius: 2px;
+}
+.md-doc pre {
+  overflow: auto;
+  padding: 0.9rem 1rem;
+  background: var(--void);
+  border: 1px solid color-mix(in srgb, var(--teal) 35%, transparent);
+  border-radius: 2px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+.md-doc pre code {
+  background: none;
+  padding: 0;
+  color: var(--parchment);
+  white-space: pre;
+}
+.md-doc table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.85rem 0 1.1rem;
+  font-size: 0.92rem;
+}
+.md-doc th, .md-doc td {
+  border: 1px solid color-mix(in srgb, var(--gold) 22%, transparent);
+  padding: 0.45rem 0.65rem;
+  text-align: left;
+  vertical-align: top;
+}
+.md-doc th {
+  background: color-mix(in srgb, var(--cave) 45%, var(--void));
+  color: var(--gold-light);
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: 0.03em;
+}
+.md-doc blockquote {
+  margin: 0.9rem 0;
+  padding: 0.35rem 0 0.35rem 0.9rem;
+  border-left: 2px solid var(--fire);
+  color: var(--parchment-dim);
+}
+.md-doc hr {
+  border: 0;
+  border-top: 1px solid color-mix(in srgb, var(--gold) 25%, transparent);
+  margin: 1.4rem 0;
+}
+.md-doc ul, .md-doc ol { padding-left: 1.35rem; }
+@media (prefers-reduced-motion: reduce) {
+  .spoiler { scroll-behavior: auto; }
+}

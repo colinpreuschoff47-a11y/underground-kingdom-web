@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example Gate B coding plans — Underground Kingdom</title>
-  <meta name="description" content="Real excerpts from Dig Marks, Depth-1 occupy, and Ladder path fix coding plans. Implemented / Approved badges.">
+  <meta name="description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, ladder path fix.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Example Gate B coding plans">
-  <meta property="og:description" content="Real excerpts from Dig Marks, Depth-1 occupy, and Ladder path fix coding plans. Implemented / Approved badges.">
+  <meta property="og:description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, ladder path fix.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/hero-cavern.svg">
   <meta name="twitter:card" content="summary_large_image">
@@ -54,91 +54,1450 @@
         <p class="kicker">Gate B Phase 1</p>
         <h1>Example coding plans</h1>
         <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
-        <p class="lede">No production code in Phase 1. The plan restates the goal, draws in/out of scope, and names architecture. Status comes from the plan header: Implemented, Approved, or Draft. These are real excerpts.</p>
+        <p class="lede">No production code in Phase 1. The plan restates the goal, draws in/out of scope, and names architecture. Status comes from the plan header: Implemented, Approved, or Draft. Each spoiler below is the <strong>full</strong> plan file.</p>
         <div class="page-actions"><a class="btn" href="briefs.html">Briefs</a> <a class="btn btn-mute" href="code.html">The C# that followed</a></div>
       </div>
     </header>
     <section class="section studio" data-reveal>
       <div class="section-inner article">
-        <p>Plans live under architecture_docs/coding_plans/. Same stem as the brief: _GROK_BUILD_BRIEF → _CODING_PLAN. Chat-only plans are a process fail.</p>
-
-        <article class="artifact" aria-labelledby="plan-dig">
+        <p>Plans live under architecture_docs/coding_plans/. Same stem as the brief: _GROK_BUILD_BRIEF → _CODING_PLAN. Chat-only plans are a process fail. Open a spoiler to read the complete document.</p>
+        <article class="artifact" aria-labelledby="plan-UK-FEAT-VOLUME-DIG-MARKS-V1">
           <header>
-            <h3 id="plan-dig">Volume dig marks V1 <span class="badge badge-done">Implemented</span></h3>
-            <p class="file-cap">FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md · 2026-08-26 · class advanced</p>
+            <h3 id="plan-UK-FEAT-VOLUME-DIG-MARKS-V1">Volume dig marks V1 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md · 122 lines</p>
           </header>
           <div class="body">
-            <table class="sheet">
-              <caption>Header</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-DIG-MARKS-V1</td></tr>
-                <tr><td>Brief</td><td>FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md</td></tr>
-                <tr><td>Status</td><td>Implemented</td></tr>
-              </tbody>
-            </table>
-            <h3>Restated goal</h3>
-            <p>Volume DIG marks sit on the z = 0 cutaway, in front of the earth voxel, facing the dollhouse camera. Dig stays XY. Do not put marks on the chamber back. Harvest/build marks stay as they are.</p>
-            <h3>In scope / out of scope</h3>
-            <p><strong>In:</strong> a pure WorldVolumeDigMarkPose helper (XY → position + rotation); Dig uses that pose; unlit mark, no collider; EditMode pose tests without GPU; Presentation README + decisions.</p>
-            <p><strong>Out:</strong> chamber-back marks; dig at z &gt; 0; harvest/build polish; V1/V3–V5; cutover; art; 2D overlay into Volume; Task XY / dig sim / save format.</p>
-            <h3>Architecture notes</h3>
-            <p>Why z = 0.07 failed (verified at implement): earth columns are Solid for z in [0,1). Center (x+0.5, y+0.5, 0.07) sits inside the voxel; the cutaway face is at z = 0. Camera pitch 18° looks +Z. Facade lock: z = −0.05, identity rotation so the quad faces the camera. Wiring was already bound — this was pose, not a missing Bind.</p>
-            <p>Accepted 1 Sep 2026 (UK-FEAT-VOLUME-DIG-MARKS-V1).</p>
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-DIG-MARKS-V1</code>. 2026-08-26 · class advanced · Accepted 1 Sep 2026.</p>
+        <details class="spoiler">
+          <summary>Show full Gate B plan — FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Gate B Phase 1 — Volume World dig marks V1 (roadmap V2)</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-DIG-MARKS-V1</code></td>
+</tr>
+<tr>
+<td><strong>Brief</strong></td>
+<td><code>architecture_docs/briefs/features/FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md</code></td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>2026-08-26</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><strong>Implemented</strong></td>
+</tr>
+<tr>
+<td><strong>Class</strong></td>
+<td>advanced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> none (brief §14). Locks L1–L7 are frozen.</p>
+<hr>
+<h2>1. Restated goal</h2>
+<p>Volume <strong>DIG</strong> marks sit on the <strong>z = 0 cutaway</strong>, in <strong>front</strong> of the earth voxel, facing the dollhouse camera. Dig stays XY. Do not put marks on the chamber back. Harvest/build marks stay as they are.</p>
+<h2>2. In scope / out of scope</h2>
+<h3>In scope</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td>Pure <code>WorldVolumeDigMarkPose</code> (Presentation.WorldVolume): XY → position + rotation</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td><code>WorldVolumeTaskMarkerView</code>: <strong>Dig</strong> uses F1; other types keep <code>(x+0.5, y+0.5, 0.07)</code></td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td>Unlit mark, no collider; no z-fight / not inside Solid. Playtest: Dig uses SpriteRenderer (Volume cut-face path); Mesh Quad + Euler 180 was back-face culled</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td>EditMode pose tests (no GPU)</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td>Presentation README + <code>docs/DECISIONS.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Out of scope</h3>
+<p>Chamber-back marks; dig at z &gt; 0; harvest/build/other mark polish; V1/V3–V5; F; G; 2D overlay into Volume; new art; Task XY / dig sim / save format.</p>
+<h2>3. Affected modules / classes</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Presentation.WorldVolume</strong></td>
+<td>New static <code>WorldVolumeDigMarkPose</code>. <code>WorldVolumeTaskMarkerView.UpsertMarker</code> Dig branch</td>
+</tr>
+<tr>
+<td><strong>Tests</strong></td>
+<td>New <code>WorldVolumeDigMarkPoseTests</code> under Presentation EditMode</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>Presentation README marker row; DECISIONS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No new modules.</strong> <code>VolumeWorldBootstrap.Bind</code> already exists — <strong>no Session change</strong>. <code>DigDesignateController</code> <strong>unchanged</strong>.</p>
+<h2>4. Architecture</h2>
+<h3>4.1 Why z = 0.07 fails (verify at implement)</h3>
+<ol>
+<li><strong>Buried:</strong> earth columns are Solid for <code>z ∈ [0,1)</code>. Center <code>(x+0.5, y+0.5, 0.07)</code> is <strong>inside</strong> the voxel; the cutaway face is at <strong>z = 0</strong>.</li>
+<li><strong>Facing:</strong> camera pitch 18° looks <strong>+Z</strong> (<code>rotation = Euler(18,0,0)</code>). Unity Quad’s front is local <strong>+Z</strong>. Identity rotation points the front <strong>into</strong> the cave, so the camera often sees the <strong>back</strong> (culled).</li>
+</ol>
+<p>Wiring is already bound; this is pose, not a missing Bind.</p>
+<h3>4.2 Facade pose (F1)</h3>
+<p>New pure type <code>WorldVolumeDigMarkPose</code> (static):</p>
+<table>
+<thead>
+<tr>
+<th>Item</th>
+<th>Lock</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>FacadeZ</strong></td>
+<td><strong>−0.05</strong> (inside brief 0.02–0.08; in front of z = 0, not in the voxel)</td>
+</tr>
+<tr>
+<td><strong>Position(x, y)</strong></td>
+<td><code>(x + 0.5, y + 0.5, FacadeZ)</code></td>
+</tr>
+<tr>
+<td><strong>Rotation</strong></td>
+<td><code>Quaternion.identity</code> — Unity Quad front is local <strong>−Z</strong>, which already faces the camera. Playtest: Euler Y=180 culled the mark.</td>
+</tr>
+</tbody>
+</table>
+<p>No World/volume query in the helper (Dig is XY / z = 0 by law). No Content.</p>
+<p><code>UpsertMarker</code>: if <code>task.Type == Dig</code>, apply F1; else keep current position and identity rotation.</p>
+<p>Colors / scale 0.55 / unlit / destroy collider: unchanged.</p>
+<h3>4.3 Dependencies</h3>
+<pre><code>Tasks (XY Dig) → WorldVolumeTaskMarkerView (draw)
+                      ↑
+              WorldVolumeDigMarkPose (pure)
+</code></pre>
+<p>Presentation already reads Tasks. No new events.</p>
+<h3>4.4 Proposed docs (Phase 2)</h3>
+<ul>
+<li>Presentation README: Dig marks on <strong>z = 0 facade</strong> (z = −0.05, face −Z). Other Volume marks still z ≈ 0 until a later slice.</li>
+<li>DECISIONS: Volume dig marks on cutaway front, not chamber back; dig remains XY.</li>
+</ul>
+<h2>5. Tests</h2>
+<p>No GPU. Pure pose only.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>XY</td>
+<td><code>Position(3, 4)</code> x = 3.5, y = 4.5</td>
+</tr>
+<tr>
+<td>Facade</td>
+<td><code>z &lt; 0</code> and <code>z &gt; −0.2</code> (not far into camera space)</td>
+</tr>
+<tr>
+<td>Not back</td>
+<td><code>z ≠ 4</code> and <code>z &lt; 0.5</code> (not inside/behind first voxel)</td>
+</tr>
+<tr>
+<td>Facing</td>
+<td>Unity Quad front is local −Z: <code>(Rotation * Vector3.back).z &lt; 0</code>; rotation is identity</td>
+</tr>
+</tbody>
+</table>
+<p>No MonoBehaviour host test unless one already exists (none on disk).</p>
+<h2>6. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quad winding vs Euler 180</td>
+<td>Confirmed: Unity Quad faces −Z. Identity. Test mesh-front (−local Z) toward camera</td>
+</tr>
+<tr>
+<td>z-fight at −0.05</td>
+<td>Epsilon in range; unlit</td>
+</tr>
+<tr>
+<td>Other types still invisible</td>
+<td>Accepted (L4)</td>
+</tr>
+<tr>
+<td>Fog / earth overlay</td>
+<td>Mark is in front of z = 0; do not parent 2D fog</td>
+</tr>
+</tbody>
+</table>
+<h2>7. Locks L1–L7 (frozen)</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong></td>
+<td>Dig row <strong>z = 0</strong> only</td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>Mark on that <strong>facade</strong>, not back wall</td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>Dig sim XY; Tunnel <strong>d = 1</strong></td>
+</tr>
+<tr>
+<td><strong>L4</strong></td>
+<td><strong>Dig only</strong> this slice</td>
+</tr>
+<tr>
+<td><strong>L5</strong></td>
+<td>Same 2D Dig colors</td>
+</tr>
+<tr>
+<td><strong>L6</strong></td>
+<td>Camera 18°, look +Z</td>
+</tr>
+<tr>
+<td><strong>L7</strong></td>
+<td>Not V1/V3–V5, F, G, z&gt;0 dig</td>
+</tr>
+</tbody>
+</table>
+<h2>8. Suggestions (do not implement)</h2>
+<ul>
+<li>Later: same facade pose for harvest/build marks.</li>
+<li>Shared unlit material instance instead of <code>CreateUnlit</code> per rebuild (alloc).</li>
+</ul>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="plan-UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1">
+          <header>
+            <h3 id="plan-UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1">Depth-1 occupy z = 0 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_DEPTH1_OCCUPY_Z0_V1_CODING_PLAN.md · 260 lines</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1</code>. 2026-08-30 · class complex · Accepted 1 Sep 2026.</p>
+        <details class="spoiler">
+          <summary>Show full Gate B plan — FEATURE_VOLUME_DEPTH1_OCCUPY_Z0_V1_CODING_PLAN.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Gate B Phase 1 — Volume depth-1 occupy z = 0 V1 (roadmap V3)</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1</code></td>
+</tr>
+<tr>
+<td><strong>Brief</strong></td>
+<td><code>architecture_docs/briefs/features/FEATURE_VOLUME_DEPTH1_OCCUPY_Z0_V1_GROK_BUILD_BRIEF.md</code></td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>2026-08-30</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><strong>Implemented</strong></td>
+</tr>
+<tr>
+<td><strong>Class</strong></td>
+<td>complex</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> none (brief §14). Locks L1–L14 are frozen.</p>
+<hr>
+<h2>1. Restated goal</h2>
+<p>Depth-1 stamps occupy <strong>z = 0</strong> of their XY column. Volume World colonists use <strong>per-voxel</strong> occupy so they can walk <strong>z ≥ 1</strong> behind a wall or locked door in a d = 5 hall and continue. Floors stay illegal as feet on the slab at <strong>any z</strong>. 5-deep solid cells still block <strong>all z</strong>. Enemies / bash stay XY. Do not flatten <code>d</code>. Do not raise <code>MaxExpansions</code>. Do not keep 2D-then-lift as the only colonist volume planner.</p>
+<h2>2. In scope / out of scope</h2>
+<h3>In scope</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td>World <code>IVolumeWalkabilityMap</code> + <code>VolumeWalkRules</code>; <code>VolumeLiveStep</code> uses it when present</td>
+</tr>
+<tr>
+<td><strong>F2–F5</strong></td>
+<td><code>BuildingService.IsMovementPassable(x, y, z, isEnemy)</code> — depth-1 one-Z (colonists); floors never; 5-deep solid all-z; enemies ignore z</td>
+</tr>
+<tr>
+<td><strong>F6</strong></td>
+<td><code>FindColonistVolumePath</code>: volume A<em> </em><em>first</em>*; 2D-then-lift only if Blocked/CapExceeded (ladder supplement)</td>
+</tr>
+<tr>
+<td><strong>F7</strong></td>
+<td>Motors, spawn, move pick, nearest-standable inherit F1</td>
+</tr>
+<tr>
+<td><strong>F8</strong></td>
+<td>Colonist ejection uses <strong>feet z</strong></td>
+</tr>
+<tr>
+<td><strong>F9–F10</strong></td>
+<td>2D 1×2 and enemy maps unchanged (XY / no <code>IVolumeWalkabilityMap</code>)</td>
+</tr>
+<tr>
+<td><strong>F11</strong></td>
+<td>EditMode tests (brief §10)</td>
+</tr>
+<tr>
+<td><strong>F12</strong></td>
+<td>READMEs + <code>docs/DECISIONS.md</code></td>
+</tr>
+</tbody>
+</table>
+<h3>Out of scope</h3>
+<p>Flatten <code>d</code>; recipe carve; raise 1000; V1/V2/V4/V5/F/G; floor tiles occupy-legal; door mode enums; enemy behind-wall; 5-deep interiors; trap/fireplace new blocks; Pathfinding→Buildings/Content; World→new Content occupy types; delete 2D scene; save bump.</p>
+<h2>3. Affected modules / classes</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>World</strong></td>
+<td>New <code>IVolumeWalkabilityMap</code>; new <code>VolumeWalkRules.IsWalkableAt</code>. <code>VolumeSpawnFeet</code> uses the helper</td>
+</tr>
+<tr>
+<td><strong>Content</strong></td>
+<td><code>StructureFunctionConstants.IsDepth1VolumeOccupant(typeId)</code> (wall, door, ladder, trap, floor, fireplace)</td>
+</tr>
+<tr>
+<td><strong>Buildings</strong></td>
+<td><code>IStructurePassabilityQuery.IsMovementPassable(x, y, z, isEnemy)</code>; <code>BuildingService</code> implements. XY overload = z = 0 colonist/enemy law</td>
+</tr>
+<tr>
+<td><strong>Pathfinding</strong></td>
+<td><code>VolumeLiveStep.CanOccupy</code> / <code>CanVisit</code>; <code>FindColonistVolumePath</code> order. <strong>No</strong> Buildings/Content refs</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>ColonistWalkabilityMap</code> implements <code>IVolumeWalkabilityMap</code>; <code>UnitDisplacementService</code> feet-z</td>
+</tr>
+<tr>
+<td><strong>Agents</strong></td>
+<td><code>IsColonistVolumeStepAllowed</code> uses xyz; spawn/load <code>VolumeSpawnFeet</code> with a Z-aware walk wrapper around <code>_buildings</code></td>
+</tr>
+<tr>
+<td><strong>Presentation</strong></td>
+<td><code>WorldVolumeColumnPick.TryRayToStandableFeet</code> uses <code>VolumeWalkRules</code> (already receives <code>ColonistWalk</code>)</td>
+</tr>
+<tr>
+<td><strong>Labor</strong></td>
+<td>None beyond inherit <code>IsVolumePassable</code></td>
+</tr>
+<tr>
+<td><strong>Enemies</strong></td>
+<td><strong>No</strong> <code>IVolumeWalkabilityMap</code> on <code>EnemyPathWalkability</code>. Keep XY <code>IsMovementPassable</code></td>
+</tr>
+<tr>
+<td><strong>Tests / docs</strong></td>
+<td>See §5–§6</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No new modules / asmdefs / events / save fields.</strong></p>
+<hr>
+<h2>4. Architecture</h2>
+<h3>4.1 Why XY <code>IsWalkable</code> cannot stay the volume gate</h3>
+<p>Stamps do not write <code>d</code>. A wall on a d = 5 tunnel is still <strong>Air</strong> at z ≥ 1. <code>VolumeLiveStep.CanOccupy</code> ANDs <code>walkability.IsWalkable(x, y)</code> for <strong>every</strong> z → the column is dead. 2D-then-lift cannot enter that XY cell. Fix occupy, then search the volume graph.</p>
+<h3>4.2 Volume-walk interface (Pathfinding must not reference Buildings)</h3>
+<p><strong>World</strong> (sibling of <code>IWalkabilityMap</code>):</p>
+<pre><code class="language-csharp">public interface IVolumeWalkabilityMap
+{
+    bool IsWalkable(int x, int y, int z);
+}
+
+public static class VolumeWalkRules
+{
+    public static bool IsWalkableAt(IWalkabilityMap walkability, int x, int y, int z)
+    {
+        if (walkability is IVolumeWalkabilityMap volumeWalk)
+        {
+            return volumeWalk.IsWalkable(x, y, z);
+        }
+
+        return walkability == null || walkability.IsWalkable(x, y);
+    }
+}
+</code></pre>
+<p><strong>Fallback (frozen):</strong> XY-only maps (<code>WorldService</code>, <code>EnemyPathWalkability</code>, <code>FixtureLadderWalk</code>) keep today’s “XY false → <strong>all z</strong> illegal.” That is how enemies stay on XY law without a second A*.</p>
+<p><code>VolumeLiveStep.CanOccupy</code> / <code>CanVisit</code>: replace the XY <code>IsWalkable(x, y)</code> check with <code>VolumeWalkRules.IsWalkableAt(..., z)</code>. Live-stand unchanged. Ladder <code>±Y</code> still <code>CanClimbY</code> (exception z = 0).</p>
+<p>Same helper: <code>VolumeSpawnFeet.IsOccupy</code>, <code>WorldVolumeColumnPick.TryRayToStandableFeet</code> (replace <code>walkability.IsWalkable(x, y)</code>).</p>
+<h3>4.3 Depth-1 vs floor vs door vs 5-deep (Buildings)</h3>
+<p>Content helper (ids already in <code>StructureFunctionConstants</code> / <code>BuildingCatalog.FireplaceId</code>):</p>
+<pre><code class="language-text">IsDepth1VolumeOccupant(typeId) ⇔ wall | door | ladder | trap | floor | fireplace
+</code></pre>
+<p><code>IStructurePassabilityQuery</code> adds:</p>
+<pre><code class="language-csharp">bool IsMovementPassable(int x, int y, int z, bool isEnemy);
+</code></pre>
+<p>Keep <code>IsMovementPassable(x, y, bool isEnemy)</code> as the 2D / enemy API.</p>
+<p><strong>Implementation in <code>BuildingService</code>:</strong></p>
+<ol>
+<li><strong><code>isEnemy == true</code>:</strong> ignore <code>z</code>; existing XY body (walls never; locked/Auto per <code>DoorAllowsMover</code>; floors never; ladders on-cell; construction solid never). Enemies do not walk behind.</li>
+<li><strong><code>isEnemy == false</code> (colonists):</strong><br>
+   - Resolve <strong>type</strong> at cell: completed building (<code>TryGetBuildingAt</code>) else new-build site (<code>TryGetSiteAt</code> → <code>BuildingTypeId</code>). Upgrade-hidden building: fall through to terrain (5-deep solid stays all-z).<br>
+   - <strong>Floor</strong> (completed or site): <strong>false</strong> at <strong>any z</strong>.<br>
+   - <strong><code>z &gt;= 1</code> and <code>IsDepth1VolumeOccupant</code> and not floor:</strong> <strong>true</strong> (structure occupies z = 0 only; live-stand is Pathfinding’s job).<br>
+   - Else <strong>existing XY body</strong> (<code>z == 0</code> or 5-deep / generic <code>BuildingSolid</code> / <code>ConstructionSiteSolid</code> without a depth-1 type).</li>
+</ol>
+<p>z = 0 colonist result <strong>must match</strong> today’s XY method (wall false, locked door false, Open/Auto <code>DoorAllowsMover</code>, ladder true, floor false, trap/fireplace unchanged walkable, storage solid false).</p>
+<p>Do <strong>not</strong> invent trap/fireplace blocking. Do <strong>not</strong> make 5-deep interiors walkable.</p>
+<p>XY overload: may delegate to <code>(x, y, z: 0, isEnemy)</code> once the z = 0 branch is identical.</p>
+<h3>4.4 Session bind</h3>
+<p><code>ColonistWalkabilityMap : IWalkabilityMap, ILadderCellQuery, IVolumeWalkabilityMap</code></p>
+<ul>
+<li><code>IsWalkable(x, y)</code> — unchanged (structures XY, isEnemy false).</li>
+<li><code>IsWalkable(x, y, z)</code> → <code>IsMovementPassable(x, y, z, isEnemy: false)</code>.</li>
+</ul>
+<p><code>GameplayComposer</code> already constructs <code>PathfindingService(ColonistWalk, World, World)</code> and <code>SetMovePickQueries(ColonistWalk, ColonistWalk)</code>. No new composer services.</p>
+<h3>4.5 <code>FindColonistVolumePath</code> (R17)</h3>
+<p><strong>Today:</strong> 2D 1×2 first; lift; fallback volume A* (still XY-gated). Behind-wall 2D fails; 3D also fails.</p>
+<p><strong>This slice:</strong></p>
+<pre><code class="language-text">if !IsVolumePassable(start) → NonWalkableStart
+if !IsVolumePassable(goal)  → NonWalkableGoal
+if start == goal            → [start]
+volume = FindPath(startFeet, goalFeet)   // 3D A*, per-voxel occupy, cap 1000
+if volume.IsSuccess         → volume
+// supplement only — must not run first
+return TryLiftDwarfSlice(2D 1×2) ?? volume  // keep volume’s Blocked/CapExceeded if lift fails
+</code></pre>
+<ul>
+<li>Volume A<em> </em><em>first</em>* so a goal at <code>(wallX, wallY, z≥1)</code> is searched on the per-voxel graph (2D goal XY is non-walkable, so lift-first would never be the behind-wall success).</li>
+<li>2D-then-lift <strong>only</strong> after Blocked/CapExceeded → stacked z = 0 ladders on small maps can still succeed; <strong>cannot</strong> hide a behind-wall success.</li>
+<li><code>FootprintPassability</code> 1×2 <strong>unchanged</strong> (occupy at z = 0 + XY). 2D Gameplay unchanged.</li>
+<li><strong><code>MaxExpansions</code> stays 1000.</strong> If the <strong>exit</strong> behind-wall fixture (short hall, one wall, start/goal adjacent columns) returns <code>CapExceeded</code>: <strong>STOP</strong>, report, do <strong>not</strong> raise the cap.</li>
+</ul>
+<h3>4.6 Live consumers (F7)</h3>
+<table>
+<thead>
+<tr>
+<th>Consumer</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IsVolumePassable</code> / <code>FindNearestStandable</code></td>
+<td>Inherit <code>CanOccupy</code></td>
+</tr>
+<tr>
+<td><code>AgentService.IsColonistVolumeStepAllowed</code></td>
+<td><code>IsLiveStandable</code> <strong>and</strong> <code>IsMovementPassable(x, y, z, false)</code></td>
+</tr>
+<tr>
+<td><code>AgentService</code> spawn/load <code>VolumeSpawnFeet</code></td>
+<td>Pass a Z-aware <code>IWalkabilityMap</code> wrapping <code>_buildings</code> (private nested type in Agents — World cannot see Buildings). Prefer z = 0, else first occupy-legal z</td>
+</tr>
+<tr>
+<td><code>LaborVolumeNavigation</code></td>
+<td>No code if <code>IsVolumePassable</code> is correct</td>
+</tr>
+<tr>
+<td><code>WorldVolumeColumnPick</code></td>
+<td><code>VolumeWalkRules</code>; wall is <strong>not</strong> Solid — skip z = 0, last occupy-legal may be z ≥ 1 in that column</td>
+</tr>
+<tr>
+<td>Enemies / moles <code>VolumeSpawnFeet</code></td>
+<td>Keep passing world/XY maps → fallback all-z</td>
+</tr>
+</tbody>
+</table>
+<h3>4.7 Ejection (F8)</h3>
+<p><code>UnitDisplacementService</code> colonist loop: use <code>c.Feet</code>, not only <code>c.Position</code>.</p>
+<ul>
+<li>If blocked XY contains the tile <strong>and</strong> <code>!IsMovementPassable(feet.x, feet.y, feet.z, false)</code> → eject (z = 0 on a new wall).</li>
+<li>If feet <strong>z ≥ 1</strong> still occupy-legal → <strong>do not</strong> eject.</li>
+<li>Eject dest stays nearest XY free stand (<code>SetPosition(Vector2Int)</code> → z = 0). Fine for z = 0 victims.</li>
+<li>Enemies / moles: still XY <code>blocked.Contains(Position)</code>.</li>
+</ul>
+<p>Tests must pass <code>IStructurePassabilityQuery</code> into <code>UnitDisplacementService</code> (production already does; <code>UnitDisplacementServiceTests</code> currently passes null — fix when adding F11(i)).</p>
+<h3>4.8 Dependencies</h3>
+<pre><code>Content (IsDepth1VolumeOccupant)
+    ↑
+Buildings.IsMovementPassable(x,y,z)
+    ↑
+Session.ColonistWalkabilityMap : IVolumeWalkabilityMap
+    ↑
+Pathfinding.VolumeLiveStep ── World.VolumeWalkRules
+Enemies.EnemyPathWalkability  (XY only — no interface)
+</code></pre>
+<p>Pathfinding → World only. World does <strong>not</strong> gain building type tables.</p>
+<h3>4.9 Proposed docs (Phase 2)</h3>
+<ul>
+<li><strong>Pathfinding README:</strong> colonist occupy = live-stand <strong>and</strong> volume-walk at <strong>that z</strong>; XY-only maps keep all-z; <code>FindColonistVolumePath</code> = volume A* first, lift supplement.</li>
+<li><strong>World README:</strong> live 1×2 <strong>2D</strong> still z = 0 + XY; volume colonists per-voxel.</li>
+<li><strong>Buildings README:</strong> depth-1 occupy z = 0 for colonist volume; floors any z; 5-deep solid all z; enemy XY.</li>
+<li><strong>Session:</strong> <code>ColonistWalkabilityMap</code> Z; ejection feet-z.</li>
+<li><strong>Agents:</strong> volume step xyz; spawn prefer facade then first occupy-legal z.</li>
+<li><strong>Presentation:</strong> move pick last occupy-legal via <code>VolumeWalkRules</code>.</li>
+<li><strong>DECISIONS:</strong> supersede 2026-08-26 “volume occupy = XY for every z / 2D-then-lift only” <strong>for Volume World colonists</strong>. Keep 2D 1×2 + enemy XY. Cap 1000 unchanged.</li>
+</ul>
+<hr>
+<h2>5. Tests (EditMode, no GPU)</h2>
+<p>New primary: <code>Assets/_Project/Tests/EditMode/Pathfinding/VolumeDepth1OccupyTests.cs</code> (or Buildings sibling) using <strong>real <code>BuildingService</code></strong> + <code>ColonistWalkabilityMap</code> (or equivalent <code>IVolumeWalkabilityMap</code>) + <code>SetColumnDepth(5)</code> on the hall. Do <strong>not</strong> implement V1/V2. Pad 5-deep place with <code>SetColumnDepth(5)</code> so the test survives if V1 lands first.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td><code>TryPlaceCompleted(stone_wall)</code> on d = 5 tunnel: <code>IsVolumePassable(x,y,0)</code> false; <code>(x,y,1)</code> true (live-stand). 2D <code>IsPassable</code> 1×2 at XY <strong>false</strong>. <code>GetColumnDepth</code> unchanged</td>
+</tr>
+<tr>
+<td><strong>(b)</strong></td>
+<td>Corridor y feet with air y+1; wall at (5,y); start (4,y,0) and goal (6,y,0) both occupy-legal; <strong>no</strong> XY path around (block extra cells or use a 3-wide pocket). <code>FindColonistVolumePath</code> <strong>success</strong>; path has some node with x=5 and z≥1; <strong>no</strong> node (5,y,0). Status ≠ CapExceeded — if CapExceeded, <strong>stop and ask</strong></td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td>Locked door: occupy false z=0, true z≥1; behind path success. Open door: z=0 occupy true for colonists</td>
+</tr>
+<tr>
+<td><strong>(d)</strong></td>
+<td>Floor on d=5: occupy false <code>(floor, 0)</code> <strong>and</strong> <code>(floor, 1)</code>; y+1 occupy true</td>
+</tr>
+<tr>
+<td><strong>(e)</strong></td>
+<td>Storage (or leftover 5-deep) <strong>solid</strong> cell (upper body, not bottom walkable row): occupy false z=0 <strong>and</strong> z=1</td>
+</tr>
+<tr>
+<td><strong>(f)</strong></td>
+<td><code>PathfindingService(EnemyPathWalkability, …)</code>: wall / locked door <strong>not</strong> occupy-legal at z≥1 (XY fallback). Plan-through for bash <strong>unchanged</strong></td>
+</tr>
+<tr>
+<td><strong>(g)</strong></td>
+<td><code>AgentService</code> volume step: wall (x,y,1) allowed; (x,y,0) not (Volume motion)</td>
+</tr>
+<tr>
+<td><strong>(h)</strong></td>
+<td><code>VolumeSpawnFeet</code> with colonist Z map on a wall column: returns z≥1, not 0</td>
+</tr>
+<tr>
+<td><strong>(i)</strong></td>
+<td>Displacement + structures bound: colonist feet (wall, z=1) <strong>stays</strong>; colonist z=0 on that XY <strong>ejects</strong></td>
+</tr>
+<tr>
+<td><strong>site</strong></td>
+<td>Wall <strong>construction</strong> site: same as (a) at z=0/z=1</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Keep</strong> <code>VolumeLiveGraphTests.LockedWalkMap_BlocksAllZ</code> and <code>BuildingSolidWall_…_NotOneByTwoPassable</code> z=4 <strong>false</strong> — they document XY-only fallback (<code>FixtureLadderWalk</code> is not <code>IVolumeWalkabilityMap</code>). Add a one-line comment if the name is confusing; do not flip those asserts.</p>
+<p>Existing door/floor/wall XY tests must still pass.</p>
+<h2>6. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3D-first misses stacked ladders in d=5</td>
+<td>Lift supplement after Blocked/CapExceeded; V3 does not fix playtest ladders (V5)</td>
+</tr>
+<tr>
+<td>Exit path CapExceeded</td>
+<td>Short fixture; if it hits 1000, ask — do not bump</td>
+</tr>
+<tr>
+<td><code>BuildingSolid</code> ≠ wall</td>
+<td>Behind-wall tests use <code>stone_wall</code> / <code>BuildingService</code>, not terrain-only</td>
+</tr>
+<tr>
+<td>Enemy volume A* shares <code>VolumeLiveStep</code></td>
+<td>No <code>IVolumeWalkabilityMap</code> on enemy map → XY all-z</td>
+</tr>
+<tr>
+<td><code>SetPosition(Vector2Int)</code> forces z=0</td>
+<td>Do not eject z≥1 colonists</td>
+</tr>
+<tr>
+<td>Agent spawn passes <code>_world</code> today</td>
+<td>Wrapper so spawn sees Buildings Z</td>
+</tr>
+<tr>
+<td>Displacement tests omit structures</td>
+<td>Pass <code>_buildings</code> in F11(i)</td>
+</tr>
+<tr>
+<td>V1 <code>too_shallow</code> later</td>
+<td>Occupancy tests <code>SetColumnDepth(5)</code> on footprints</td>
+</tr>
+</tbody>
+</table>
+<h2>7. Locks L1–L14 (frozen)</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong></td>
+<td>Depth-1 occupy <strong>z = 0</strong> (wall, door, ladder, trap, floor, fireplace + matching sites)</td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>Colonist <strong>z ≥ 1</strong> may be occupy-legal</td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>Locked door <strong>z = 0</strong> only</td>
+</tr>
+<tr>
+<td><strong>L4</strong></td>
+<td>Open/Auto <code>DoorAllowsMover</code> at z = 0; one-Z occupy</td>
+</tr>
+<tr>
+<td><strong>L5</strong></td>
+<td>Floors never feet-on-slab (any z)</td>
+</tr>
+<tr>
+<td><strong>L6</strong></td>
+<td>Per-voxel colonist planner; not lift-only</td>
+</tr>
+<tr>
+<td><strong>L7</strong></td>
+<td>Stamps do not write <code>d</code></td>
+</tr>
+<tr>
+<td><strong>L8</strong></td>
+<td>Do not raise <code>MaxExpansions</code></td>
+</tr>
+<tr>
+<td><strong>L9</strong></td>
+<td>Enemies / bash XY</td>
+</tr>
+<tr>
+<td><strong>L10</strong></td>
+<td>5-deep solid blocks all z</td>
+</tr>
+<tr>
+<td><strong>L11</strong></td>
+<td>2D 1×2 occupy z = 0 + XY</td>
+</tr>
+<tr>
+<td><strong>L12</strong></td>
+<td>Ladder exception z = 0; no ladder playtest fix</td>
+</tr>
+<tr>
+<td><strong>L13</strong></td>
+<td>No new trap/fireplace blocks</td>
+</tr>
+<tr>
+<td><strong>L14</strong></td>
+<td>Not V1, V2, V4, V5, F, G</td>
+</tr>
+</tbody>
+</table>
+<h2>8. Suggestions (do not implement)</h2>
+<ul>
+<li>Later: enemy volume analog (walk behind / Z-bash).</li>
+<li>Later: 5-deep kit interiors as occupy-legal air.</li>
+<li>Shared <code>ColonistWalkabilityMap</code> instead of Agents nested spawn wrapper (only if the wrapper duplicates more than ~20 lines).</li>
+</ul>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="plan-UK-FEAT-VOLUME-TASK-REACH-WALL-VISUAL-V1">
+          <header>
+            <h3 id="plan-UK-FEAT-VOLUME-TASK-REACH-WALL-VISUAL-V1">Task reach / wall visual V1 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_TASK_REACH_WALL_VISUAL_V1_CODING_PLAN.md · 212 lines</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-TASK-REACH-WALL-VISUAL-V1</code>. Status Implemented in plan index.</p>
+        <details class="spoiler">
+          <summary>Show full Gate B plan — FEATURE_VOLUME_TASK_REACH_WALL_VISUAL_V1_CODING_PLAN.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Gate B Phase 1 — Volume task reach-behind + wall 1-tall visual V1</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-TASK-REACH-WALL-VISUAL-V1</code></td>
+</tr>
+<tr>
+<td><strong>Brief</strong></td>
+<td><code>architecture_docs/briefs/features/FEATURE_VOLUME_TASK_REACH_WALL_VISUAL_V1_GROK_BUILD_BRIEF.md</code></td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>2026-09-01</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><strong>Implemented</strong></td>
+</tr>
+<tr>
+<td><strong>Class</strong></td>
+<td>advanced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> none (brief §14). Locks L1–L8 are frozen.</p>
+<hr>
+<h2>1. Restated goal</h2>
+<p>Volume World task-board reachability uses the same per-voxel occupy graph as player move: a DIG (and harvest adjacent-stand) beyond a depth-1 wall or locked door is <strong>reachable</strong> when a colonist can walk <strong>z ≥ 1</strong> to a work-adjacent occupy-legal stand. 2D Gameplay stays 2D 1×2. Stone/granite wall recipe (traps inherit) draws <strong>one</strong> <code>kit_block</code> at <code>(0,0,0)</code>.</p>
+<h2>2. In scope / out of scope</h2>
+<h3>In scope</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td><code>TaskService</code> optional <code>MotionSpaceState</code>; volume reach uses <code>IsVolumePassable</code> + <code>FindColonistVolumePath</code></td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td>Volume dig/harvest stand = occupy-legal feet + work-adjacent (wall <code>z ≥ 1</code> allowed)</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td>Volume probe = lift XY to occupy-legal feet (prefer z = 0)</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td>Volume <code>IsPositionReachable</code> = occupy-legal z at goal XY + volume path; no 2D <code>IsPassable</code> 1×2 on the goal</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td><code>CreateStoneWall</code> one <code>kit_block</code></td>
+</tr>
+<tr>
+<td><strong>F6</strong></td>
+<td>EditMode (a)(b)(c)</td>
+</tr>
+<tr>
+<td><strong>F7</strong></td>
+<td>Tasks + Content READMEs + DECISIONS</td>
+</tr>
+</tbody>
+</table>
+<h3>Out of scope</h3>
+<p>2D behind-wall reach; Tasks→Labor/Buildings; raise 1000; flatten <code>d</code>; enemy behind-wall; ladder <code>kit_pillar</code> art; new kit/PNGs; catalog W×H; door modes; V5/F/G; changing <code>_world.IsWalkable</code> access pre-gates (CreateDig does not use them).</p>
+<h2>3. Affected modules / classes</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Tasks</strong></td>
+<td><code>TaskService</code> ctor + reachability/stand/probe volume branch. No <code>ITaskService</code> change</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>GameplayComposer</code>: <code>new TaskService(..., MotionSpace)</code> — same instance Labor/Agents already get</td>
+</tr>
+<tr>
+<td><strong>Content</strong></td>
+<td><code>BuildingRecipeFactory.CreateStoneWall</code> one prop; recipe tests</td>
+</tr>
+<tr>
+<td><strong>Tests</strong></td>
+<td>Session: Volume DIG behind wall/door. Content: prop count 1. Existing Tasks.Tests stay default 2D</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>Tasks README; Content README wall kit; DECISIONS</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No new modules / asmdefs / events / save fields.</strong> UK.Tasks already references Core (MotionSpace) + Pathfinding + World + Content (<code>VolumeMotionMath</code>, <code>UnitFootprints</code>).</p>
+<p>Labor: <code>TryBuildDigOrHarvestMultiGoal</code> must use <code>TryRunMultiGoal</code> (volume multi-goal BFS). It previously called 2D <code>TryFindNearest</code>, so DIG behind a wall stayed unassigned. Presentation <strong>unchanged</strong> (instances the factory recipe).</p>
+<hr>
+<h2>4. Architecture</h2>
+<h3>4.1 Why the board stays unreachable</h3>
+<p>Player M and Labor already volume-path. <code>TaskService</code> still:</p>
+<ol>
+<li><code>TryFindStandTile</code>: 2D <code>IsPassable</code> 1×2 → wall cell <strong>never</strong> a stand.</li>
+<li><code>FindPath(probe, stand, Dwarf)</code> → XY through the wall is illegal.</li>
+</ol>
+<p>Unavailable tasks never reach Labor.</p>
+<h3>4.2 Motion inject (F1)</h3>
+<pre><code class="language-csharp">public TaskService(
+    IEventBus eventBus,
+    IPathfindingService pathfinding,
+    IWorldService world,
+    MotionSpaceState motion = null)
+</code></pre>
+<p><code>UseVolume</code> ⇔ <code>_motion != null &amp;&amp; _motion.IsVolume</code>.</p>
+<p>Null / Slice2D → <strong>today’s</strong> 2D methods (all current Task tests).</p>
+<p><code>GameplayComposer</code> already constructs <code>MotionSpace</code> before <code>Tasks</code>. Pass it in. <code>EnableVolumeMotion()</code> only flips <code>Current</code> on that instance — TaskService reads it live; no extra hook.</p>
+<h3>4.3 Volume probe (F3)</h3>
+<p><code>SetReachabilityProbe</code> stays XY.</p>
+<p>Lift:</p>
+<pre><code class="language-text">prefer (x, y, 0) if IsVolumePassable
+else first z in [1, Depth) that is occupy-legal
+else fail (unreachable)
+</code></pre>
+<p>Uses <code>_pathfinding.IsVolumePassable</code> (same occupy as move). Does <strong>not</strong> call <code>VolumeSpawnFeet</code> (would need a separate walk map). If Pathfinding was constructed without a volume query, <code>IsVolumePassable</code> is false → treat as no probe (same as today when nothing is 1×2 passable).</p>
+<p>2D <code>TryResolveProbe</code> unchanged.</p>
+<h3>4.4 Volume dig / harvest stand (F2)</h3>
+<p><strong>2D:</strong> keep <code>TryFindStandTile</code> (1×2 <code>IsPassable</code> + Chebyshev to cell).</p>
+<p><strong>Volume:</strong> scan the same XY window as today. For each XY and each z:</p>
+<ul>
+<li><code>IsVolumePassable(x, y, z)</code></li>
+<li>work-adjacent to the target cell</li>
+</ul>
+<p>Work-adjacent (Tasks <strong>private</strong> helpers; <strong>do not</strong> reference Labor):</p>
+<ul>
+<li>Dig (<code>solidTarget: true</code>): Solid voxel Z-span on the target column; if none, Air span (same order as <code>LaborVolumeNavigation.IsWorkAdjacentToCell</code>).</li>
+<li>Harvest (<code>solidTarget: false</code>): Air span; if none, z = 0..0.</li>
+<li>Then <code>VolumeMotionMath.IsVolumeWorkAdjacentToCell(feet, cell, zMin, zMax)</code>.</li>
+</ul>
+<p>Wall/locked-door column at <strong>z ≥ 1</strong> <strong>is</strong> a legal stand when occupy-legal and Chebyshev+Z-close to the dig (earth Solid includes that z).</p>
+<p>Among candidates, nearest <strong>Manhattan3</strong> to probe feet (tie: prefer lower z). Then <strong>one</strong> <code>FindColonistVolumePath(probeFeet, standFeet)</code>. If that fails, try the next nearest (cap <strong>8</strong> attempts) so an isolated nearest cell cannot hide a valid behind-wall stand. Do <strong>not</strong> raise <code>MaxExpansions</code>.</p>
+<p><code>CreateDig</code> / recheck Dig → <code>solidTarget: true</code>.<br>
+<code>CreateHarvest</code> / recheck Harvest → <code>solidTarget: false</code> (Volume only; 2D both still share <code>TryFindStandTile</code>).</p>
+<h3>4.5 Volume <code>IsPositionReachable</code> (F4)</h3>
+<p>Haul/access/eat/etc.</p>
+<p><strong>2D:</strong> unchanged (<code>IsPassable</code> 1×2 + <code>FindPath</code>).</p>
+<p><strong>Volume:</strong></p>
+<pre><code class="language-text">lift probe → startFeet
+lift goal XY → destFeet (prefer z = 0, else first occupy-legal z)
+if either lift fails → false
+FindColonistVolumePath(start, dest).IsSuccess
+</code></pre>
+<p>Do <strong>not</strong> require 2D <code>IsPassable</code> on the goal (a wall cell can still be occupy-legal at z ≥ 1).<br>
+Leave existing <code>_world.IsWalkable(accessPos)</code> <strong>pre-gates</strong> on haul/construction factories as they are (CreateDig/Harvest do not use them; dump/access tiles are tunnel). That meets “behind-wall dump occupy-legal stays reachable” via F4 path, without retuning access stamps.</p>
+<p><code>CapExceeded</code> on a reach check → <strong>not</strong> reachable for that tick (recheck later). If the <strong>exit</strong> short-pocket fixture is CapExceeded: <strong>STOP</strong>, report, do <strong>not</strong> raise 1000.</p>
+<h3>4.6 Wall 1-tall (F5)</h3>
+<p><code>CreateStoneWall</code>:</p>
+<pre><code class="language-csharp">new[] { new BuildingRecipeProp(Vector3Int.zero, StoneKitIds.Block) }
+</code></pre>
+<p>Catalog 1×1 unchanged. Granite + traps already share this recipe. No Presentation code. Ladder <code>kit_pillar</code> untouched.</p>
+<h3>4.7 Dependencies</h3>
+<pre><code>Content.VolumeMotionMath + CreateStoneWall
+    ↑
+Tasks.TaskService ── Pathfinding (IsVolumePassable, FindColonistVolumePath)
+    ↑                   World (voxels / depth)
+Session.GameplayComposer (MotionSpace)
+</code></pre>
+<p>Tasks ↛ Labor, Buildings, Presentation.</p>
+<hr>
+<h2>5. Tests (EditMode, no GPU)</h2>
+<p><strong>2D (keep):</strong> existing <code>TaskServiceTests</code> unreachable / recheck / optimistic adjacent — default ctor (no motion).</p>
+<p><strong>New Session:</strong> <code>VolumeTaskReachBehindTests.cs</code> (real <code>BuildingService</code> + <code>ColonistWalkabilityMap</code> + <code>PathfindingService(walk, world, world)</code> + <code>SetColumnDepth(5)</code>). Do not implement V1/V2.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td>Pocket: probe (4,y,0) tunnel; wall at (5,y); earth dig at (6,y); air y+1. <code>MotionSpace.Volume</code>: <code>CreateDig</code> <strong>not</strong> unreachable. Same fixture <code>motion: null</code> (or Slice2D): <strong>unreachable</strong>. Status of <code>FindColonistVolumePath</code> on that pair ≠ CapExceeded — if CapExceeded, <strong>stop and ask</strong></td>
+</tr>
+<tr>
+<td><strong>(b)</strong></td>
+<td>Locked door instead of wall: Volume <code>CreateDig</code> reachable</td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td><code>CreateStoneWall().Props.Count == 1</code> at <code>(0,0,0)</code> <code>kit_block</code> (Content <code>BuildingRecipeTests</code>)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Proposed docs (Phase 2)</h2>
+<ul>
+<li><strong>Tasks README:</strong> Volume World reachability = occupy-legal feet + <code>FindColonistVolumePath</code>; 2D 1×2 unchanged; DIG/HARVEST stands may be wall <code>z ≥ 1</code>.</li>
+<li><strong>Content README:</strong> wall kit = one <code>kit_block</code> (1-tall). Traps inherit.</li>
+<li><strong>DECISIONS:</strong> Volume task reach uses per-voxel path (supersedes 2D-only board reach for Volume World). Wall visual 1-tall (R13 wall). Cap 1000 unchanged.</li>
+</ul>
+<hr>
+<h2>7. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Nearest stand isolated</td>
+<td>Try up to 8 stands by distance</td>
+</tr>
+<tr>
+<td>Volume TaskService + 2-arg Pathfinding (no volume)</td>
+<td><code>IsVolumePassable</code> false → fail closed; production always passes World volume</td>
+</tr>
+<tr>
+<td>Harvest vs Dig Z segment</td>
+<td>Volume harvest uses air-first; dig solid-first</td>
+</tr>
+<tr>
+<td>Trap 1-tall</td>
+<td>Intended R13</td>
+</tr>
+<tr>
+<td>Exit CapExceeded</td>
+<td>Short pocket; ask, do not bump cap</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Locks L1–L8 (frozen)</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong></td>
+<td>Volume task reach = per-voxel + <code>FindColonistVolumePath</code></td>
+</tr>
+<tr>
+<td><strong>L2</strong></td>
+<td>2D task reach 1×2 XY</td>
+</tr>
+<tr>
+<td><strong>L3</strong></td>
+<td>Volume dig stand occupy-legal + work-adjacent (wall z≥1 allowed)</td>
+</tr>
+<tr>
+<td><strong>L4</strong></td>
+<td>Wall one <code>kit_block</code> at origin; catalog 1×1</td>
+</tr>
+<tr>
+<td><strong>L5</strong></td>
+<td>Traps inherit</td>
+</tr>
+<tr>
+<td><strong>L6</strong></td>
+<td>Ladder visual not this slice</td>
+</tr>
+<tr>
+<td><strong>L7</strong></td>
+<td>Do not raise 1000</td>
+</tr>
+<tr>
+<td><strong>L8</strong></td>
+<td>Enemies XY</td>
+</tr>
+</tbody>
+</table>
+<h2>9. Suggestions (do not implement)</h2>
+<ul>
+<li>Later: Volume <code>_world.IsWalkable</code> access pre-gates → occupy (ladder access).</li>
+<li>Rest of V4: ladder <code>kit_pillar</code> 1-tall piece or a 1-tall ladder prop.</li>
+</ul>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="plan-UK-FEAT-VOLUME-LADDER-PATH-FIX-V1">
+          <header>
+            <h3 id="plan-UK-FEAT-VOLUME-LADDER-PATH-FIX-V1">Ladder path fix V1 <span class="badge badge-go">Approved</span></h3>
+            <p class="file-cap">FEATURE_VOLUME_LADDER_PATH_FIX_V1_CODING_PLAN.md · 234 lines</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-LADDER-PATH-FIX-V1</code>. 2026-08-26 · class advanced. Honest note: E4 ladder playtest was not accepted; V5 climb is the remaining upstairs path.</p>
+        <details class="spoiler">
+          <summary>Show full Gate B plan — FEATURE_VOLUME_LADDER_PATH_FIX_V1_CODING_PLAN.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Gate B Phase 1 — Volume World ladder path fix V1</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-LADDER-PATH-FIX-V1</code></td>
+</tr>
+<tr>
+<td><strong>Brief</strong></td>
+<td><code>architecture_docs/briefs/features/FEATURE_VOLUME_LADDER_PATH_FIX_V1_GROK_BUILD_BRIEF.md</code></td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>2026-08-26</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><strong>Approved</strong> — implementing</td>
+</tr>
+<tr>
+<td><strong>Class</strong></td>
+<td>advanced</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> none (brief §14). Locks L1–L11 are frozen.</p>
+<hr>
+<h2>1. Restated goal</h2>
+<p>Make Volume World colonist move and Labor walks climb stacked completed ladders to an occupy-legal upstairs goal, including in a d=5 hall that also has walls/floors/doors. The 2D 1×2 dwarf graph used as the climb skeleton must expand only cells that are <strong>volume-occupiable at z = 0</strong>: <code>IsLiveStandable(x, y, 0, ladders)</code> <strong>and</strong> <code>walkability.IsWalkable(x, y)</code>. Keep <code>FindColonistVolumePath</code> as 2D-then-lift (3D A<em> stays fallback only). Volume move pick must pass the ladder query and skip non-occupy-legal cells so a floor slab is not a stand goal. 2D Gameplay keeps the same 1×2 predicate (walls are not dwarf tiles). 1×1 stays <code>IsWalkable</code> only. EditMode tests must include a </em><em>BuildingSolid wall on the 2D slice</em>* with preserved chamber air.</p>
+<h2>2. In scope / out of scope</h2>
+<h3>In scope (F1–F5)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td><code>FootprintPassability</code> 1×2 + volume: legal feet iff live-stand at z=0 <strong>and</strong> <code>IsWalkable</code>. 1×1 unchanged.</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td>Keep <code>FindColonistVolumePath</code> = occupy-check → 2D 1×2 A* → <code>TryLiftDwarfSlice</code> → else <code>FindPath(Vector3Int)</code>. Confirm Y steps still <code>CanClimbY</code>. Do not raise the 3D cap.</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td>Volume move pick: pass <code>ILadderCellQuery</code> + walk map into <code>TryRayToStandableFeet</code>. Candidate feet occupy-legal. Floor slabs not goals. <code>DwarfMoveController</code> snap if pick feet are not occupy. Designate/inspect/build stay XY column pick.</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td>EditMode tests including a wall on the slice; fixture ladders movement-passable.</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td>Pathfinding + World README one-liners; Session/Presentation pick one-liners; <code>docs/DECISIONS.md</code>. Labor inherits via existing <code>FindColonistVolumePath</code>.</td>
+</tr>
+</tbody>
+</table>
+<h3>Out of scope / hard forbids</h3>
+<ul>
+<li>Re-flatten structure <code>d</code> / make walls Solid voxels again</li>
+<li>Raise volume A* <code>MaxExpansions</code> as the fix</li>
+<li>Replace 2D-then-lift with a 3D-only colonist planner</li>
+<li>Extend the ladder exception to every Z of an air column (L8)</li>
+<li>Catalog ladder W×H, stacked-1×1 rule, construction-site climb</li>
+<li>Live Z on 2D <code>Gameplay</code> / Edit; Phase F; New Game default → Volume World</li>
+<li>Save format, hop 0.5 s, path cap 1000, Labor budget 40, 18°, door <strong>modes</strong></li>
+<li>Enemy bash graph, moles ±Y, fog Z, new modules, <code>ASSET_*</code></li>
+<li>Making floor <strong>tiles</strong> occupy-legal</li>
+<li><code>UK.Pathfinding</code> → <code>UK.Content</code></li>
+</ul>
+<h2>3. Affected modules / classes</h2>
+<p><strong>No new modules. No new production types</strong> (optional private helpers only).</p>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Touch</th>
+<th>Role</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pathfinding</strong></td>
+<td><code>FootprintPassability</code></td>
+<td>Predicate change (F1)</td>
+</tr>
+<tr>
+<td><strong>Pathfinding</strong></td>
+<td><code>PathfindingService.FindColonistVolumePath</code> / <code>TryLiftDwarfSlice</code></td>
+<td>Keep; confirm climb after F1 (F2). No rewrite.</td>
+</tr>
+<tr>
+<td><strong>Pathfinding</strong></td>
+<td><code>VolumeLiveStep</code>, <code>VolumeAStarPathfinder</code></td>
+<td><strong>Unchanged</strong> (already occupy = live-stand ∧ walkable; cap 1000)</td>
+</tr>
+<tr>
+<td><strong>World</strong></td>
+<td><code>WorldStandRules</code></td>
+<td><strong>No behavior change</strong> (exception stays z = 0). README one-liner only.</td>
+</tr>
+<tr>
+<td><strong>World</strong></td>
+<td><code>WorldService.ApplyTerrainDepthPolicy</code> / <code>SyncColumn</code></td>
+<td><strong>Do not touch</strong></td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>ColonistWalkabilityMap</code></td>
+<td>Already production-correct (ladders walkable, floors/walls not)</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>GameplayComposer</code></td>
+<td>Expose the existing colonist walk map instance</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>VolumeWorldBootstrap</code></td>
+<td>Wire pick queries into the camera</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>DwarfMoveController</code></td>
+<td>Occupy safety snap (floor-above / <code>ResolveGoalFeet</code>)</td>
+</tr>
+<tr>
+<td><strong>Session</strong></td>
+<td><code>DwarfMoveInput</code></td>
+<td>Unchanged call shape (<code>TryPickStandable</code>)</td>
+</tr>
+<tr>
+<td><strong>Presentation.WorldVolume</strong></td>
+<td><code>WorldVolumeColumnPick.TryRayToStandableFeet</code></td>
+<td>Honor ladders; skip non-walkable standable</td>
+</tr>
+<tr>
+<td><strong>Presentation.WorldVolume</strong></td>
+<td><code>WorldVolumeCameraController</code></td>
+<td>Hold/pass ladders + walk map</td>
+</tr>
+<tr>
+<td><strong>Tests</strong></td>
+<td><code>LiveStructureStandTests</code>, <code>VolumeLiveGraphTests</code>, <code>WorldVolumeColumnPickTests</code></td>
+<td>Fixtures + wall-on-slice + pick occupy</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>Pathfinding/World/Session/Presentation READMEs + <code>docs/DECISIONS.md</code></td>
+<td>After implement</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Unchanged by design:</strong> <code>AStarPathfinder</code> (already calls <code>FootprintPassability</code>), Labor <code>TryPathTo</code>, <code>LaborVolumeNavigation</code>, <code>AgentMotor</code>, save DTOs, door modes, hop timing, enemy bash map.</p>
+<p><strong>Inherited without edits:</strong> 2D <code>FindPath</code> 1×2, <code>IsPassable</code>, <code>FindNearestWalkable</code> 1×2, ork 1×2 (<code>EnemyPathWalkability</code> + same helper), <code>MultiGoalPathfinder</code> via <code>IsPassable</code>.</p>
+<h2>4. Architecture</h2>
+<h3>4.1 The 1×2 predicate (F1)</h3>
+<p>Today, with a volume query present:</p>
+<pre><code class="language-csharp">return WorldStandRules.IsLiveStandable(volume, feetOrigin.x, feetOrigin.y, 0, ladders);
+</code></pre>
+<p>After stamps stopped flattening <code>d</code>, a wall/floor in a chamber keeps <strong>Air</strong>. <code>IsStandable</code> is then true (2-tall air + support). Volume occupy (<code>VolumeLiveStep.CanOccupy</code>) still requires <strong>XY <code>IsWalkable</code></strong>. Lift dies on the first wall/floor; 3D fallback fans out in d=5 and misses the climb.</p>
+<p><strong>Proposed 1×2 + volume:</strong></p>
+<pre><code class="language-text">legal 1×2 feet ⇔ IsLiveStandable(x, y, 0, ladders) AND walkability.IsWalkable(x, y)
+</code></pre>
+<ul>
+<li>1×1 branch unchanged (<code>IsWalkable</code> only).</li>
+<li>No volume query → existing W×H walkable loop (unchanged).</li>
+<li>Ladders resolved as today: <code>walkability as ILadderCellQuery ?? grid as ILadderCellQuery</code>.</li>
+<li>Dwarf size in <code>FindColonistVolumePath</code> stays <code>new Vector2Int(1, 2)</code> (no Content reference).</li>
+</ul>
+<p>Production <code>ColonistWalkabilityMap</code> already matches E1c: completed ladders <strong>true</strong>, floors/walls <strong>false</strong>, doors by mode. F1 aligns the skeleton with occupy; it does not invent a second walk map.</p>
+<h3>4.2 Why 2D Gameplay is included (intentional side effect)</h3>
+<p><code>GameplayComposer</code> always constructs <code>PathfindingService(colonistWalk, World, World)</code> — volume query is present in <strong>both</strong> 2D Gameplay and Volume World.</p>
+<p>One predicate, both spaces:</p>
+<ul>
+<li>Restores “walls are not dwarf tiles” on 2D New Game after air-cavity stamps.</li>
+<li>Volume climb skeleton and 2D 1×2 cannot diverge.</li>
+<li>1-high crawl still blocked (<code>IsLiveStandable</code> false).</li>
+<li>1×1 unchanged.</li>
+<li>Locked doors still block (walk map false).</li>
+<li>Construction-site ladders still unclimbable (<code>IsLadderAt</code> completed-only; site solid not walkable).</li>
+</ul>
+<p>This is not live Z on the 2D tilemap. Motors stay z = 0 in Slice2D.</p>
+<h3>4.3 Lift vs 3D fallback (F2)</h3>
+<p>Keep the current pipeline:</p>
+<ol>
+<li>Start/goal must be <code>IsVolumePassable</code> (already occupy-legal).</li>
+<li>2D dwarf A* on the F1 graph.</li>
+<li><code>TryLiftDwarfSlice</code> — existing Z-walk (<code>TryAppendZ</code> / <code>FindSharedOccupyZ</code> prefers z = 0 for d=1 ladders) then orthogonal <code>CanVolumeStep</code> (<code>CanClimbY</code> for ±Y).</li>
+<li>If slice or lift fails → <code>FindPath(Vector3Int)</code> (cap <strong>1000</strong> unchanged).</li>
+</ol>
+<p><strong>Success this slice must come from 2D-then-lift</strong>, not from 3D. Fallback may remain for odd occupy-Z cases; tests must not treat <code>CapExceeded</code> recovery as the climb.</p>
+<p>After F1, Y steps still <code>CanClimbY</code>: stacked completed ladders are walkable <strong>and</strong> live-standable at z = 0; lift Z-walks to the facade before a d=1 ladder column. <strong>Do not</strong> extend <code>WorldStandRules</code> ladder exception off z = 0 (L8). Soft split stays Architect-gated if playtest still needs climb-at-z=4 without a z=0 occupy on the upper ladder.</p>
+<h3>4.4 Pick wiring (F3)</h3>
+<p><strong>Bug:</strong> <code>TryRayToStandableFeet</code> already accepts <code>ladders</code> (default null). <code>TryPickStandable</code> does <strong>not</strong> pass it. No walk map. Air-cavity floors/walls look live-standable; Solid ladder columns at z = 0 do not.</p>
+<p><strong>Presentation (ADR-0002):</strong> views only pick. Occupy check uses World contracts only (<code>ILadderCellQuery</code>, <code>IWalkabilityMap</code>) — same predicate as <code>CanOccupy</code>, <strong>no</strong> Pathfinding reference from Presentation.</p>
+<table>
+<thead>
+<tr>
+<th>API</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>TryRayToStandableFeet(..., ladders = null, walkability = null)</code></td>
+<td>Record last feet iff live-standable <strong>and</strong> (<code>walkability == null</code> || <code>IsWalkable(x,y)</code>). Solid still stops the ray. Non-walkable <strong>Air</strong> (floor/wall cavity) is skipped, not treated as Solid.</td>
+</tr>
+<tr>
+<td><code>WorldVolumeCameraController</code></td>
+<td>Optional fields + <code>SetMovePickQueries(ILadderCellQuery, IWalkabilityMap)</code>. <code>TryPickStandable</code> forwards both. Existing <code>Bind(...)</code> unchanged.</td>
+</tr>
+<tr>
+<td><code>GameplayComposer</code></td>
+<td>Store/expose the existing <code>ColonistWalkabilityMap</code> (already <code>IWalkabilityMap</code> + <code>ILadderCellQuery</code>). Do not construct a second map.</td>
+</tr>
+<tr>
+<td><code>VolumeWorldBootstrap</code></td>
+<td>After <code>Bind</code>, <code>SetMovePickQueries(composer.ColonistWalk, composer.ColonistWalk)</code>.</td>
+</tr>
+<tr>
+<td>Designate/inspect/build</td>
+<td>Still <code>TryRayToColumn</code> / <code>IScreenToTile</code>. No ladders/walk map.</td>
+</tr>
+</tbody>
+</table>
+<p><strong><code>DwarfMoveController.TryOrderMove(Vector3Int)</code> safety</strong> (if pick still returns non-occupy, e.g. tests without walk map):</p>
+<ol>
+<li>If <code>IsVolumePassable(feet)</code> → path as today.</li>
+<li>Else try same XZ, <strong>y+1</strong> (floor-above law).</li>
+<li>Else <code>LaborVolumeNavigation.ResolveGoalFeet</code> (already used by the Vector2Int volume branch).</li>
+<li>Else existing <code>"Tile not walkable."</code></li>
+</ol>
+<p>Invalid click feedback unchanged. Do not order a stand on the slab.</p>
+<h3>4.5 Dependencies / data ownership</h3>
+<pre><code>World (stand rules, IWalkabilityMap, ILadderCellQuery, volume)
+  ↑
+Pathfinding (FootprintPassability, 2D A*, lift, volume A*)  — no Content
+  ↑
+Session (ColonistWalkabilityMap, composer, bootstrap, DwarfMoveController)
+  ↑
+Presentation.WorldVolume (ray pick; queries injected)
+</code></pre>
+<ul>
+<li>Walkability/ladders owned by Buildings via <code>ColonistWalkabilityMap</code> (composer).</li>
+<li>Volume voxels / <code>d</code> owned by World. Stamps still do not write <code>d</code>.</li>
+<li>No events added. No save-format change.</li>
+</ul>
+<h3>4.6 Proposed documentation (written in Phase 2 of the ladder-path task)</h3>
+<p><strong><code>docs/DECISIONS.md</code></strong> — new entry after implement:</p>
+<blockquote>
+<p><strong>Volume World 1×2 climb skeleton matches occupy (ladder path fix V1)</strong><br>
+- Context: After stamps stopped flattening <code>d</code>, 2D 1×2 used only <code>IsLiveStandable</code> at z=0, so walls/floors in chamber air were dwarf tiles. Lift died; 3D cap missed the climb. Move pick omitted ladders and occupy.<br>
+- Decision: 1×2 + volume = live-stand at z=0 <strong>and</strong> <code>IsWalkable</code>. Keep 2D-then-lift. Move pick last occupy-legal live-standable (ladders on). Ladder exception stays z=0.<br>
+- Alternatives rejected: re-flatten <code>d</code>; raise 3D cap; 3D-only colonist planner; ladder exception at all Z.</p>
+</blockquote>
+<p><strong>Pathfinding README:</strong> live 1×2 = <code>IsLiveStandable</code> <strong>and</strong> XY walkable when volume present; 1×1 = <code>IsWalkable</code>; colonist volume path still 2D-then-lift.</p>
+<p><strong>World README:</strong> live 1×2 <strong>path</strong> uses that Pathfinding predicate; <code>WorldStandRules</code> exception still z=0; stamps still do not change <code>d</code>. Drop the stale “volume FindPath is IsStandable only” line (Phase E already uses occupy).</p>
+<p><strong>Session README:</strong> Volume <strong>M</strong> pick = last occupy-legal live-standable; ladders + colonist walk map wired from bootstrap.</p>
+<p><strong>Presentation README:</strong> <code>TryRayToStandableFeet</code> last occupy-legal live-standable before Solid (optional ladders + walk map).</p>
+<h2>5. Tests (F4) — including a wall on the slice</h2>
+<p>No GPU. EditMode only.</p>
+<table>
+<thead>
+<tr>
+<th>ID</th>
+<th>Assertion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td>Stacked ladders still path in 2D 1×2 <strong>and</strong> <code>FindColonistVolumePath</code>.</td>
+</tr>
+<tr>
+<td><strong>(b) wall-on-slice</strong></td>
+<td><code>BuildingSolid</code> wall after Tunnel + <code>SetColumnDepth(5)</code> (air cavity preserved): <strong>not</strong> 1×2-passable; a successful colonist volume path <strong>does not</strong> contain the wall cell; route uses a gap/door then climbs.</td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td>Start d=5 at <strong>z=4</strong>, stacked completed ladders, upstairs occupy-legal goal → success; path <strong>Y</strong> changes on the ladder column.</td>
+</tr>
+<tr>
+<td><strong>(d)</strong></td>
+<td>Floor slab not 1×2 feet; stand remains the open cell above.</td>
+</tr>
+<tr>
+<td><strong>(e) pick</strong></td>
+<td>Upper ladder at z=0 is live-standable when ladders query is passed; floor cell skipped in favor of occupy-legal feet if the ray allows. Existing last-before-Solid / back-of-chamber tests stay.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Fixture update (<code>LiveStructureStandTests.LadderWalkMap</code>):</strong> <code>IsWalkable</code> = ladder at cell <strong>or</strong> world walkable (production <code>IsMovementPassable</code>). Today <code>AddLadder</code> on Earth leaves <code>IsWalkable</code> false; after F1 those 1×2 tests fail.</p>
+<p><strong>Stale test:</strong> <code>VolumeFindPath_StillIgnoresLadderException</code> still assumes volume A<em> ignores the ladder exception. Phase E already uses occupy. After ladders are walkable, volume path onto the z=0 ladder cell should </em><em>succeed</em><em>. Rewrite to: volume occupy includes completed ladder at z=0 when walkable; a non-walkable Air-cavity </em><em>wall</em>* is not occupy-legal at any z.</p>
+<p><strong>Keep:</strong> 1-high crawl blocked; 1×1 uses walkable not live-stand; OOB/earth-body ladder not live-standable; <code>LiveStructureStandIntegrationTests</code> placed ladder/floor (already <code>IsMovementPassable</code>).</p>
+<p><strong>Do not add:</strong> GPU/PlayMode; Labor new type; enemy-bash tests.</p>
+<h2>6. Risks</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Earth+ladder fixtures (<code>IsWalkable</code> false)</td>
+<td>Ladder walk maps treat ladder XY as walkable.</td>
+</tr>
+<tr>
+<td>2D 1×2 AND walkable changes 2D Gameplay</td>
+<td>Intended. Tests: ladders still climb; wall with preserved <code>d</code> blocks; crawl still blocked.</td>
+</tr>
+<tr>
+<td>Pick without walk map still selects floor air</td>
+<td>Occupy filter in pick <strong>and</strong> controller snap.</td>
+</tr>
+<tr>
+<td>3D fallback still <code>CapExceeded</code></td>
+<td>Climb tests must succeed via 2D-then-lift (path Y on ladder column, not through the wall).</td>
+</tr>
+<tr>
+<td>Ray through Air-cavity wall continues in Z</td>
+<td>Same XY; Solid at <code>z &gt;= d</code> still stops. Last occupy-legal is in front of the wall or false → feedback/snap.</td>
+</tr>
+<tr>
+<td><code>LiveStructureStandIntegrationTests</code> <code>IsStandable</code> false on placed floor</td>
+<td>Stamp-depth lock may already make floor columns Air. Do <strong>not</strong> flatten <code>d</code>. If that voxel assertion is stale, keep <strong>1×2 not passable</strong> (F1) and do not revive Solid voxels.</td>
+</tr>
+<tr>
+<td>Lift fails if upper ladder has no z=0 occupy</td>
+<td>Soft split — extend exception only if Architect gates a follow-up. Not V1.</td>
+</tr>
+</tbody>
+</table>
+<h2>7. Locks L1–L11 (frozen)</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Dual space</td>
+<td>2D Gameplay z = 0; Volume World live Z</td>
+</tr>
+<tr>
+<td><strong>L2</strong> Volume occupy</td>
+<td><code>IsLiveStandable</code> <strong>and</strong> XY movement-passable</td>
+</tr>
+<tr>
+<td><strong>L3</strong> 2D 1×2 skeleton</td>
+<td>Same occupy predicate at <strong>z = 0</strong> (F1)</td>
+</tr>
+<tr>
+<td><strong>L4</strong> Climb planner</td>
+<td>Keep 2D-then-lift; do not raise 3D cap as the fix</td>
+</tr>
+<tr>
+<td><strong>L5</strong> Ladder catalog</td>
+<td>1×1; stacked completed; sites unclimbable</td>
+</tr>
+<tr>
+<td><strong>L6</strong> Floors</td>
+<td>Not occupy-legal; stand <strong>above</strong></td>
+</tr>
+<tr>
+<td><strong>L7</strong> Stamp depth</td>
+<td>Stamps do <strong>not</strong> change <code>d</code></td>
+</tr>
+<tr>
+<td><strong>L8</strong> Ladder exception Z</td>
+<td>Stay <strong>z = 0</strong> this slice</td>
+</tr>
+<tr>
+<td><strong>L9</strong> Move pick</td>
+<td>Last occupy-legal live-standable before Solid; ladders query on</td>
+</tr>
+<tr>
+<td><strong>L10</strong> Pathfinding vs Content</td>
+<td>No <code>UK.Content</code> reference</td>
+</tr>
+<tr>
+<td><strong>L11</strong> Caps / hop / doors / save</td>
+<td>Unchanged (cap 1000, hop 0.5 s, Labor 40, save 5, 18°, door modes)</td>
+</tr>
+</tbody>
+</table>
+<h2>8. Performance cadence (flag only)</h2>
+<p>This changes the colonist 1×2 / volume climb graph (scaling: pathfinding volume). Last <code>PERFORMANCE_LOG</code> entries are 2026-08-10 baseline. Before Architect <strong>acceptance</strong>, confirm whether a stress run is due (cadence of 5 accepted features <strong>or</strong> this scaling trigger). <strong>Do not run F9 in this slice unless the Architect asks.</strong> Phase 3 will surface it again.</p>
+<h2>9. Suggestions (do not implement)</h2>
+<ul>
+<li>Diagnostic on <code>FindColonistVolumePath</code> (lift vs 3D fallback) for playtest logs.</li>
+<li>Share one <code>CanOccupy</code> helper between pick and Pathfinding only if a later slice wants Presentation to reference Pathfinding (it should not).</li>
+<li>Skip 3D fallback when 2D is <code>Blocked</code> (walls block all z anyway). Behavior change — not this slice.</li>
+</ul>
+          </div>
+        </details>
           </div>
         </article>
 
-        <article class="artifact" aria-labelledby="plan-occupy">
-          <header>
-            <h3 id="plan-occupy">Depth-1 occupy z = 0 <span class="badge badge-done">Implemented</span></h3>
-            <p class="file-cap">FEATURE_VOLUME_DEPTH1_OCCUPY_Z0_V1_CODING_PLAN.md · 2026-08-30 · class complex</p>
-          </header>
-          <div class="body">
-            <table class="sheet">
-              <caption>Header</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1</td></tr>
-                <tr><td>Status</td><td>Implemented</td></tr>
-                <tr><td>Class</td><td>complex</td></tr>
-              </tbody>
-            </table>
-            <h3>Restated goal</h3>
-            <p>Depth-1 stamps occupy z = 0 of their XY column. Volume World colonists use per-voxel occupy so they can walk z ≥ 1 behind a wall or locked door in a d = 5 hall and continue. Floors stay illegal as feet on the slab at any z. 5-deep solid cells still block all z. Enemies / bash stay XY. Do not flatten d. Do not raise MaxExpansions. Do not keep 2D-then-lift as the only colonist volume planner.</p>
-            <h3>In scope / out of scope</h3>
-            <p><strong>In:</strong> IVolumeWalkabilityMap + VolumeWalkRules; BuildingService.IsMovementPassable(x, y, z, isEnemy); FindColonistVolumePath uses volume A* first; motors/spawn inherit; 2D 1×2 and enemy maps unchanged; EditMode tests; READMEs.</p>
-            <p><strong>Out:</strong> flatten d; raise the 1000 expansion cap; floor tiles occupy-legal; enemy behind-wall; 5-deep interiors; delete 2D scene; save bump; V4/V5/F/G.</p>
-            <h3>Architecture notes</h3>
-            <p>Why XY IsWalkable cannot stay the volume gate: stamps do not write d. A wall on a d = 5 tunnel is still Air at z ≥ 1. VolumeLiveStep.CanOccupy ANDed walkability.IsWalkable(x, y) for every z → the column was dead. Fix occupy, then search the volume graph. Pathfinding must not reference Buildings — World grows IVolumeWalkabilityMap; Session’s ColonistWalkabilityMap implements it.</p>
-            <p>Accepted 1 Sep 2026 (UK-FEAT-VOLUME-DEPTH1-OCCUPY-Z0-V1).</p>
-          </div>
-        </article>
-
-        <article class="artifact" aria-labelledby="plan-ladder">
-          <header>
-            <h3 id="plan-ladder">Ladder path fix V1 <span class="badge badge-go">Approved</span></h3>
-            <p class="file-cap">FEATURE_VOLUME_LADDER_PATH_FIX_V1_CODING_PLAN.md · 2026-08-26 · class advanced</p>
-          </header>
-          <div class="body">
-            <table class="sheet">
-              <caption>Header</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-LADDER-PATH-FIX-V1</td></tr>
-                <tr><td>Status</td><td>Approved — implementing</td></tr>
-                <tr><td>Class</td><td>advanced</td></tr>
-              </tbody>
-            </table>
-            <h3>Restated goal</h3>
-            <p>Make Volume World colonist move and Labor walks climb stacked completed ladders to an occupy-legal upstairs goal, including in a d=5 hall that also has walls/floors/doors. The 2D 1×2 dwarf graph used as the climb skeleton must expand only cells that are volume-occupiable at z = 0: IsLiveStandable(x, y, 0, ladders) and walkability.IsWalkable(x, y). Keep FindColonistVolumePath as 2D-then-lift (3D A* stays fallback only). Volume move pick must pass the ladder query and skip non-occupy-legal cells so a floor slab is not a stand goal.</p>
-            <h3>In scope / out of scope</h3>
-            <p><strong>In:</strong> FootprintPassability 1×2 + volume predicate; keep 2D-then-lift; Volume move pick occupy-legal; EditMode tests including a wall on the slice; README one-liners. Labor inherits via existing FindColonistVolumePath.</p>
-            <p><strong>Out:</strong> re-flatten structure d; raise MaxExpansions as the fix; replace 2D-then-lift with a 3D-only colonist planner; live Z on 2D Gameplay; Phase F; making floor tiles occupy-legal.</p>
-            <h3>Architecture notes</h3>
-            <p>After stamps stopped flattening d, a wall/floor in a chamber keeps Air, so IsStandable is true while occupy still required XY IsWalkable. Lift died on the first wall; 3D fallback fanned out in d=5 and missed the climb. Proposed 1×2 + volume: legal feet iff live-stand at z=0 AND IsWalkable. GameplayComposer always constructs PathfindingService with a volume query — the same predicate in both 2D Gameplay and Volume World. That is not live Z on the 2D tilemap; motors stay z = 0 in Slice2D.</p>
-            <p>Honest status: this plan is Approved, not Implemented. The Volume product roadmap (26 Aug 2026) records E4 / ladder playtest as not accepted; V5 back-wall climb is the remaining upstairs path. No accept commit for this task ID is in the public log.</p>
-          </div>
-        </article>
       </div>
     </section>
 

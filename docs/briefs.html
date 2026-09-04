@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example Grok Build briefs — Underground Kingdom</title>
-  <meta name="description" content="Real excerpts from Food Hunger Starvation, Volume Pathfinding, and Inspection Tool briefs. Engineer: Grok Build.">
+  <meta name="description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Example Grok Build briefs">
-  <meta property="og:description" content="Real excerpts from Food Hunger Starvation, Volume Pathfinding, and Inspection Tool briefs. Engineer: Grok Build.">
+  <meta property="og:description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="assets/hero-cavern.svg">
   <meta name="twitter:card" content="summary_large_image">
@@ -54,111 +54,4568 @@
         <p class="kicker">Task law</p>
         <h1>Example Grok Build briefs</h1>
         <img class="gold-rule" src="assets/ornament.svg" width="240" height="24" alt="">
-        <p class="lede">A FEATURE_* brief is delivered, not accepted. It is task law for one Coding session: goal, in/out of scope, locks, forbids. Gate B starts only when the Architect explicitly says so. These are real excerpts — not the full files.</p>
+        <p class="lede">A FEATURE_* brief is delivered, not accepted. It is task law for one Coding session: goal, in/out of scope, locks, forbids, and the Coding Agent kickoff. Gate B starts only when the Architect explicitly says so. Each spoiler below is the <strong>full</strong> brief file.</p>
         <div class="page-actions"><a class="btn" href="workflow.html">The pipeline</a> <a class="btn btn-mute" href="plans.html">Coding plans</a></div>
       </div>
     </header>
     <section class="section studio" data-reveal>
       <div class="section-inner article">
-        <p>Engineer on every brief: <strong>Grok Build</strong> (sole coder). Architect: human (Colin) — approvals and acceptance. Unity project root in the originals is redacted here to <strong>Unity project root</strong>.</p>
-
-        <article class="artifact" aria-labelledby="brief-food">
+        <p>Engineer on every brief: <strong>Grok Build</strong> (sole coder). Architect: human (Colin) — approvals and acceptance. Open a spoiler to read the complete document.</p>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-FOOD-HUNGER-STARVATION-V1">
           <header>
-            <h3 id="brief-food">Food, hunger, starvation V1</h3>
-            <p class="file-cap">FEATURE_FOOD_HUNGER_STARVATION_V1_GROK_BUILD_BRIEF.md</p>
+            <h3 id="brief-UK-FEAT-FOOD-HUNGER-STARVATION-V1">Food, hunger, starvation V1</h3>
+            <p class="file-cap">FEATURE_FOOD_HUNGER_STARVATION_V1_GROK_BUILD_BRIEF.md · 372 lines · Engineer: Grok Build</p>
           </header>
           <div class="body">
-            <table class="sheet">
-              <caption>Metadata</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-FOOD-HUNGER-STARVATION-V1</td></tr>
-                <tr><td>Feature / version</td><td>Dwarf Food meter + starvation damage/death + grilled mushroom cook production (Kitchen / Fireplace) V1</td></tr>
-                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
-                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
-                <tr><td>Product</td><td>Underground Kingdom (Unity / C#)</td></tr>
-                <tr><td>Unity project root</td><td>Unity project root</td></tr>
-              </tbody>
-            </table>
-            <h3>Architect intent (excerpt)</h3>
-            <ol>
-              <li>Dwarfs have a Food meter (0–100). 100 = fully fed; 0 = starving. Avoid “hunger bar” wording.</li>
-              <li>Meter drains over sim time; at 0, dwarfs take HP damage at the same pace and can die.</li>
-              <li>Starvation damage ignores defense.</li>
-              <li>Only dwarfs are affected (not enemies or buildings).</li>
-              <li>Add one food item: Grilled Mushroom (restores +20 Food when eaten later).</li>
-              <li>Drinks (ale) do not affect the Food meter.</li>
-              <li>Kitchen and Fireplace can cook grilled mushroom via order-based production, output in building output slots.</li>
-              <li>Eating / auto-eat / consume API was out of scope for this V1 session — restore value is content for the item.</li>
-            </ol>
-            <h3>Goal (one paragraph)</h3>
-            <p>Introduce a per-dwarf Food need (0–100, start full) that drains at 1 point per 10 sim-seconds and, at 0, applies 1 HP per 10 sim-seconds with defense ignored, using the existing death pipeline when HP reaches 0. Add content item grilled_mushroom. Enable order-based cooking at Kitchen and Fireplace: consume cave_mushroom from building input slots, after 5 s per unit write grilled mushroom into building output slots. Show Food X/100 on dwarf Inspect; persist Food in agents save/load. No auto-eat AI and no consume API in V1.</p>
-            <p>Later accepted as UK-FEAT-FOOD-HUNGER-STARVATION-V1 (4 Aug 2026). Auto-eat followed in a separate slice the same day.</p>
+            <p><strong>Task ID:</strong> <code>UK-FEAT-FOOD-HUNGER-STARVATION-V1</code>. Dwarf Food meter + starvation + grilled mushroom cook production. Accepted 4 Aug 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_FOOD_HUNGER_STARVATION_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Food Meter, Starvation &amp; Cook Production V1</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-FOOD-HUNGER-STARVATION-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Dwarf <strong>Food</strong> meter + starvation damage/death + <strong>grilled mushroom</strong> cook production (Kitchen / Fireplace) <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>Migration complete product baseline: Agents HP/death (P11), Buildings forge orders + local I/O inventories (P10/P15), Labor smithing executor + claim order, ItemCatalog (P14), Inspect dwarf panel, Agents save/load (P13)</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Ready for Coding Gate B Phase 1 after Architect brief approval</td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Validate <strong>§12 Spec/content locks</strong> (especially interim recipe ratio and cook inventory table).  </li>
+<li>Reply <strong>approve brief</strong> (or list overrides).  </li>
+<li>Start a <strong>fresh Coding</strong> session with the kickoff block in <strong>§14</strong>.  </li>
+<li>Coding: Gate B plan → you approve plan → implement + tests → you play-test → accept → git snapshot per <code>AGENTS.md</code>.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code> Gate B.  </li>
+<li>This brief is <strong>task law</strong> for this session only.  </li>
+<li>Produce <strong>Phase 1 plan only</strong> first — <strong>no production code</strong> until Architect approves implementation.  </li>
+<li>Do <strong>not</strong> implement auto-eat AI, player eat UX, or a public consume/eat API (explicitly out of scope).  </li>
+<li>Do <strong>not</strong> invent extra food types, thirst/drinks need, or kitchen recipes beyond locks.</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Dwarfs have a <strong>Food</strong> meter (0–100). <strong>100 = fully fed</strong>; <strong>0 = starving</strong>. Avoid “hunger bar” wording (full hunger is contradictory).  </li>
+<li>Meter <strong>drains over sim time</strong>; at <strong>0</strong>, dwarfs take <strong>HP damage at the same pace</strong> and can <strong>die</strong>.  </li>
+<li>Starvation damage <strong>ignores defense</strong>.  </li>
+<li>Only <strong>dwarfs</strong> are affected (not enemies, moles, buildings).  </li>
+<li>No edible <strong>food items</strong> exist today → add <strong>one</strong>: <strong>Grilled Mushroom</strong> (ItemCatalog consumable; restores <strong>+20</strong> Food when eaten later).  </li>
+<li><strong>Drinks</strong> (<code>ale</code>) do <strong>not</strong> affect the Food meter.  </li>
+<li><strong>Kitchen</strong> and <strong>Fireplace</strong> can <strong>cook</strong> grilled mushroom via <strong>order-based production</strong> (forge-like), with output landing in <strong>building output slots</strong>.  </li>
+<li><strong>Eating / auto-eat / consume API</strong> is <strong>out of scope</strong> this session — Food restore value is content for the item; no runtime eat path required yet.  </li>
+<li>Architect direction: consider a <strong>shared building production</strong> path (forge-like I/O orders, reusable for future craft buildings).</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Colonist vitals</td>
+<td><code>Colonist</code>: Max HP <strong>100</strong>, <code>Health</code>, <code>ReceiveDamage</code> / <code>Kill</code> / <code>DwarfDied</code>; inventory discarded on death</td>
+</tr>
+<tr>
+<td>Combat defense</td>
+<td><code>ReceiveDamage</code> applies base + equipped defense via combat kernel (<code>actual = max(0, raw − defense)</code>)</td>
+</tr>
+<tr>
+<td>Food / needs</td>
+<td><strong>None</strong> — no Food meter, drain tick, or starvation</td>
+</tr>
+<tr>
+<td>Resources</td>
+<td><code>cave_mushroom</code>, <code>darkcap</code> (class mushrooms); <code>ale</code> (drinks); <strong>no food class / no grilled mushroom</strong></td>
+</tr>
+<tr>
+<td>Items</td>
+<td><code>ItemCatalog</code>: Weapon / Armor / Tool only; consumable <strong>equipment slots</strong> exist but unused for food</td>
+</tr>
+<tr>
+<td>Kitchen</td>
+<td>Catalog shell (<code>kitchen</code> multilevel); <strong>no</strong> inventory, <strong>no</strong> produces, <strong>no</strong> orders</td>
+</tr>
+<tr>
+<td>Fireplace</td>
+<td>Catalog non-upgradable 1×1; free starter; <strong>no</strong> inventory / orders; vision/spawn role only</td>
+</tr>
+<tr>
+<td>Forge production</td>
+<td><code>BuildingInventory</code> I/O; <code>SmithingOrder</code>; <code>BuildingForgeCoordinator</code>; Labor <code>ExecuteSmithing</code>; UI Order Steel/Mithril x5; hauls + input capacity reservation</td>
+</tr>
+<tr>
+<td>Passive production</td>
+<td>Every <strong>10 s</strong> credits <code>Produces</code> to <strong>global</strong> Economy only (mine, brewery, etc.) — not item cook</td>
+</tr>
+<tr>
+<td>Inspect dwarf</td>
+<td><code>FormatDwarfContent</code>: HP, Atk/Def, task, inventory — <strong>no</strong> Food line</td>
+</tr>
+<tr>
+<td>Agents save</td>
+<td><code>ColonistSaveEntry</code> has health; <strong>no</strong> Food field</td>
+</tr>
+<tr>
+<td>Claim order</td>
+<td>BUILD → DEMOLISH → SMITHING → AUTO_DELIVER → DIG → HARVEST</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> forge steel/mithril path, forge reservations, passive producers, death unassign, dig/harvest, free fireplace starter, multi-resource haul packing.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Introduce a per-dwarf <strong>Food</strong> need (0–100, start full) that drains at <strong>1 point per 10 sim-seconds</strong> and, at <strong>0</strong>, applies <strong>1 HP per 10 sim-seconds</strong> with <strong>defense ignored</strong>, using the existing death pipeline when HP reaches 0. Add content item <strong><code>grilled_mushroom</code></strong> (display <strong>Grilled Mushroom</strong>, food consumable, <strong>+20</strong> Food restore when a future eat path exists). Enable <strong>order-based cooking</strong> at <strong>Kitchen</strong> and <strong>Fireplace</strong>: consume <strong><code>cave_mushroom</code></strong> from <strong>building input slots</strong>, after <strong>5 s</strong> per unit write <strong>grilled mushroom</strong> into <strong>building output slots</strong>, reusing forge-like order / haul / labor patterns (optionally via a shared production collaborator). Show <strong>Food X/100</strong> on dwarf Inspect; <strong>persist Food</strong> in agents save/load. <strong>No</strong> auto-eat AI and <strong>no</strong> consume API in V1.</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B, no-guess, git snapshot after accept</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task scope + locks (Architect chat decisions)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Architect chat answers (Brief Writer session)</td>
+<td>Food meter name; Q1–Q11 resolutions</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>architecture_docs/UNITY_MASTER_ARCHITECTURE.md</code> §12 Agents, §13 Labor, Buildings/Inventory</td>
+<td>Ownership</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>architecture_docs/building_manager.md</code></td>
+<td>Forge order / inventory / reservation model to mirror</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>docs/DECISIONS.md</code></td>
+<td>Combat death; forge production; update after implement</td>
+</tr>
+<tr>
+<td>7</td>
+<td>On-disk <code>AgentService</code>, <code>Colonist</code>, <code>BuildingForgeCoordinator</code>, <code>BuildingInventory</code>, <code>LaborService</code> smithing, <code>ItemCatalog</code>, Inspect HUD</td>
+<td>Baseline reuse</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Food meter (Agents)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>A1</td>
+<td>Per living colonist <strong>Food</strong> value: range <strong>0–100</strong>, constant max <strong>100</strong>.</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Spawn (primary + additional): start at <strong>100</strong> (fully fed).</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Sim tick (pause-respecting): while <code>Food &gt; 0</code>, accumulate time and apply <strong>−1 Food per 10.0 sim-seconds</strong> (same pacing style as other accumulators; fractional remainder OK).</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>While <code>Food == 0</code>: do <strong>not</strong> reduce Food further; apply <strong>−1 HP per 10.0 sim-seconds</strong> via a path that <strong>ignores all defense</strong> (base + equipment). Prefer a dedicated starvation apply (e.g. <code>ApplyStarvationDamage</code> / <code>ReceiveDamageIgnoringDefense</code>) rather than calling normal <code>ReceiveDamage</code> with raw=1 (which would still subtract defense).</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>When starvation (or any) HP reaches 0 → existing <strong><code>Kill</code></strong> / <strong><code>DwarfDied</code></strong> pipeline (tasks unassigned, inventory discarded).</td>
+</tr>
+<tr>
+<td>A6</td>
+<td><strong>Only colonists</strong> — no Food on enemies, moles, or buildings.</td>
+</tr>
+<tr>
+<td>A7</td>
+<td><strong>Save/load:</strong> persist Food on <code>ColonistSaveEntry</code>; load clamps to [0, 100]; missing field on old saves → <strong>100</strong> (fully fed default).</td>
+</tr>
+<tr>
+<td><strong>B. Food item content</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>B1</td>
+<td>Add <strong><code>grilled_mushroom</code></strong> to <code>ItemCatalog</code>: display <strong>Grilled Mushroom</strong>.</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>Extend item model as needed: e.g. <code>ItemType.Food</code> (or Consumable) + <strong>FoodRestoreAmount = 20</strong>. Preferred equip slot = consumable slots (for future equip/use).</td>
+</tr>
+<tr>
+<td>B3</td>
+<td><strong>No</strong> runtime eat / consume / auto-use path in V1 (Q11). Restore amount is data only.</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>Document that <strong><code>ale</code> and all drinks</strong> do not affect Food; raw <strong><code>cave_mushroom</code> / <code>darkcap</code></strong> are <strong>not</strong> edible Food items for this system.</td>
+</tr>
+<tr>
+<td><strong>C. Cook production (Kitchen + Fireplace)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>C1</td>
+<td>Give <strong>Kitchen</strong> and <strong>Fireplace</strong> local <strong>input/output inventories</strong> (init on construct / starter place / upgrade finalize as applicable).</td>
+</tr>
+<tr>
+<td>C2</td>
+<td><strong>Order-based cooking</strong> (forge-like): player creates cook orders for grilled mushroom; dwarf labor processes units; queue/hold patterns may mirror forge where reuse is natural.</td>
+</tr>
+<tr>
+<td>C3</td>
+<td><strong>Recipe (V1 only):</strong> <strong>1× <code>cave_mushroom</code> (input resource) → 1× <code>grilled_mushroom</code> (output)</strong>; <strong>cook time = 5.0 seconds (5000 ms) per unit</strong>. <em>(Input:output ratio is </em><em>interim 1:1</em><em> — see §12; Architect may override at brief approval.)</em></td>
+</tr>
+<tr>
+<td>C4</td>
+<td><strong>Output destination:</strong> produced food lands in <strong>that building’s output slots</strong> only (not global Economy auto-credit). No auto-export to stockpile in V1 (same spirit as forge outputs).</td>
+</tr>
+<tr>
+<td>C5</td>
+<td><strong>Input logistics:</strong> spawn <strong>AUTO_DELIVER</strong> hauls of <code>cave_mushroom</code> into building <strong>input</strong> with <strong>capacity reservation</strong> (reuse forge haul/reserve patterns; multi-resource packer where applicable).</td>
+</tr>
+<tr>
+<td>C6</td>
+<td><strong>Both</strong> Kitchen and Fireplace support the same grilled-mushroom cook order (Fireplace is non-upgradable; Kitchen multilevel — same recipe all kitchen levels unless locks say otherwise).</td>
+</tr>
+<tr>
+<td>C7</td>
+<td><strong>Shared production direction:</strong> Phase 1 plan must propose one of: (i) extract/generalize a <strong>building production</strong> collaborator used by forge + cook, or (ii) a cook coordinator parallel to <code>BuildingForgeCoordinator</code> plus shared pure helpers. Prefer <strong>no new assembly</strong>. Large forge rewrite only if it clearly reduces duplication without regressing smithing.</td>
+</tr>
+<tr>
+<td>C8</td>
+<td><strong>Task / claim:</strong> cook work must be claimable by Labor (new <code>TaskType</code> <strong>or</strong> generalized production task — Coding plan chooses; must not break smithing). Place cook claim priority <strong>with or immediately adjacent to</strong> SMITHING in the claim order. Wire Builder (or equivalent) job preference if smithing already is preferred.</td>
+</tr>
+<tr>
+<td>C9</td>
+<td><strong>UX (minimal, forge-like):</strong> selecting Kitchen or Fireplace shows order control(s), e.g. <strong>Order Grilled Mushroom x5</strong> (and progress/cancel consistent with forge task list patterns where cheap).</td>
+</tr>
+<tr>
+<td>C10</td>
+<td><strong>Save/load:</strong> cook inventories + active/queued cook orders persist with buildings snapshot (mirror forge order save).</td>
+</tr>
+<tr>
+<td><strong>D. Inspect UI</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>D1</td>
+<td>Dwarf Inspect content includes <strong><code>Food X/100</code></strong> (near HP line).</td>
+</tr>
+<tr>
+<td><strong>E. Tests + docs</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>E1</td>
+<td>EditMode tests covering: spawn Food=100; drain −1 / 10s; at 0 Food apply −1 HP / 10s; high-defense colonist still takes full starvation HP; death at 0 HP from starvation; save/load Food; cook order consumes 1 cave_mushroom and after 5s adds grilled_mushroom to <strong>output</strong>; Kitchen and Fireplace both can host inventory/order path; forge steel path still works.</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>Update module READMEs (Agents, Buildings, Labor, Content/Inventory as touched) + <code>docs/DECISIONS.md</code> entry for this feature.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Auto-eat AI / Eat task / walk-to-food</td>
+<td>Architect Q1=D</td>
+</tr>
+<tr>
+<td>Consume / eat API or applying +20 Food from items at runtime</td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>When-to-eat thresholds, overfill policy beyond future use</td>
+<td>Architect Q4 out of scope</td>
+</tr>
+<tr>
+<td>Thirst / drinks need / ale affecting Food</td>
+<td>Architect: drinks no effect</td>
+</tr>
+<tr>
+<td>Treating raw mushrooms as edible Food items</td>
+<td>Only grilled mushroom is food item</td>
+</tr>
+<tr>
+<td>Extra food recipes / food types beyond grilled mushroom</td>
+<td>Scope control</td>
+</tr>
+<tr>
+<td>Auto-export cook output to global Economy / stockpile</td>
+<td>Mirror forge; not requested</td>
+</tr>
+<tr>
+<td>Kitchen passive free grilled mushroom without orders</td>
+<td>Architect chose order-based (Q8=C)</td>
+</tr>
+<tr>
+<td>New assemblies / packages</td>
+<td>Hard guard unless Architect later approves</td>
+</tr>
+<tr>
+<td>Enemy/mole Food</td>
+<td>Dwarfs only</td>
+</tr>
+<tr>
+<td>Morale, happiness, disease from hunger</td>
+<td>Not requested</td>
+</tr>
+<tr>
+<td>Redesign forge recipes or combat formula for normal damage</td>
+<td>Unrelated</td>
+</tr>
+<tr>
+<td>Full production building suite (brewery process rewrite, etc.)</td>
+<td>Only Kitchen + Fireplace cook path</td>
+</tr>
+<tr>
+<td>“While we are here” inventory redesign</td>
+<td>Touch only as needed for food items / building I/O</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ownership</td>
+<td><strong>Agents</strong> own Food meter + starvation HP + death; <strong>Content</strong> owns item/recipe static data; <strong>Buildings</strong> own cook orders + building inventories + haul spawn for cook inputs; <strong>Labor</strong> owns claiming/executing cook work; <strong>Session/UI</strong> owns Inspect line + order buttons; <strong>Economy</strong> only supplies <code>cave_mushroom</code> stock for hauls (not Food meter)</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>No new asmdefs; extend existing UK.Agents / UK.Buildings / UK.Labor / UK.Content / UK.Inventory / UK.Session as needed</td>
+</tr>
+<tr>
+<td>Composition root</td>
+<td>Wire any new collaborator only in <code>GameplayComposer</code> / existing BuildingService construction</td>
+</tr>
+<tr>
+<td>Dependency direction</td>
+<td>Agents must not gain Enemies dependency; Buildings must not own Labor AI; keep Combat kernel for normal damage — starvation bypasses defense without corrupting combat formula</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Optional: Food changed not required for V1; reuse <code>DwarfDied</code>; cook may mirror smithing order events or share production events — Coding plan</td>
+</tr>
+<tr>
+<td>Data ownership</td>
+<td>One Food value per colonist; cook order progress owned by Buildings (like smithing)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Suggested types / touch list (sketch only — Coding plan may refine)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Likely touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Colonist</code></td>
+<td><code>Food</code> / <code>MaxFood</code> (const 100); internal mutators</td>
+</tr>
+<tr>
+<td><code>AgentService</code></td>
+<td>Tick Food/starvation; spawn defaults; save/load Food; defense-ignoring HP apply</td>
+</tr>
+<tr>
+<td><code>AgentsSaveSnapshot</code> / <code>ColonistSaveEntry</code></td>
+<td><code>food</code> field</td>
+</tr>
+<tr>
+<td><code>ItemType</code> / <code>ItemDefinition</code> / <code>ItemCatalog</code></td>
+<td>Food type + <code>grilled_mushroom</code> + restore 20</td>
+</tr>
+<tr>
+<td><code>BuildingInventory</code></td>
+<td><code>CreateCook</code> / kitchen+fireplace slot factory</td>
+</tr>
+<tr>
+<td>New or generalized production</td>
+<td>e.g. <code>BuildingProductionCoordinator</code> / <code>CookingOrder</code> / extend forge coordinator carefully</td>
+</tr>
+<tr>
+<td><code>BuildingService</code> / <code>BuiltBuilding</code></td>
+<td>Init inventory for kitchen/fireplace; order APIs; tick resume hauls</td>
+</tr>
+<tr>
+<td><code>TaskType</code> + <code>TaskService</code></td>
+<td>Cook/production task create if new type</td>
+</tr>
+<tr>
+<td><code>LaborService</code> + claim policy + job prefs</td>
+<td>Execute cook like smithing</td>
+</tr>
+<tr>
+<td><code>BuildingSelectionController</code> / Inspect HUD</td>
+<td>Order buttons; <code>Food X/100</code></td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Agents Food/starvation; Buildings/Labor cook; regression forge</td>
+</tr>
+<tr>
+<td>Docs</td>
+<td>READMEs + <code>docs/DECISIONS.md</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Not expected:</strong> full eat pipeline, global food stock UI category, thirst.</p>
+<hr>
+<h2>9. Gate B reminder (Coding session)</h2>
+<ol>
+<li><strong>Phase 1 — Analysis &amp; Architecture:</strong> restate goal; Food tick design; starvation vs combat defense; cook order design (shared production vs parallel coordinator); inventory slot table; task/claim wiring; test plan; risks — <strong>STOP for Architect approval</strong>.  </li>
+<li><strong>Phase 2 — Implementation:</strong> only after written approval; match this brief + approved plan.  </li>
+<li><strong>Phase 3 — Validation report:</strong> files, why, how to verify, risks, docs, suggestions (do not implement). <strong>STOP</strong>.  </li>
+<li>After Architect <strong>accepts completed work:</strong> local git snapshot per <code>AGENTS.md</code> — then <strong>STOP</strong>.</li>
+</ol>
+<p>If investigation finds forge generalization is unsafe for V1, implement cook parallel to forge with shared helpers and document the follow-up. If a lock is still impossible without new design numbers, <strong>STOP and ask</strong>.</p>
+<hr>
+<h2>10. Exit criteria (testable)</h2>
+<ul>
+<li>[ ] New colonists start at <strong>Food 100/100</strong>.  </li>
+<li>[ ] Food decreases by <strong>1 per 10 sim-seconds</strong> while Food &gt; 0 (paused sim does not drain).  </li>
+<li>[ ] At Food <strong>0</strong>, HP decreases by <strong>1 per 10 sim-seconds</strong>; Food stays 0.  </li>
+<li>[ ] Starvation HP loss is <strong>full damage ignoring defense</strong> (test with elevated defense).  </li>
+<li>[ ] Colonist can <strong>die</strong> from starvation (Kill / DwarfDied / tasks cleared).  </li>
+<li>[ ] Enemies/moles unchanged (no Food).  </li>
+<li>[ ] <code>grilled_mushroom</code> exists in ItemCatalog as food/consumable with <strong>FoodRestoreAmount 20</strong> (data only).  </li>
+<li>[ ] <code>ale</code> / drinks are not Food items and do not alter Food meter.  </li>
+<li>[ ] Kitchen and Fireplace have I/O inventories; cook order <strong>1 cave_mushroom → 1 grilled_mushroom</strong> in <strong>5000 ms</strong>; result in <strong>output slots</strong>.  </li>
+<li>[ ] Haulers can deliver <code>cave_mushroom</code> into cook building input (reservation path works).  </li>
+<li>[ ] Dwarf Inspect shows <strong>Food X/100</strong>.  </li>
+<li>[ ] Save/load restores Food and cook building orders/inventories.  </li>
+<li>[ ] Forge smithing path still works.  </li>
+<li>[ ] <strong>No</strong> auto-eat AI and <strong>no</strong> eat/consume API required for exit.  </li>
+<li>[ ] EditMode tests + README/DECISIONS updates done.</li>
+</ul>
+<hr>
+<h2>11. Manual verification steps (Architect)</h2>
+<ol>
+<li><strong>Drain:</strong> New Game → Inspect starter dwarf → note Food 100/100 → unpause ~30–40s → Food should drop by ~3–4.  </li>
+<li><strong>Starvation:</strong> Debug or long wait to Food 0 (or temporary test hook if Coding adds <strong>debug-only</strong> set Food — not a player eat API) → confirm HP ticks down every 10s; equip high defense gear if available and confirm starvation still damages full HP.  </li>
+<li><strong>Death:</strong> Allow starvation to 0 HP → dwarf dies; tasks free; no soft-lock.  </li>
+<li><strong>Cook — Fireplace:</strong> Select free fireplace → order grilled mushroom ×5 → ensure cave_mushroom stock exists → haulers fill inputs → dwarf processes → grilled mushroom appears in <strong>fireplace output slots</strong> (~5s per unit).  </li>
+<li><strong>Cook — Kitchen:</strong> Build kitchen → same order path → output slots fill.  </li>
+<li><strong>Inspect:</strong> Food line visible on dwarf panel.  </li>
+<li><strong>Save/load:</strong> Mid-drain and mid-cook → save → load → Food and cook progress/inventories sensible.  </li>
+<li><strong>Sanity:</strong> Forge order steel still works; dig/harvest/build unaffected; drinks stock irrelevant to Food.</li>
+</ol>
+<hr>
+<h2>12. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meter display name</td>
+<td><strong>Food</strong> (not Hunger / Satiation)</td>
+<td>Architect chat</td>
+</tr>
+<tr>
+<td>Meter range</td>
+<td><strong>0–100</strong>; max fixed <strong>100</strong></td>
+<td>Architect (full bar wording clarified)</td>
+</tr>
+<tr>
+<td>Spawn Food</td>
+<td><strong>100</strong> (fully fed)</td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Drain rate</td>
+<td><strong>−1 Food / 10.0 sim-seconds</strong> while Food &gt; 0</td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Starvation rate</td>
+<td><strong>−1 HP / 10.0 sim-seconds</strong> while Food == 0</td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Starvation vs defense</td>
+<td><strong>Ignores defense</strong> (base + equipment)</td>
+<td>Architect Q7</td>
+</tr>
+<tr>
+<td>Death</td>
+<td>Existing Kill / DwarfDied when HP ≤ 0</td>
+<td>Architect + P11 baseline</td>
+</tr>
+<tr>
+<td>Who</td>
+<td><strong>Colonists only</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Eat AI / thresholds</td>
+<td><strong>Out of scope</strong></td>
+<td>Architect Q1=D, Q4</td>
+</tr>
+<tr>
+<td>Eat / consume API</td>
+<td><strong>Out of scope</strong></td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>Food item list (V1)</td>
+<td><strong>Only</strong> <code>grilled_mushroom</code> / Grilled Mushroom</td>
+<td>Architect + baseline empty food set</td>
+</tr>
+<tr>
+<td>Food restore data</td>
+<td><strong>+20</strong> Food per unit (data for future eat)</td>
+<td>Architect original intent</td>
+</tr>
+<tr>
+<td>Drinks</td>
+<td><strong>No effect</strong> on Food (<code>ale</code> etc.)</td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Raw mushrooms</td>
+<td>Not edible Food items</td>
+<td>Architect (only grilled mushroom)</td>
+</tr>
+<tr>
+<td>Production style</td>
+<td><strong>Order-based</strong> (forge-like), not passive free cook</td>
+<td>Architect Q8=C</td>
+</tr>
+<tr>
+<td>Cook buildings</td>
+<td><strong>Kitchen</strong> and <strong>Fireplace</strong></td>
+<td>Architect Q2/Q8</td>
+</tr>
+<tr>
+<td>Recipe time</td>
+<td><strong>5 seconds (5000 ms) per unit</strong></td>
+<td>Architect Q9</td>
+</tr>
+<tr>
+<td>Recipe I/O</td>
+<td><strong>1 <code>cave_mushroom</code> → 1 <code>grilled_mushroom</code></strong></td>
+<td>Architect Q9=B + <strong>interim 1:1 ratio</strong> (override at brief approval if wrong)</td>
+</tr>
+<tr>
+<td>Output location</td>
+<td><strong>Building output slots</strong> of the cooking building</td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Global auto-export of cook output</td>
+<td><strong>No</strong></td>
+<td>Engineering default matching forge</td>
+</tr>
+<tr>
+<td>Save Food</td>
+<td><strong>Yes</strong> (agents snapshot)</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>Inspect</td>
+<td>Show <strong>Food X/100</strong> on dwarf inspect</td>
+<td>Architect Q5=A</td>
+</tr>
+<tr>
+<td>Shared production module</td>
+<td><strong>Preferred direction</strong> in Phase 1 plan; no new assembly; forge must not regress</td>
+<td>Architect “maybe” + engineering constraint</td>
+</tr>
+<tr>
+<td>Cook inventory table (Kitchen + Fireplace)</td>
+<td><strong>Interim:</strong> input <strong>2</strong> resource slots × <strong>cap 20</strong>; output <strong>4</strong> item slots × <strong>cap 10</strong> (stack same key); no input item slots required for V1</td>
+<td>Brief Writer interim — Architect may override</td>
+</tr>
+<tr>
+<td>Default order button qty</td>
+<td><strong>x5</strong> (forge-like)</td>
+<td>Engineering default matching forge UX</td>
+</tr>
+<tr>
+<td>Old save missing Food</td>
+<td>Load as <strong>100</strong></td>
+<td>Engineering default</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>13. Optional soft-split (same feature exit; only if Phase 1 needs staging)</h2>
+<p>Same overall exit criteria; Coding may implement in order if needed:</p>
+<ol>
+<li><strong>Drop 1 — Food meter:</strong> A1–A7, D1, starvation tests, save Food.  </li>
+<li><strong>Drop 2 — Content item:</strong> B1–B4.  </li>
+<li><strong>Drop 3 — Cook production:</strong> C1–C10 + cook tests.</li>
+</ol>
+<p>Do not call the feature complete until all in-scope drops pass exit criteria.</p>
+<hr>
+<h2>14. Coding Agent kickoff</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/tasks/FEATURE_FOOD_HUNGER_STARVATION_V1_GROK_BUILD_BRIEF.md
+
+Unity project root (write code HERE only):
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (path above) — full file
+3. docs/DECISIONS.md — combat death; forge production entries
+4. architecture_docs/UNITY_MASTER_ARCHITECTURE.md — Agents, Labor, Buildings ownership sections
+5. architecture_docs/building_manager.md — forge orders / building inventory / reservations
+6. Baseline code (reuse; do not rebuild):
+   - Assets/_Project/Scripts/Agents/Colonist.cs, AgentService.cs, AgentsSaveSnapshot.cs
+   - Assets/_Project/Scripts/Combat/* (normal damage path; starvation must ignore defense)
+   - Assets/_Project/Scripts/Buildings/BuildingForgeCoordinator.cs, BuildingInventory.cs, SmithingOrder.cs, BuildingService.cs
+   - Assets/_Project/Scripts/Labor/LaborService.cs (smithing execute + claim order)
+   - Assets/_Project/Scripts/Content/ItemCatalog.cs, ItemDefinition.cs, ItemType.cs, BuildingCatalog.cs
+   - Assets/_Project/Scripts/Session/Hud/InspectionHudPresenter.cs, BuildingSelectionController.cs
+7. architecture_docs/tasks/CODING_AGENT_KICKOFF.md envelope rules
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include:
+- Restated goal + in/out scope
+- Food meter tick + starvation damage design (defense bypass without breaking combat)
+- Item model extension for grilled_mushroom (+20 restore data only)
+- Cook production design for Kitchen + Fireplace (orders, 5s, 1 cave_mushroom → 1 grilled_mushroom interim, output slots)
+- Shared production collaborator vs parallel cook coordinator (options + recommendation)
+- Task type / claim order / job preference wiring
+- Inventory slot table (confirm interim or propose override)
+- Save/load fields
+- Inspect + minimal order UX
+- Test plan mapped to brief exit criteria
+- Risks (forge regression, reservation double-count, pause time)
+- Spec locks from brief §12
+- If any lock still missing for implementation: STOP and ask — do not invent
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan (and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed work: create local git snapshot per AGENTS.md, then STOP.
+Do not start the next feature unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Obey the brief’s hard forbids and out-of-scope list
+- No auto-eat AI, eat task, or consume/eat API
+- No extra food types / thirst / ale→Food
+- No new assemblies or packages
+- Do not move architecture_docs under Assets/
+- Concrete service construction only in composition root (GameplayComposer) unless brief says otherwise
+- Do not regress forge smithing, passive production, dig/harvest, death unassign, or haul packing
+- Do not invent recipe amounts beyond brief locks (interim 1:1 is locked until Architect overrides)
+</code></pre>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] Meter name <strong>Food</strong> and rates accepted  </li>
+<li>[ ] Starvation ignores defense accepted  </li>
+<li>[ ] Cook is order-based at Kitchen + Fireplace; output in building slots  </li>
+<li>[ ] Recipe <strong>5 s</strong> and interim <strong>1 cave_mushroom → 1 grilled_mushroom</strong> accepted (or override written)  </li>
+<li>[ ] Interim cook inventory table accepted (or override written)  </li>
+<li>[ ] No eat API / auto-eat this session accepted  </li>
+<li>[ ] Shared production direction OK for Phase 1 design discussion  </li>
+<li>[ ] Ready for Coding session with §14 kickoff  </li>
+<li>[ ] After coding accept: git snapshot (Engineer) per <code>AGENTS.md</code></li>
+</ul>
+<hr>
+<h2>16. OPEN QUESTIONS</h2>
+<p><strong>None blocking coding after brief approval</strong>, except Architect should explicitly accept or override these <strong>interim</strong> locks during brief validation:</p>
+<ol>
+<li>Recipe ratio <strong>1 cave_mushroom → 1 grilled_mushroom</strong> (time already locked at 5 s).  </li>
+<li>Cook I/O inventory table: <strong>2×20 input resource</strong>, <strong>4×10 output item</strong> for Kitchen and Fireplace.</li>
+</ol>
+<p>If either is wrong, state the final numbers when approving the brief.</p>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-SLEEP-ATTENTION-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-SLEEP-ATTENTION-V1">Sleep &amp; attention V1</h3>
+            <p class="file-cap">FEATURE_SLEEP_ATTENTION_V1_GROK_BUILD_BRIEF.md · 402 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-SLEEP-ATTENTION-V1</code>. Attention meter, auto-sleep, housing restore rates. Accepted 5 Aug 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_SLEEP_ATTENTION_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Sleep &amp; Attention V1</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-SLEEP-ATTENTION-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Dwarf <strong>Attention</strong> meter + auto-sleep seek (housing / tent / ground) + move-speed penalties <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>Migration complete product baseline: Agents Food meter + auto-eat (Food V1 / Eat Auto), housing capacity (<code>DwarfCapacity</code> / <code>GetHousingCapacity</code>), Labor claim + Eat task pattern, dwarf Inspect (Job / Move / Eat), Agents save/load, structure hop speed (<code>StructureMoveSpeed</code>)</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Ready for Coding Gate B Phase 1 after Architect brief approval</td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Validate <strong>§12 Spec/content locks</strong>.  </li>
+<li>Reply <strong>approve brief</strong> (or list overrides).  </li>
+<li>Start a <strong>fresh Coding</strong> session with the kickoff block in <strong>§14</strong>.  </li>
+<li>Coding: Gate B plan → you approve plan → implement + tests → you play-test → accept → git snapshot per <code>AGENTS.md</code>.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code> Gate B.  </li>
+<li>This brief is <strong>task law</strong> for this session only.  </li>
+<li>Produce <strong>Phase 1 plan only</strong> first — <strong>no production code</strong> until Architect approves implementation.  </li>
+<li>Do <strong>not</strong> invent beds furniture, day/night gates, morale, or extra Attention penalties.  </li>
+<li>Do <strong>not</strong> change Food/eat, housing capacity formulas for spawn, or combat damage formulas beyond sleep wake-on-damage wiring.</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Dwarfs have an <strong>Attention</strong> meter (0–100). <strong>100 = fully alert</strong>; low Attention only slows movement.  </li>
+<li>Attention <strong>drains over sim time</strong> while the dwarf is awake (same pacing as Food: −1 / 10 s).  </li>
+<li>At <strong>≤ 50</strong> Attention, the dwarf seeks a place to <strong>sleep</strong> and restores Attention until full.  </li>
+<li>Sleep place priority: <strong>Living Quarters</strong> (capacity) → <strong>Tents</strong> (capacity) → <strong>current tile</strong> if none available/reachable in range.  </li>
+<li>No permanent bed assignment; capacity = concurrent sleepers only.  </li>
+<li>Search only within <strong>100 tiles</strong> (Chebyshev); building must be <strong>path-reachable</strong>.  </li>
+<li>Move speed: <strong>≤ 40 and &gt; 0</strong> → 30% slower; <strong>0</strong> → 60% slower (no stacking).  </li>
+<li>Player <strong>Move</strong> always cancels sleep/seek and applies a <strong>60 s</strong> re-seek cooldown.  </li>
+<li>Inspect toggle <strong>Don’t Sleep</strong> forces never auto-sleep until re-enabled (cancels in-progress sleep/seek; no 60 s cooldown; off → can seek immediately).  </li>
+<li>Taking <strong>combat damage</strong> while sleeping wakes the dwarf and starts the <strong>60 s</strong> cooldown.</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Colonist vitals</td>
+<td><code>Colonist</code>: HP, <strong>Food</strong> 0–100, drain −1 / 10 s; spawn Food <strong>100</strong></td>
+</tr>
+<tr>
+<td>Auto-eat</td>
+<td><code>LaborService.TryAssignWork</code>: Food ≤ <strong>50</strong> → Eat first in claim order</td>
+</tr>
+<tr>
+<td>Eat task</td>
+<td><code>TaskType.Eat</code>; player Move / reassignment patterns exist for cancel</td>
+</tr>
+<tr>
+<td>Housing capacity</td>
+<td><code>BuildingService.GetHousingCapacity()</code> sums completed buildings’ level <code>DwarfCapacity</code></td>
+</tr>
+<tr>
+<td>Living Quarters</td>
+<td><code>living_quarters</code>, 3×3, <strong>DwarfCapacity 4</strong> all levels</td>
+</tr>
+<tr>
+<td>Tent</td>
+<td><code>tent</code>, 2×2, L1 capacity <strong>2</strong>, L2 <strong>3</strong>, L3 <strong>4</strong></td>
+</tr>
+<tr>
+<td>Hop speed</td>
+<td><code>AgentService</code> hop duration via <code>StructureMoveSpeed</code> (floor/ladder mults); enemies separate</td>
+</tr>
+<tr>
+<td>Dwarf Inspect</td>
+<td>Job, Move, Craft, Eat buttons; content shows HP, Food, task, inventory</td>
+</tr>
+<tr>
+<td>Agents save</td>
+<td><code>ColonistSaveEntry</code> has health, food, etc.; <strong>no</strong> Attention / sleep fields yet</td>
+</tr>
+<tr>
+<td>Player command</td>
+<td><strong>Move</strong> is the only explicit player reassignment command (Architect lock)</td>
+</tr>
+<tr>
+<td>Attention / sleep</td>
+<td><strong>None</strong> — no meter, no Sleep task, no Don’t-Sleep flag</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> Food drain/starvation settings, auto-eat priority behavior, housing spawn gate, dig/build/haul/cook/smith, structure floor/ladder speed mults, death pipeline, save/load of existing colonist fields.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Introduce a per-dwarf <strong>Attention</strong> need (0–100, start full) that drains at <strong>−1 per 10 sim-seconds</strong> while the dwarf is <strong>awake</strong>, and applies <strong>move-speed penalties only</strong> at low values (≤40 → ×0.7 speed; 0 → ×0.4 speed). When Attention is <strong>≤ 50</strong> and sleep is allowed (not Don’t-Sleep, not in post-interrupt cooldown), Labor auto-seeks sleep with priority <strong>path-reachable Living Quarters with free concurrent capacity</strong> → <strong>path-reachable Tent with free capacity</strong> within <strong>Chebyshev radius 100</strong> → else <strong>sleep on current tile</strong>. Restore rates depend on sleep site: ground <strong>+1 / 2 s</strong>, tent <strong>+1 / 1.5 s</strong>, living quarters <strong>+1 / 1 s</strong>, until <strong>100</strong>, then wake. <strong>Eat always outranks Sleep.</strong> Player <strong>Move</strong>, combat damage while sleeping, and Don’t-Sleep cancel sleep/seek per locks; persist Attention, Don’t-Sleep, and remaining cooldown. Show <strong>Attention X/100</strong> and a <strong>Don’t Sleep / Allow Sleep</strong> toggle on dwarf Inspect.</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B, no-guess, git snapshot after accept</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task scope + locks (Architect chat decisions)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Architect chat answers (Brief Writer session)</td>
+<td>Q1–Q11 resolutions</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>architecture_docs/UNITY_MASTER_ARCHITECTURE.md</code> — Agents, Labor, Buildings, Session/UI</td>
+<td>Ownership</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Food / Eat baseline on disk</td>
+<td>Parallel need meter + auto-task pattern</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>docs/DECISIONS.md</code></td>
+<td>Update after implement</td>
+</tr>
+<tr>
+<td>7</td>
+<td>On-disk <code>Colonist</code>, <code>AgentService</code>, <code>LaborService</code> (Eat), <code>BuildingService</code> housing, <code>StructureMoveSpeed</code>, Inspect HUD</td>
+<td>Baseline reuse</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. Attention meter (Agents)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>A1</td>
+<td>Per living colonist <strong>Attention</strong> value: range <strong>0–100</strong>, constant max <strong>100</strong>.</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Spawn (primary + additional + any living create path): start at <strong>100</strong>.</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Sim tick (pause-respecting): while <strong>awake</strong> and <code>Attention &gt; 0</code>, drain <strong>−1 Attention per 10.0 sim-seconds</strong> (same accumulator style as Food).</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>While <strong>sleeping</strong>, Attention does <strong>not</strong> drain; restore applies instead (see B).</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>While <code>Attention == 0</code>, do not drain further; apply move penalty only (no HP, no work-speed penalty, no death from Attention).</td>
+</tr>
+<tr>
+<td>A6</td>
+<td><strong>Only colonists</strong> — no Attention on enemies, moles, or buildings.</td>
+</tr>
+<tr>
+<td>A7</td>
+<td><strong>Save/load:</strong> persist Attention; clamp [0, 100]; missing field on old saves → <strong>100</strong>.</td>
+</tr>
+<tr>
+<td><strong>B. Sleep behavior (Labor + Agents)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>B1</td>
+<td><strong>Seek threshold:</strong> when <code>Attention ≤ 50</code>, sleep is allowed, cooldown ≤ 0, and dwarf is not already on a Sleep task → attempt start sleep seek (mirror Eat threshold style).</td>
+</tr>
+<tr>
+<td>B2</td>
+<td><strong>Claim priority:</strong> <strong>Eat → Sleep →</strong> existing work claim order (BUILD → …). Sleep must not steal work while Food ≤ 50 and eat is available/attempted first.</td>
+</tr>
+<tr>
+<td>B3</td>
+<td><strong>Site priority (search order):</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>1) Completed <strong>Living Quarters</strong> within range with free sleep capacity, path-reachable, prefer closer (Coding may pick nearest-by-Chebyshev then path check).</td>
+</tr>
+<tr>
+<td></td>
+<td>2) Else completed <strong>Tents</strong> same rules.</td>
+</tr>
+<tr>
+<td></td>
+<td>3) Else sleep on <strong>current tile</strong> (no walk).</td>
+</tr>
+<tr>
+<td>B4</td>
+<td><strong>Range:</strong> Chebyshev max(|dx|, |dy|) ≤ <strong>100</strong> from dwarf position to a tile of the candidate building footprint (or building origin — Coding plan picks one consistent rule; recommend any footprint tile within range counts the building in range).</td>
+</tr>
+<tr>
+<td>B5</td>
+<td><strong>Path-reachable:</strong> only select a building if a path exists to a walkable tile in its footprint. If none pathable in range (or all full), fall back to current-tile sleep.</td>
+</tr>
+<tr>
+<td>B6</td>
+<td><strong>Capacity:</strong> concurrent sleepers per building ≤ level <code>DwarfCapacity</code>. No permanent assignment. Free slot when dwarf wakes, is cancelled, dies, or leaves sleep. Demolished/missing building → sleeper treats as interrupt (wake; Coding: apply 60 s cooldown only if interrupt maps to damage/move; for demolish, recommend wake + 60 s to avoid thrash — if pure edge case, wake + re-seek on next cycle is acceptable; prefer <strong>wake without Don’t-Sleep</strong>, and apply cooldown <strong>only</strong> for Move / combat damage per Architect locks).</td>
+</tr>
+<tr>
+<td>B7</td>
+<td><strong>Stand target:</strong> any walkable tile in building footprint (first successful path target). Multiple sleepers may share footprint tiles if path/stacking allows; capacity is count-based, not unique-tile-based.</td>
+</tr>
+<tr>
+<td>B8</td>
+<td><strong>Restore rates (while sleeping on site):</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>• Free world tile: <strong>+1 Attention / 2.0 sim-seconds</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>• Tent: <strong>+1 Attention / 1.5 sim-seconds</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>• Living Quarters: <strong>+1 Attention / 1.0 sim-seconds</strong></td>
+</tr>
+<tr>
+<td></td>
+<td>Clamp to 100; overfill discarded.</td>
+</tr>
+<tr>
+<td>B9</td>
+<td><strong>Wake when Attention reaches 100</strong>; complete Sleep task; resume normal labor on later idle cycles.</td>
+</tr>
+<tr>
+<td>B10</td>
+<td><strong>While sleeping:</strong> immobile for work (no dig/build/etc.), no auto-attack, Attention restores, still vulnerable to combat.</td>
+</tr>
+<tr>
+<td>B11</td>
+<td><strong>Combat damage while sleeping → immediate wake</strong> + start <strong>60 s</strong> sleep-seek cooldown (sim-time, pause-respecting).</td>
+</tr>
+<tr>
+<td>B12</td>
+<td><strong>Player Move</strong> while seeking or sleeping → cancel sleep/seek + <strong>60 s</strong> cooldown.</td>
+</tr>
+<tr>
+<td>B13</td>
+<td><strong>Don’t Sleep</strong> toggle true → cancel in-progress sleep/seek if any; <strong>no</strong> 60 s cooldown; while true, never start sleep seek; when toggled false → may seek <strong>immediately</strong> if Attention ≤ 50.</td>
+</tr>
+<tr>
+<td>B14</td>
+<td><strong>Cooldown:</strong> after Move cancel or combat wake, dwarf will not auto-seek sleep for <strong>60.0 sim-seconds</strong>. Cooldown ticks only while sim runs (pause-respecting).</td>
+</tr>
+<tr>
+<td>B15</td>
+<td><strong>Sleep task:</strong> new <code>TaskType</code> (e.g. <code>Sleep</code>) or equivalent Labor-owned sleep state that shows on Inspect task line; Coding plan chooses Tasks vs pure Labor blackboard as long as cancel/Move/damage integration is clean and claim priority works. Prefer a real task if Eat is a task (consistency).</td>
+</tr>
+<tr>
+<td>B16</td>
+<td><strong>Save/load:</strong> persist Don’t-Sleep flag, remaining sleep cooldown (seconds), and enough state to resume or safely clear mid-sleep (if mid-sleep on load: either resume sleep at same site type/rates if building still valid, or clear Sleep task and keep Attention — Coding plan must pick one deterministic rule; recommend: if saved as sleeping and building still has capacity, resume; else awake with current Attention, cooldown 0 unless saved cooldown remains).</td>
+</tr>
+<tr>
+<td><strong>C. Move-speed penalties</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>C1</td>
+<td>While <strong>Attention ≤ 40 and Attention &gt; 0</strong>: effective move speed <strong>× 0.7</strong> (30% slower).</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>While <strong>Attention == 0</strong>: effective move speed <strong>× 0.4</strong> (60% slower). <strong>Replaces</strong> the 30% penalty (no stacking).</td>
+</tr>
+<tr>
+<td>C3</td>
+<td>Combine with existing structure hop multipliers in a defined order (recommend: <code>finalMult = structureMult * attentionMult</code>, then hopDuration = base / finalMult). Document in plan.</td>
+</tr>
+<tr>
+<td>C4</td>
+<td>Penalties apply only to <strong>colonist</strong> hops; enemies unchanged.</td>
+</tr>
+<tr>
+<td><strong>D. Inspect UI</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>D1</td>
+<td>Dwarf Inspect content includes <strong><code>Attention X/100</code></strong> (near Food/HP).</td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Button toggle: when sleep allowed → label <strong>“Don’t Sleep”</strong>; when suppressed → <strong>“Allow Sleep”</strong>.</td>
+</tr>
+<tr>
+<td>D3</td>
+<td>Toggle persists per dwarf (save/load).</td>
+</tr>
+<tr>
+<td><strong>E. Tests + docs</strong></td>
+<td></td>
+</tr>
+<tr>
+<td>E1</td>
+<td>EditMode tests: spawn Attention 100; drain −1/10s while awake; no drain while sleeping; restore rates for ground / tent / LQ; seek at ≤50; Eat before Sleep; capacity full → ground; range/path fail → ground; Move cancel + 60s cooldown; Don’t Sleep cancel no cooldown + re-enable immediate seek; combat damage wake + 60s; move mults at 40 and 0; save/load Attention + flag + cooldown; Food/eat still works.</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>Update module READMEs (Agents, Labor, Session as touched) + <code>docs/DECISIONS.md</code> entry.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Beds as placeable furniture</td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>Permanent dwarf ↔ room assignment</td>
+<td>Architect: no assignment</td>
+</tr>
+<tr>
+<td>Day/night cycle required for sleep</td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>Morale / happiness / wellness buffs from housing</td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>Enemies or moles sleeping / Attention</td>
+<td>Dwarfs only</td>
+</tr>
+<tr>
+<td>Extra consequences of low Attention (work speed, craft quality, death, disease)</td>
+<td>Architect: move only</td>
+</tr>
+<tr>
+<td>Attention drain rate different from Food’s −1/10s</td>
+<td>Architect Q1=A</td>
+</tr>
+<tr>
+<td>Stacking 30% + 60% move penalties</td>
+<td>Architect Q4</td>
+</tr>
+<tr>
+<td>Player commands other than Move as sleep cancel (none exist)</td>
+<td>Architect Q5=B</td>
+</tr>
+<tr>
+<td>60 s cooldown on Don’t Sleep cancel or on Allow Sleep re-enable</td>
+<td>Architect Q5</td>
+</tr>
+<tr>
+<td>Search radius other than Chebyshev 100</td>
+<td>Architect Q8</td>
+</tr>
+<tr>
+<td>Sleep destination outside footprint / current tile rules</td>
+<td>Architect Q6–Q7</td>
+</tr>
+<tr>
+<td>New assemblies / packages</td>
+<td>Hard guard</td>
+</tr>
+<tr>
+<td>Redesign Food, housing spawn formula, or combat damage math</td>
+<td>Unrelated</td>
+</tr>
+<tr>
+<td>“While we are here” labor rewrite beyond sleep/eat priority integration</td>
+<td>Scope control</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ownership</td>
+<td><strong>Agents</strong> own Attention meter, drain tick, Don’t-Sleep flag, cooldown timers, move-speed attention mult application, wake-on-damage hook; <strong>Labor</strong> owns auto-seek/claim/execute sleep and priority vs Eat/work; <strong>Buildings</strong> expose housing candidates + capacity queries (read); <strong>Tasks</strong> own Sleep task type if used; <strong>Session/UI</strong> owns Inspect line + Don’t Sleep button</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>No new asmdefs; extend UK.Agents / UK.Labor / UK.Tasks / UK.Buildings / UK.Session as needed</td>
+</tr>
+<tr>
+<td>Composition root</td>
+<td>Wire only in <code>GameplayComposer</code> / existing service construction</td>
+</tr>
+<tr>
+<td>Dependency direction</td>
+<td>Agents must not own Labor AI; Labor may read Attention/flags via Agents APIs; Buildings must not own sleep AI</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Optional Attention-changed not required; reuse existing damage/death events for wake</td>
+</tr>
+<tr>
+<td>Data ownership</td>
+<td>One Attention + flags per colonist; concurrent sleep occupancy derived from who is currently sleeping in a building (or explicit claim set owned by Labor/Agents — plan must avoid double-count)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Suggested types / touch list (sketch only — Coding plan may refine)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Likely touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Colonist</code></td>
+<td><code>Attention</code>, max const, drain timer, sleep restore timer, <code>SleepSuppressed</code> / Don’t-Sleep, <code>SleepSeekCooldownRemaining</code>, sleep site kind enum</td>
+</tr>
+<tr>
+<td><code>AgentService</code></td>
+<td>Tick drain; hop duration × attention mult; damage path wake-from-sleep; save/load fields; spawn Attention 100; public toggle API for Don’t Sleep</td>
+</tr>
+<tr>
+<td><code>AgentsSaveSnapshot</code> / <code>ColonistSaveEntry</code></td>
+<td><code>attention</code>, <code>sleepSuppressed</code>, <code>sleepSeekCooldown</code>, optional sleep state</td>
+</tr>
+<tr>
+<td><code>IBuildingService</code></td>
+<td>Query completed LQ/tents in range, free capacity given current sleepers (or Labor tracks occupancy and only reads <code>DwarfCapacity</code>)</td>
+</tr>
+<tr>
+<td><code>TaskType</code> + <code>TaskService</code></td>
+<td><code>Sleep</code> create/cancel if task-based</td>
+</tr>
+<tr>
+<td><code>LaborService</code></td>
+<td>Seek/claim after Eat; execute sleep restore; site selection; capacity accounting; Move already cancels tasks — ensure cooldown side effect</td>
+</tr>
+<tr>
+<td><code>DwarfMoveController</code> / move path</td>
+<td>On successful player Move assign, ensure sleep cancel + 60 s cooldown</td>
+</tr>
+<tr>
+<td>Combat / <code>ReceiveDamage</code> path</td>
+<td>If sleeping → wake + 60 s cooldown (before or after HP apply; both OK if wake always runs on damage &gt; 0)</td>
+</tr>
+<tr>
+<td><code>InspectionHudPresenter</code> + layout</td>
+<td>Attention line; Don’t Sleep / Allow Sleep button</td>
+</tr>
+<tr>
+<td><code>UiStringKeys</code> / <code>StringTable</code></td>
+<td>Optional localized labels if project uses keys for new buttons</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Agents Attention; Labor sleep site priority; move mult; UI not required in EditMode beyond pure logic</td>
+</tr>
+<tr>
+<td>Docs</td>
+<td>READMEs + <code>docs/DECISIONS.md</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Not expected:</strong> furniture beds, time-of-day, morale, enemy sleep.</p>
+<hr>
+<h2>9. Gate B reminder (Coding session)</h2>
+<ol>
+<li><strong>Phase 1 — Analysis &amp; Architecture:</strong> restate goal; Attention tick; sleep site selection + capacity; task vs blackboard; Eat→Sleep priority; move mult composition; Move/damage/Don’t-Sleep cancel rules; save/load; test plan; risks — <strong>STOP for Architect approval</strong>.  </li>
+<li><strong>Phase 2 — Implementation:</strong> only after written approval; match this brief + approved plan.  </li>
+<li><strong>Phase 3 — Validation report:</strong> files, why, how to verify, risks, docs, suggestions (do not implement). <strong>STOP</strong>.  </li>
+<li>After Architect <strong>accepts completed work:</strong> local git snapshot per <code>AGENTS.md</code> — then <strong>STOP</strong>.</li>
+</ol>
+<p>If a lock is still impossible without new design numbers, <strong>STOP and ask</strong>. Do not invent rates or penalties.</p>
+<hr>
+<h2>10. Exit criteria (testable)</h2>
+<ul>
+<li>[ ] New colonists start at <strong>Attention 100/100</strong>.  </li>
+<li>[ ] Attention decreases by <strong>1 per 10 sim-seconds</strong> while awake (paused sim does not drain).  </li>
+<li>[ ] Attention does <strong>not</strong> drain while sleeping.  </li>
+<li>[ ] At Attention <strong>≤ 40 and &gt; 0</strong>, colonist hop speed is <strong>× 0.7</strong> (with structure mult still applied).  </li>
+<li>[ ] At Attention <strong>0</strong>, hop speed is <strong>× 0.4</strong> (not stacked with 0.7).  </li>
+<li>[ ] No HP / death / work-speed effects from Attention alone.  </li>
+<li>[ ] When Attention <strong>≤ 50</strong>, dwarf auto-seeks sleep (unless Don’t-Sleep or cooldown).  </li>
+<li>[ ] <strong>Eat</strong> is attempted before <strong>Sleep</strong> when both thresholds apply.  </li>
+<li>[ ] Sleep site order: free-capacity pathable <strong>LQ</strong> → free-capacity pathable <strong>Tent</strong> (Chebyshev ≤ 100) → <strong>current tile</strong>.  </li>
+<li>[ ] Concurrent sleepers in a building never exceed its <strong>DwarfCapacity</strong>.  </li>
+<li>[ ] Restore: ground <strong>+1/2s</strong>, tent <strong>+1/1.5s</strong>, LQ <strong>+1/1s</strong> until <strong>100</strong>, then wake.  </li>
+<li>[ ] Player <strong>Move</strong> cancels sleep/seek and blocks re-seek for <strong>60 sim-seconds</strong>.  </li>
+<li>[ ] <strong>Don’t Sleep</strong> cancels sleep/seek, blocks all auto-sleep while on; <strong>Allow Sleep</strong> allows immediate seek; no 60 s from toggle.  </li>
+<li>[ ] Combat damage while sleeping → wake + <strong>60 s</strong> cooldown.  </li>
+<li>[ ] While sleeping: no auto-attack; still can take damage.  </li>
+<li>[ ] Inspect shows <strong>Attention X/100</strong> and Don’t Sleep / Allow Sleep toggle.  </li>
+<li>[ ] Save/load restores Attention, Don’t-Sleep, cooldown (and sleep state per plan rule).  </li>
+<li>[ ] Enemies unchanged; Food/eat/housing spawn unchanged.  </li>
+<li>[ ] EditMode tests + README/DECISIONS updates done.</li>
+</ul>
+<hr>
+<h2>11. Manual verification steps (Architect)</h2>
+<ol>
+<li><strong>Drain:</strong> New Game → Inspect starter → Attention 100/100 → unpause ~30–40s → Attention drops by ~3–4.  </li>
+<li><strong>Slow at 40:</strong> Force or wait until Attention ≤ 40 → dwarf moves noticeably slower; at 0 even slower.  </li>
+<li><strong>Seek at 50:</strong> Drop to ≤ 50 with no housing → dwarf sleeps on <strong>current tile</strong>; Attention rises <strong>~1 per 2 s</strong> to 100 then resumes work.  </li>
+<li><strong>Tent:</strong> Build tent with free capacity → dwarf ≤ 50 walks to tent footprint → restore <strong>~1 per 1.5 s</strong>.  </li>
+<li><strong>Living Quarters:</strong> Build LQ → prefer LQ over tent when both free; restore <strong>~1 per 1 s</strong>.  </li>
+<li><strong>Capacity:</strong> Fill LQ capacity with sleepers (or debug) → next sleeper uses tent or ground, not over-cap.  </li>
+<li><strong>Range / path:</strong> (If testable) housing beyond 100 tiles or unreachable → ground sleep.  </li>
+<li><strong>Move interrupt:</strong> While sleeping, issue <strong>Move</strong> → cancels sleep; no re-sleep for ~60 s even if Attention low.  </li>
+<li><strong>Don’t Sleep:</strong> Toggle on while sleeping → cancels; stays awake despite low Attention; toggle off → can seek immediately.  </li>
+<li><strong>Combat wake:</strong> Damage a sleeping dwarf → wakes; ~60 s before auto-sleep again.  </li>
+<li><strong>Eat priority:</strong> Food ≤ 50 and Attention ≤ 50 → goes eat (or attempts eat) before sleep.  </li>
+<li><strong>Save/load:</strong> Mid-Attention, Don’t-Sleep on, mid-cooldown → save → load → values sensible.  </li>
+<li><strong>Sanity:</strong> Food drain/eat, dig/build, structure floor speeds still work.</li>
+</ol>
+<hr>
+<h2>12. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Meter display name</td>
+<td><strong>Attention</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Meter range</td>
+<td><strong>0–100</strong>; max fixed <strong>100</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Spawn Attention</td>
+<td><strong>100</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Drain rate (awake)</td>
+<td><strong>−1 Attention / 10.0 sim-seconds</strong> while Attention &gt; 0</td>
+<td>Architect Q1=A</td>
+</tr>
+<tr>
+<td>Drain while sleeping</td>
+<td><strong>None</strong></td>
+<td>Architect Q9</td>
+</tr>
+<tr>
+<td>Seek threshold</td>
+<td><strong>Attention ≤ 50</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Restore — free tile</td>
+<td><strong>+1 / 2.0 sim-seconds</strong></td>
+<td>Architect Q2=C</td>
+</tr>
+<tr>
+<td>Restore — tent</td>
+<td><strong>+1 / 1.5 sim-seconds</strong></td>
+<td>Architect Q2=C</td>
+</tr>
+<tr>
+<td>Restore — living quarters</td>
+<td><strong>+1 / 1.0 sim-seconds</strong></td>
+<td>Architect Q2=C</td>
+</tr>
+<tr>
+<td>Wake condition</td>
+<td>Attention reaches <strong>100</strong></td>
+<td>Architect intent + Q2</td>
+</tr>
+<tr>
+<td>Move penalty ≤40 (&gt;0)</td>
+<td>Speed <strong>× 0.7</strong> (30% slower)</td>
+<td>Architect Q4</td>
+</tr>
+<tr>
+<td>Move penalty at 0</td>
+<td>Speed <strong>× 0.4</strong> (60% slower); <strong>no stack</strong> with 0.7</td>
+<td>Architect Q4</td>
+</tr>
+<tr>
+<td>Other low-Attention effects</td>
+<td><strong>None</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Site priority</td>
+<td><strong>LQ → Tent → current tile</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Permanent assignment</td>
+<td><strong>No</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Capacity meaning</td>
+<td><strong>Concurrent sleepers ≤ DwarfCapacity</strong> per completed housing building</td>
+<td>Architect Q7</td>
+</tr>
+<tr>
+<td>Full capacity fallback</td>
+<td>Sleep on <strong>current tile</strong></td>
+<td>Architect Q7</td>
+</tr>
+<tr>
+<td>Search radius</td>
+<td><strong>Chebyshev ≤ 100</strong> tiles</td>
+<td>Architect Q8=A</td>
+</tr>
+<tr>
+<td>Reachability</td>
+<td>Building must be <strong>path-reachable</strong>; else treat as unavailable → eventually current tile</td>
+<td>Architect Q8</td>
+</tr>
+<tr>
+<td>Stand target in building</td>
+<td><strong>Any walkable footprint tile</strong></td>
+<td>Architect Q6=A</td>
+</tr>
+<tr>
+<td>Eat vs Sleep</td>
+<td><strong>Eat first</strong></td>
+<td>Architect Q3=A</td>
+</tr>
+<tr>
+<td>Player cancel</td>
+<td><strong>Move only</strong> cancels sleep/seek + <strong>60 s</strong> cooldown</td>
+<td>Architect Q5=B</td>
+</tr>
+<tr>
+<td>Don’t Sleep</td>
+<td>Cancels in-progress; <strong>blocks</strong> auto-sleep while on; <strong>no</strong> 60 s; Allow Sleep → immediate seek OK</td>
+<td>Architect Q5</td>
+</tr>
+<tr>
+<td>Combat damage while sleeping</td>
+<td><strong>Wake</strong> + <strong>60 s</strong> cooldown</td>
+<td>Architect Q9</td>
+</tr>
+<tr>
+<td>Sleeping combat</td>
+<td>No auto-attack; still takes damage</td>
+<td>Architect Q9</td>
+</tr>
+<tr>
+<td>Cooldown duration</td>
+<td><strong>60.0 sim-seconds</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Who</td>
+<td><strong>Colonists only</strong></td>
+<td>Architect</td>
+</tr>
+<tr>
+<td>Inspect Attention</td>
+<td>Show <strong>Attention X/100</strong></td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Inspect toggle labels</td>
+<td><strong>Don’t Sleep</strong> / <strong>Allow Sleep</strong></td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Save Attention</td>
+<td><strong>Yes</strong></td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Save Don’t-Sleep</td>
+<td><strong>Yes</strong></td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Save cooldown</td>
+<td><strong>Yes</strong></td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>Old save missing Attention</td>
+<td>Load as <strong>100</strong></td>
+<td>Engineering default</td>
+</tr>
+<tr>
+<td>Old save missing Don’t-Sleep</td>
+<td>Load as <strong>false</strong> (sleep allowed)</td>
+<td>Engineering default</td>
+</tr>
+<tr>
+<td>Old save missing cooldown</td>
+<td>Load as <strong>0</strong></td>
+<td>Engineering default</td>
+</tr>
+<tr>
+<td>Out of scope list</td>
+<td>Beds, day/night gate, morale, enemy sleep, per-job rates, wellness buffs</td>
+<td>Architect Q11</td>
+</tr>
+<tr>
+<td>Housing content IDs</td>
+<td><code>living_quarters</code>, <code>tent</code> (existing catalog)</td>
+<td>On-disk baseline</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>13. Optional soft-split (same feature exit; only if Phase 1 needs staging)</h2>
+<p>Same overall exit criteria; Coding may implement in order if needed:</p>
+<ol>
+<li><strong>Drop 1 — Attention meter + move penalties:</strong> A1–A7, C1–C4, Inspect line, save Attention.  </li>
+<li><strong>Drop 2 — Sleep seek/restore:</strong> B1–B16, Don’t Sleep UI, cooldowns, capacity.  </li>
+<li><strong>Drop 3 — Interrupt integrations:</strong> Move cancel, combat wake, Eat priority proof, full tests.</li>
+</ol>
+<p>Do not call the feature complete until all in-scope drops pass exit criteria.</p>
+<hr>
+<h2>14. Coding Agent kickoff</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/tasks/FEATURE_SLEEP_ATTENTION_V1_GROK_BUILD_BRIEF.md
+
+Unity project root (write code HERE only):
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (path above) — full file
+3. docs/DECISIONS.md
+4. architecture_docs/UNITY_MASTER_ARCHITECTURE.md — Agents, Labor, Buildings, Session ownership sections
+5. Baseline code (reuse; do not rebuild):
+   - Assets/_Project/Scripts/Agents/Colonist.cs, AgentService.cs, IAgentService.cs, AgentsSaveSnapshot.cs
+   - Assets/_Project/Scripts/Labor/LaborService.cs (Eat claim priority + execute)
+   - Assets/_Project/Scripts/Tasks/TaskType.cs, TaskService.cs (Eat task pattern)
+   - Assets/_Project/Scripts/Buildings/BuildingService.cs (GetHousingCapacity, completed buildings)
+   - Assets/_Project/Scripts/Content/BuildingCatalog.cs, StructureMoveSpeed.cs
+   - Assets/_Project/Scripts/Session/DwarfMoveController.cs (player Move)
+   - Assets/_Project/Scripts/Session/Hud/InspectionHudPresenter.cs, InspectionInfoWindowLayout.cs
+6. architecture_docs/tasks/CODING_AGENT_KICKOFF.md envelope rules
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include:
+- Restated goal + in/out scope
+- Attention meter tick (awake drain; no drain while sleeping)
+- Move-speed attention mult composition with StructureMoveSpeed
+- Sleep site selection: Chebyshev 100, path reachability, LQ → Tent → current tile
+- Concurrent capacity accounting (DwarfCapacity, no permanent beds)
+- Restore rates by site type; wake at 100
+- TaskType.Sleep vs Labor-only state (recommendation + cancel integration)
+- Claim priority: Eat → Sleep → existing work
+- Interrupts: player Move (+60s), combat damage wake (+60s), Don’t Sleep (no 60s)
+- Inspect: Attention X/100 + Don’t Sleep / Allow Sleep toggle
+- Save/load fields + mid-sleep load rule
+- Test plan mapped to brief exit criteria
+- Risks (path thrash, capacity races, pause time, food regression)
+- Spec locks from brief §12
+- If any lock still missing for implementation: STOP and ask — do not invent
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan (and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed work: create local git snapshot per AGENTS.md, then STOP.
+Do not start the next feature unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Obey the brief’s hard forbids and out-of-scope list
+- No beds furniture, day/night sleep gate, morale, enemy Attention
+- No extra low-Attention effects beyond move speed ×0.7 / ×0.4
+- No permanent housing assignment
+- No new assemblies or packages
+- Do not move architecture_docs under Assets/
+- Concrete service construction only in composition root (GameplayComposer) unless brief says otherwise
+- Do not regress Food/eat, housing spawn capacity, dig/build/haul/cook/smith, structure speed mults, or death pipeline
+- Do not invent drain/restore rates or radii beyond brief locks
+</code></pre>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] Brief validated (locks match intent)  </li>
+<li>[ ] Overrides (if any) written back into §12  </li>
+<li>[ ] Reply <strong>approve brief</strong>  </li>
+<li>[ ] Fresh Coding session started with §14 kickoff  </li>
+<li>[ ] After implementation: play-test §11 → accept → Engineer git snapshot  </li>
+</ul>
+<hr>
+<h2>16. OPEN QUESTIONS</h2>
+<p><strong>None</strong> — Q1–Q11 resolved in Architect chat (Brief Writer session). All values needed for Coding Gate B are locked in §12.</p>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-INSPECTION-TOOL-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-INSPECTION-TOOL-V1">Inspection tool V1</h3>
+            <p class="file-cap">FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md · 488 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-INSPECTION-TOOL-V1</code>. Unified world inspection stack and info windows. Accepted 31 Jul 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Inspection Tool V1</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-INSPECTION-TOOL-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Unified world inspection: rotating tile stack, blue highlight, 3-section info windows <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>Migration complete product baseline (Phases 0–16 + bag/edge-scroll + HUD toolbar layout): Session OnGUI HUD, dig/harvest/build/move modes, dwarf/building selection panels, plant inspect, agents/enemies/ambient/buildings/world/tasks</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Ready for Architect <strong>brief approval</strong>, then Coding session <strong>Gate B Phase 1</strong> (Analysis &amp; Architecture — <strong>no production code until Architect approves plan</strong>)</td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Validate <strong>§14 Spec/content locks</strong> and this whole brief.  </li>
+<li>Reply <strong>approve brief</strong> (or list overrides).  </li>
+<li>Start a <strong>fresh Coding</strong> session with the kickoff block in <strong>§16</strong>.  </li>
+<li>Coding: Gate B plan → you approve plan → implement + tests → you play-test → accept → git snapshot per <code>AGENTS.md</code>.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code> Gate B.  </li>
+<li>This brief is <strong>task law</strong> for this session only.  </li>
+<li>Produce <strong>Phase 1 plan only</strong> first — <strong>no production code</strong> until Architect approves implementation.  </li>
+<li>Do <strong>not</strong> migrate to UI Toolkit. Stay on Session OnGUI + <code>UiGuiScale</code> / <code>UiOpaqueChrome</code>.  </li>
+<li>Do <strong>not</strong> invent window fields, buttons, stack rules, or combat commands beyond §7 / §14.</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Players need an <strong>inspection tool</strong> that shows information about things in the game world, with type-specific content and actions.  </li>
+<li><strong>Left-click</strong> a world object/tile (in default navigate) opens inspection for that tile’s stack.  </li>
+<li><strong>Rotating selection</strong> cycles multiple objects on the same grid tile (e.g. dwarf on plant on cave).  </li>
+<li>Selected tile and selected object use a <strong>blue border</strong>; a <strong>list of stack objects</strong> appears under the tile.  </li>
+<li>An <strong>info window</strong> (header / content / interaction) appears for the selected object — one window at a time.  </li>
+<li>Separate window shapes for: dwarfs, enemies, neutral units, buildings, plants, resource tiles, bare terrain, and construction (and parallel upgrade/demolish) sites.</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Default LMB world click</td>
+<td><code>PlantInspectController</code>: mutual-exclusion with dig/harvest/build/move; <strong>colonist select wins</strong> → building select → plant/regrowth text panel; fog blocks unexplored</td>
+</tr>
+<tr>
+<td>Dwarf selection</td>
+<td><code>DwarfSelectionController</code> — single id; <code>TrySelectAtTile</code> uses <strong><code>GetColonistAt</code> (first only)</strong>; gold tint via <code>ColonistViewHost</code></td>
+</tr>
+<tr>
+<td>Building selection</td>
+<td><code>BuildingSelectionController</code> — select at tile (any footprint cell), Upgrade / Demolish / forge orders; Shift+LMB upgrade path</td>
+</tr>
+<tr>
+<td>Dwarf panel (OnGUI)</td>
+<td><code>SimulationDriver</code>: name/age/job/HP/atk/def/inv/equip; Job / Move / Craft / Equip / <strong>Deselect</strong></td>
+</tr>
+<tr>
+<td>Building panel (OnGUI)</td>
+<td>Name/level/size/housing; Upgrade / Demolish / forge orders / <strong>Deselect</strong></td>
+</tr>
+<tr>
+<td>Plant inspect</td>
+<td>Text panel only (name, resource, regrowth); no harvest button</td>
+</tr>
+<tr>
+<td>Enemies</td>
+<td><code>EnemyAgent</code>: DisplayName, Health/MaxHealth, <strong>Damage</strong>, <strong>Defense</strong>, AI state; presentation <code>EnemyViewHost</code>; <strong>no selection UI</strong></td>
+</tr>
+<tr>
+<td>Neutral moles</td>
+<td><code>MoleAgent</code>: Id + Position only (<strong>no HP/atk/armor</strong>); <code>MoleViewHost</code>; <strong>no selection UI</strong></td>
+</tr>
+<tr>
+<td>Construction sites</td>
+<td><code>ConstructionSite</code>: cost/delivered, <code>IsComplete</code>, <code>BuildTimeMs</code>, footprint <code>ContainsCell</code></td>
+</tr>
+<tr>
+<td>Upgrade sites</td>
+<td><code>UpgradeConstructionSite</code> parallel cost/delivered + time</td>
+</tr>
+<tr>
+<td>Demolish</td>
+<td>Task-driven; <code>IsDemolishing(buildingId)</code>; timed by size</td>
+</tr>
+<tr>
+<td>Tasks</td>
+<td><code>Colonist.CurrentTaskId</code>; dig/harvest create APIs on <code>ITaskService</code></td>
+</tr>
+<tr>
+<td>Terrain</td>
+<td><code>TerrainCatalog</code> diggable/walkable + display names; plants via <code>PlantHarvest</code>; diggable resource terrain distinct from harvest plants</td>
+</tr>
+<tr>
+<td>HUD layout</td>
+<td>Resource bar top; Spawn top-left; Tasks top-right; Build BL; Dig|Harvest BR; <strong>roster top-left under Spawn</strong></td>
+</tr>
+<tr>
+<td>UI chrome</td>
+<td>OnGUI + <code>UiGuiScale</code> + <code>UiOpaqueChrome</code> (opaque panels)</td>
+</tr>
+<tr>
+<td>RMB</td>
+<td>Universal cancel for dig/harvest/build/move — <strong>extend</strong> to clear inspection (this feature)</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> dig/harvest designate rectangles and toggle rules; build place/ghost/validate; spawn capacity; task hold/cancel; craft consume; job assign; move mode; forge orders; upgrade/demolish start rules; fog <strong>F</strong>; camera pan/zoom/Home; pause Esc; mutual exclusion of tool modes; campaign save/load; HUD toolbar layout locks.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Replace fragmented world-click selection (dwarf-first priority, separate plant dump, no enemies/moles/sites/terrain stack) with a <strong>unified default-navigate inspection system</strong>: LMB builds a <strong>rotating stack</strong> of inspectable objects on a fog-visible tile, highlights the tile and active object in <strong>blue</strong>, shows an under-tile <strong>object list</strong>, and opens a <strong>single fixed left-side 3-section info window</strong> per selected type — with harvest/dig actions from plant/resource panels and existing dwarf/building interactions retained (minus Deselect buttons; <strong>RMB</strong> dismisses).</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B, no-guess, git snapshot after accept</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task scope + locks</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Architect chat decisions (this thread)</td>
+<td>Q1–Q10 answers</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>architecture_docs/input_handler.md</code></td>
+<td>Legacy inspection stack intent (reference only; Unity locks = this brief)</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>architecture_docs/ui.md</code> / <code>game_rendering.md</code></td>
+<td>Info windows / tooltip draw order notes (presentation intent, not Python port)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>architecture_docs/UNITY_MASTER_ARCHITECTURE.md</code></td>
+<td>Session/input ownership; <code>InspectionController</code> naming intent; fog gate</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>docs/DECISIONS.md</code></td>
+<td>HUD layout, OnGUI, hotkeys, mutual exclusion</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Module READMEs + on-disk code in §2 / §10</td>
+<td>Baseline — unify/extend; do not rebuild modules</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<h3>5.1 Activation &amp; input</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Inspection runs in <strong>default navigate only</strong> (not while dig / harvest / build / move is active).</td>
+</tr>
+<tr>
+<td>A2</td>
+<td><strong>LMB</strong> on a world tile (when not absorbed by OnGUI) starts or advances inspection for that tile.</td>
+</tr>
+<tr>
+<td>A3</td>
+<td><strong>RMB</strong> dismisses inspection (clears stack, highlights, info window) <strong>and</strong> clears dwarf/building selection state tied to inspection. RMB still cancels tool modes as today when those modes are active.</td>
+</tr>
+<tr>
+<td>A4</td>
+<td><strong>Unexplored</strong> tiles (fog visibility ≤ 0 when overlay rules apply as today): <strong>cannot inspect</strong> — clear inspection if click is fogged.</td>
+</tr>
+<tr>
+<td>A5</td>
+<td><strong>UI click absorption:</strong> clicks on HUD / info window do not also cycle the world stack (same spirit as tool UX).</td>
+</tr>
+<tr>
+<td>A6</td>
+<td><strong>Shift+LMB upgrade</strong> shortcut may remain as a dedicated path (existing behavior) if still on disk; do not invent new shift shortcuts. Prefer upgrade via building info <strong>Upgrade</strong> button when inspecting a building.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.2 Rotating selection (stack)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>B1</td>
+<td>On first LMB on tile <strong>T</strong>, gather all V1 inspectables on <strong>T</strong> (see §5.3), set index <strong>0</strong>, open info window for that entry.</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>On LMB on <strong>same tile T</strong> again (default navigate), advance index <strong>mod count</strong> (cycle).</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>On LMB on a <strong>different</strong> tile, rebuild stack for that tile at index <strong>0</strong>.</td>
+</tr>
+<tr>
+<td>B4</td>
+<td>If stack is empty (nothing inspectable / invalid), clear inspection.</td>
+</tr>
+<tr>
+<td>B5</td>
+<td><strong>Cycle order (locked):</strong> for each category, stable local order (spawn/registry order is fine if documented in plan): <strong>Dwarfs → Enemies → Neutral moles → Completed buildings → Construction sites → Upgrade sites → Demolish-in-progress → Plants → Resource/diggable terrain → Bare tunnel/earth/cave terrain</strong>.</td>
+</tr>
+<tr>
+<td>B6</td>
+<td><strong>Multiple units per tile:</strong> all dwarfs and all enemies on the tile appear as separate stack entries (extend beyond <code>GetColonistAt</code> first-only).</td>
+</tr>
+<tr>
+<td>B7</td>
+<td><strong>Buildings / sites:</strong> any cell of multi-tile footprint is a valid pick (existing building <code>ContainsCell</code> / site footprint patterns).</td>
+</tr>
+</tbody>
+</table>
+<h3>5.3 Inspectable kinds (V1)</h3>
+<table>
+<thead>
+<tr>
+<th>Kind</th>
+<th>Include</th>
+<th>Identity / notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dwarf</td>
+<td>Yes</td>
+<td>Colonist at tile</td>
+</tr>
+<tr>
+<td>Enemy</td>
+<td>Yes</td>
+<td>Living enemy at tile</td>
+</tr>
+<tr>
+<td>Neutral unit</td>
+<td>Yes</td>
+<td>Mole at tile</td>
+</tr>
+<tr>
+<td>Building</td>
+<td>Yes</td>
+<td>Completed <code>BuiltBuilding</code> footprint</td>
+</tr>
+<tr>
+<td>Construction site</td>
+<td>Yes</td>
+<td>New-build site footprint (separate window type)</td>
+</tr>
+<tr>
+<td>Upgrade site</td>
+<td>Yes</td>
+<td>Upgrade-in-progress site (window parallel to construction)</td>
+</tr>
+<tr>
+<td>Demolish-in-progress</td>
+<td>Yes</td>
+<td>Building currently demolishing (window parallel to construction)</td>
+</tr>
+<tr>
+<td>Plant</td>
+<td>Yes</td>
+<td>Harvestable plant terrain (<code>PlantHarvest</code>) + regrowing plant timers as plant-related entries</td>
+</tr>
+<tr>
+<td>Resource tile</td>
+<td>Yes</td>
+<td><strong>Diggable</strong> non-plant terrain (stone/iron/earth/etc.) — distinct from plants</td>
+</tr>
+<tr>
+<td>Bare terrain</td>
+<td>Yes</td>
+<td>Non-plant <strong>non-diggable</strong> walkable/cave presentation (e.g. tunnel) and other bare ground not covered above — display terrain name</td>
+</tr>
+<tr>
+<td>Task markers only</td>
+<td><strong>No</strong></td>
+<td>Not stack entries</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Q7 lock:</strong> resource tile = diggable terrain; plant = harvestable. (If plants are currently diggable in sim, do <strong>not</strong> retune that here — future change.)</p>
+<h3>5.4 Visual feedback</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1</td>
+<td>Selected <strong>grid tile</strong>: <strong>blue border</strong> highlight.</td>
+</tr>
+<tr>
+<td>V2</td>
+<td><strong>Object list</strong> under the selected tile (screen-projected OnGUI near tile): short names of stack entries; <strong>selected index</strong> visually emphasized (e.g. stronger blue / outline).</td>
+</tr>
+<tr>
+<td>V3</td>
+<td>Selected <strong>world object</strong> highlighted with <strong>blue</strong> (replace or supersede gold dwarf-only tint while inspection owns selection). Clear highlight when inspection dismissed.</td>
+</tr>
+<tr>
+<td>V4</td>
+<td>Implementation may use Presentation overlays / existing view hosts; keep Session as input/state owner.</td>
+</tr>
+<tr>
+<td>V5</td>
+<td>List + highlights update when cycling; hide when inspection cleared.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.5 Info window shell (all types)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>W1</td>
+<td><strong>One window at a time</strong> only.</td>
+</tr>
+<tr>
+<td>W2</td>
+<td><strong>Fixed screen position:</strong> <strong>left side</strong>, <strong>below the dwarf roster</strong> (roster remains top-left under Spawn per HUD V1).</td>
+</tr>
+<tr>
+<td>W3</td>
+<td>Three sections: <strong>Header</strong> / <strong>Content</strong> / <strong>Interaction</strong>.</td>
+</tr>
+<tr>
+<td>W4</td>
+<td>Opaque chrome via existing <code>UiOpaqueChrome</code> / scaled OnGUI.</td>
+</tr>
+<tr>
+<td>W5</td>
+<td>No separate Deselect buttons — <strong>RMB</strong> dismisses.</td>
+</tr>
+<tr>
+<td>W6</td>
+<td>Window content refreshes each OnGUI/frame from live sim data while selection valid; clear if entity dies/despawns or site completes.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.6 Window content locks by type</h3>
+<h4>Dwarf</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Display name only</strong></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>Current task</strong> (type + short status from <code>CurrentTaskId</code> / task board; show “Idle” / “None” if unassigned)</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td>Keep existing: <strong>Job…</strong>, <strong>Move</strong>, <strong>Craft</strong> (panel/hotkey <strong>C</strong> still selection-gated), <strong>Equip/Unequip</strong> as today. <strong>No Deselect</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h4>Building (completed)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Building display name only</strong> (leveled catalog name OK if already how names work)</td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>Housing</strong> line <strong>only if</strong> housing capacity for this building at current level <strong>&gt; 0</strong>. Forge: keep <strong>input/output</strong> (and active order summary) in content when building is forge so orders remain understandable. Level/size lines <strong>optional only if needed for forge/upgrade clarity</strong> — prefer minimal: housing if &gt;0 + forge block if forge.</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>Upgrade</strong>, <strong>Demolish</strong>, forge <strong>Order Steel x5</strong> / <strong>Order Mithril x5</strong> when forge + level gates as today. <strong>No Deselect</strong>.</td>
+</tr>
+</tbody>
+</table>
+<h4>Plant</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Plant display name only</strong></td>
+</tr>
+<tr>
+<td>Content</td>
+<td>Resource amount and regrowth remaining when applicable (baseline plant info; no “diggable” flag)</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>Harvest</strong> — designate harvest for this tile (create harvest task if valid / not duplicate per existing harvest rules).</td>
+</tr>
+</tbody>
+</table>
+<h4>Resource tile (diggable)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Resource / terrain display name only</strong></td>
+</tr>
+<tr>
+<td>Content</td>
+<td>Optional amount remaining if the tile has a resource amount; <strong>do not</strong> show a diggable boolean/flag</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>Dig</strong> — designate dig for this tile (create/toggle dig task per existing dig single-cell rules).</td>
+</tr>
+</tbody>
+</table>
+<h4>Enemy</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Display name only</strong></td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>HP</strong> (current/max), <strong>Atk</strong> (<code>Damage</code>), <strong>Armor/Def</strong> (<code>Defense</code>) — all available on <code>EnemyAgent</code></td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>None</strong> in V1 (read-only).</td>
+</tr>
+</tbody>
+</table>
+<h4>Neutral unit (mole)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Name only</strong> (e.g. “Mole”)</td>
+</tr>
+<tr>
+<td>Content</td>
+<td><strong>HP / Atk / Armor only if available</strong>. Baseline <code>MoleAgent</code> has <strong>no combat stats</strong> → content may be empty or a single neutral status line (e.g. “Ambient”); <strong>do not invent</strong> fake stats.</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>None</strong> in V1.</td>
+</tr>
+</tbody>
+</table>
+<h4>Construction site (separate window type)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Building name + “ under construction”</strong> (or equivalent clear phrase)</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>(1) State: <strong>Delivering resources</strong> if materials incomplete; <strong>Building in progress</strong> when materials complete and build work running (or waiting for builder — show best available state from site + linked BUILD task). (2) <strong>Resources delivered / resources needed</strong> per cost key (or summary lines). (3) <strong>Time until complete</strong> when build timer is active; if still delivering, show build duration estimate or “—” until timed build starts — use real site/task data, do not invent fake clocks.</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td><strong>None required</strong> in V1 (no invent cancel-site unless already exposed elsewhere).</td>
+</tr>
+</tbody>
+</table>
+<h4>Upgrade site (parallel)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>Building name + <strong>“ upgrading”</strong> (or equivalent)</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>Same shape as construction: state, delivered/needed, time remaining when timed upgrade runs.</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td>None required V1.</td>
+</tr>
+</tbody>
+</table>
+<h4>Demolish-in-progress (parallel)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td>Building name + <strong>“ demolishing”</strong> (or equivalent)</td>
+</tr>
+<tr>
+<td>Content</td>
+<td>State + <strong>time remaining</strong> from demolish task progress when available.</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td>None required V1 (Hold/Cancel remain on <strong>Tasks</strong> list as today).</td>
+</tr>
+</tbody>
+</table>
+<h4>Bare terrain (tunnel / non-diggable bare)</h4>
+<table>
+<thead>
+<tr>
+<th>Section</th>
+<th>Content</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Header</td>
+<td><strong>Terrain display name only</strong></td>
+</tr>
+<tr>
+<td>Content</td>
+<td>Minimal (optional coordinates); no dig/harvest buttons</td>
+</tr>
+<tr>
+<td>Interaction</td>
+<td>None.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.7 Unification with existing selection</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>U1</td>
+<td>Unify under a Session <strong>inspection controller</strong> (name free in plan; Master suggests <code>InspectionController</code>). Replace ad-hoc priority in <code>PlantInspectController</code> rather than leaving two competing LMB owners.</td>
+</tr>
+<tr>
+<td>U2</td>
+<td>Selecting a dwarf via <strong>roster</strong> should still select that dwarf and show the <strong>dwarf info window</strong> (inspection-compatible): set selection to that dwarf (tile stack may be rebuilt for dwarf’s tile at that dwarf’s index, or open dwarf window without stack — plan must pick one consistent rule; <strong>recommended:</strong> rebuild stack for dwarf’s tile and select that dwarf entry).</td>
+</tr>
+<tr>
+<td>U3</td>
+<td>Existing gold selection tint becomes <strong>blue inspection highlight</strong> while this feature owns unit selection presentation.</td>
+</tr>
+<tr>
+<td>U4</td>
+<td>Keep composition root wiring in <code>GameplayComposer</code> / <code>Bootstrap</code> / <code>SimulationDriver</code> OnGUI.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.8 Tests + docs</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T1</td>
+<td><strong>EditMode tests</strong> for pure stack building / cycle order / empty stack / multi-unit same tile (prefer pure helpers with fakes; no PlayMode required if testable).</td>
+</tr>
+<tr>
+<td>T2</td>
+<td>Tests for fog gate (unexplored → no inspect) if pure-testable via injected fog read model.</td>
+</tr>
+<tr>
+<td>T3</td>
+<td>Update <code>Assets/_Project/Scripts/Session/README.md</code> UX locks for inspection.</td>
+</tr>
+<tr>
+<td>T4</td>
+<td><code>docs/DECISIONS.md</code> entry for inspection V1 locks.</td>
+</tr>
+<tr>
+<td>T5</td>
+<td>String keys for new chrome labels via <code>UiStringKeys</code> / <code>StringTable</code> where practical (English defaults).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<ul>
+<li><strong>UI Toolkit</strong> / uGUI full redesign; new UI packages  </li>
+<li>Inspect while dig/harvest/build/move <strong>active</strong> (except existing shift-upgrade if retained)  </li>
+<li>Combat commands from enemy/mole windows (attack, focus fire, etc.)  </li>
+<li>Inventing mole HP/atk/armor  </li>
+<li>Changing plant diggability / harvest rules in World/Content  </li>
+<li>New enemy types, new ambient types  </li>
+<li>Save format changes (inspection is ephemeral UI state — <strong>do not</strong> persist stack)  </li>
+<li>Second language localization  </li>
+<li>Python port / rewriting simulation modules  </li>
+<li>Context menus on RMB (RMB = dismiss/cancel only)  </li>
+<li>Multiple simultaneous info windows  </li>
+<li>Floating free-move info window (position is fixed left below roster)  </li>
+<li>Redesigning HUD corner toolbar layout from HUD V1  </li>
+</ul>
+<hr>
+<h2>7. Architecture constraints</h2>
+<table>
+<thead>
+<tr>
+<th>Topic</th>
+<th>Constraint</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ownership</td>
+<td><strong>Session</strong> owns inspection input state, stack, selected index, which window is open</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>Highlights/list drawing may live in Session OnGUI and/or Presentation view helpers; <strong>no sim mutation in Presentation</strong></td>
+</tr>
+<tr>
+<td>Sim reads</td>
+<td>World, Fog, Agents, Enemies, Ambient, Buildings, Tasks (read models / existing services)</td>
+</tr>
+<tr>
+<td>Commands</td>
+<td>Dig/harvest designate, upgrade/demolish/forge/job/move/craft call <strong>existing</strong> service APIs only</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>Prefer Session → existing services; avoid new cycles (Session already references sim modules)</td>
+</tr>
+<tr>
+<td>Composition root</td>
+<td>Wire new controller in <code>GameplayComposer</code> / <code>Bootstrap</code> only</td>
+</tr>
+<tr>
+<td>Ephemeral</td>
+<td>Stack + selection UI state not saved</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Suggested types / touch list (sketch only — not full code)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Likely touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New</td>
+<td><code>InspectionController</code> (or evolve <code>PlantInspectController</code>), pure <code>InspectionStackBuilder</code> / entry types enum</td>
+</tr>
+<tr>
+<td>Session</td>
+<td><code>SimulationDriver</code> OnGUI: replace dwarf/building/plant panels with unified 3-section window + under-tile list; RMB clear</td>
+</tr>
+<tr>
+<td>Session</td>
+<td><code>DwarfSelectionController</code> / multi-at-tile query; keep job/move/craft hooks</td>
+</tr>
+<tr>
+<td>Session</td>
+<td><code>BuildingSelectionController</code> integrate with stack selection</td>
+</tr>
+<tr>
+<td>Agents</td>
+<td>Optional <code>GetColonistsAt(tile)</code> if cleaner than filtering <code>All</code></td>
+</tr>
+<tr>
+<td>Enemies / Ambient</td>
+<td>Query agents at tile (filter <code>All</code> OK for V1 scale)</td>
+</tr>
+<tr>
+<td>Buildings</td>
+<td>Site lookup by cell (existing APIs)</td>
+</tr>
+<tr>
+<td>Presentation</td>
+<td>Blue tile border overlay; unit blue highlight</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>EditMode stack + cycle + fog</td>
+</tr>
+<tr>
+<td>Docs</td>
+<td>Session README, DECISIONS</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>9. Gate B reminder (Coding session)</h2>
+<ol>
+<li><strong>Phase 1:</strong> Analysis &amp; Architecture plan only → STOP for Architect implementation approval.  </li>
+<li><strong>Phase 2:</strong> Implement exactly the approved plan + this brief’s exit criteria.  </li>
+<li><strong>Phase 3:</strong> Validation report → STOP.  </li>
+<li>After Architect <strong>accepts</strong> completed feature: local <strong>git snapshot</strong> per <code>AGENTS.md</code> → STOP.</li>
+</ol>
+<hr>
+<h2>10. Exit criteria (playable / testable)</h2>
+<ul>
+<li>[ ] Default navigate LMB on a multi-object tile builds a stack and opens the left info window.  </li>
+<li>[ ] Re-click same tile cycles selection; blue tile border + under-tile list track the active entry.  </li>
+<li>[ ] Selected object uses blue highlight.  </li>
+<li>[ ] Stack order matches §5.2 B5 for mixed tile (unit + plant + terrain).  </li>
+<li>[ ] Multiple dwarfs / enemies on one tile are separately cycled.  </li>
+<li>[ ] Building selectable from any footprint cell.  </li>
+<li>[ ] Construction / upgrade / demolish-in-progress show <strong>separate</strong> site-style windows (not folded into completed-building window).  </li>
+<li>[ ] Dwarf window: name header; current task content; Job/Move/Craft/equip work; no Deselect.  </li>
+<li>[ ] Building window: name header; housing only if &gt;0; upgrade/demolish/forge work.  </li>
+<li>[ ] Plant: Harvest button creates harvest designation.  </li>
+<li>[ ] Resource diggable: Dig button creates/toggles dig designation; no diggable flag text.  </li>
+<li>[ ] Enemy: name + HP/atk/def; no action buttons.  </li>
+<li>[ ] Mole: name; no fake combat stats.  </li>
+<li>[ ] Unexplored tile cannot inspect.  </li>
+<li>[ ] RMB clears inspection + selection.  </li>
+<li>[ ] Only one info window; fixed left below roster.  </li>
+<li>[ ] Dig/harvest/build/move modes still exclude inspection LMB.  </li>
+<li>[ ] EditMode tests green for stack/cycle (and fog if tested).  </li>
+<li>[ ] README + DECISIONS updated.  </li>
+<li>[ ] No regression of HUD V1 layout or prior tool modes.</li>
+</ul>
+<hr>
+<h2>11. Manual verification steps (Architect)</h2>
+<ol>
+<li>New Game → default camera.  </li>
+<li>Click empty <strong>tunnel</strong>: bare terrain window; blue tile border; list has one entry.  </li>
+<li>Click <strong>diggable stone/earth</strong>: resource name header; <strong>Dig</strong> creates dig task; re-click toggles/cycles per dig rules.  </li>
+<li>Click <strong>plant</strong>: plant header; <strong>Harvest</strong> creates harvest.  </li>
+<li>Select a <strong>dwarf</strong> (world or roster): name + current task; Job/Move/Craft still work.  </li>
+<li>Place dwarf on plant tile if possible: re-clicks cycle <strong>dwarf ↔ plant ↔ terrain</strong> (order per B5).  </li>
+<li>Click <strong>building</strong>: housing line only if tent/etc.; Upgrade/Demolish.  </li>
+<li>Start construction: click site → “under construction” header; delivered/needed + state.  </li>
+<li>Click <strong>enemy</strong>: HP/atk/def visible.  </li>
+<li>Click <strong>mole</strong>: name only (no invented stats).  </li>
+<li>Click <strong>unexplored</strong> fogged tile: no window / clears.  </li>
+<li><strong>RMB</strong>: everything clears.  </li>
+<li>Enter <strong>Dig mode</strong>: world LMB designates, does not open inspect. Exit mode → inspect works again.</li>
+</ol>
+<hr>
+<h2>12. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>L1 Activation</td>
+<td>Default navigate only; not dig/harvest/build/move</td>
+<td>Architect Q1-A</td>
+</tr>
+<tr>
+<td>L2 Input open</td>
+<td>LMB world click</td>
+<td>Architect intent</td>
+</tr>
+<tr>
+<td>L3 Input dismiss</td>
+<td>RMB clears inspection + selection; no Deselect buttons</td>
+<td>Architect Q5 / Q6</td>
+</tr>
+<tr>
+<td>L4 Window count</td>
+<td>One at a time</td>
+<td>Architect Q5</td>
+</tr>
+<tr>
+<td>L5 Window position</td>
+<td>Fixed left, below dwarf roster</td>
+<td>Architect Q5</td>
+</tr>
+<tr>
+<td>L6 Window sections</td>
+<td>Header / Content / Interaction</td>
+<td>Architect intent</td>
+</tr>
+<tr>
+<td>L7 Stack cycle</td>
+<td>Re-click same tile advances; other tile resets index 0</td>
+<td>Architect Q4 + Engineer rec</td>
+</tr>
+<tr>
+<td>L8 Stack order</td>
+<td>Dwarfs → Enemies → Moles → Buildings → Construction → Upgrade → Demolish → Plants → Resource diggable → Bare terrain</td>
+<td>Architect Q3 + Q2 site kinds</td>
+</tr>
+<tr>
+<td>L9 Multi-unit</td>
+<td>Multiple dwarfs and enemies per tile each get entries</td>
+<td>Architect Q2</td>
+</tr>
+<tr>
+<td>L10 Building pick</td>
+<td>Any footprint cell</td>
+<td>Architect Q2</td>
+</tr>
+<tr>
+<td>L11 Stack kinds</td>
+<td>Dwarfs, enemies, moles, buildings, construction, upgrade, demolish, plants, resource diggable, bare terrain</td>
+<td>Architect Q2</td>
+</tr>
+<tr>
+<td>L12 Highlight</td>
+<td>Blue tile border + selected object blue; under-tile OnGUI name list</td>
+<td>Architect Q4 + Engineer rec</td>
+</tr>
+<tr>
+<td>L13 Fog</td>
+<td>Unexplored cannot inspect</td>
+<td>Architect Q8</td>
+</tr>
+<tr>
+<td>L14 Tech</td>
+<td>Session OnGUI + existing services; no UI Toolkit</td>
+<td>Architect Q9 + Engineer rec</td>
+</tr>
+<tr>
+<td>L15 Dwarf UI</td>
+<td>Header name; content current task; Job/Move/Craft/equip retained</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>L16 Building UI</td>
+<td>Header name; housing only if &gt;0; forge block if forge; Upgrade/Demolish/orders</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>L17 Plant UI</td>
+<td>Header name; Harvest designate</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>L18 Resource UI</td>
+<td>Header resource name; no diggable flag; Dig designate</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>L19 Enemy UI</td>
+<td>Header name; HP + atk + armor/def; no interactions</td>
+<td>Architect Q6</td>
+</tr>
+<tr>
+<td>L20 Neutral UI</td>
+<td>Header name; HP/atk/armor only if available (moles: none today)</td>
+<td>Architect Q6 + on-disk</td>
+</tr>
+<tr>
+<td>L21 Resource vs plant</td>
+<td>Diggable vs harvestable; do not retune plant diggability</td>
+<td>Architect Q7</td>
+</tr>
+<tr>
+<td>L22 Construction window</td>
+<td>Separate; header name + under construction; state; delivered/needed; time</td>
+<td>Architect Q10</td>
+</tr>
+<tr>
+<td>L23 Upgrade/demolish windows</td>
+<td>Parallel separate site-style windows (not folded into Building)</td>
+<td>Architect Q2 + Q10 spirit</td>
+</tr>
+<tr>
+<td>L24 Soft-split</td>
+<td>Optional implementation drops OK; <strong>one</strong> feature exit</td>
+<td>Engineer rec (Q9)</td>
+</tr>
+<tr>
+<td>L25 Persist</td>
+<td>Inspection state not saved</td>
+<td>Engineer / Master ephemeral UI</td>
+</tr>
+<tr>
+<td>L26 Persist gold tint</td>
+<td>Inspection uses <strong>blue</strong> for selected object (supersedes gold while inspecting)</td>
+<td>Architect Q4 blue</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>13. Optional soft-split (same exit)</h2>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Focus</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Drop A</td>
+<td>Stack builder + cycle + fog gate + blue tile + under-tile list + bare/resource/plant windows + dig/harvest buttons</td>
+</tr>
+<tr>
+<td>Drop B</td>
+<td>Units (dwarf/enemy/mole) + building window + wire existing interactions; roster integration</td>
+</tr>
+<tr>
+<td>Drop C</td>
+<td>Construction / upgrade / demolish site windows + polish + tests/docs</td>
+</tr>
+</tbody>
+</table>
+<p>Ship only when <strong>all</strong> exit criteria pass.</p>
+<hr>
+<h2>14. OPEN QUESTIONS</h2>
+<p><strong>None</strong> — Q1–Q10 resolved for V1 coding. Remaining details (exact blue color hex, list font size, precise “time remaining” formatting) are local implementation choices inside Gate B Phase 1 plan, as long as locks above hold.</p>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] Brief validated (especially §5.6 windows + §12 locks)  </li>
+<li>[ ] Overrides sent if any  </li>
+<li>[ ] <strong>Approve brief</strong>  </li>
+<li>[ ] Fresh Coding session with §16 kickoff  </li>
+<li>[ ] Approve Gate B Phase 1 plan before code  </li>
+<li>[ ] Play-test §11 after implementation  </li>
+<li>[ ] Accept feature → Engineer git snapshot  </li>
+</ul>
+<hr>
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/tasks/FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md
+
+Unity project root (write code HERE only):
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. architecture_docs/tasks/FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md — full file
+3. docs/DECISIONS.md — HUD layout, OnGUI, hotkeys, mutual exclusion
+4. architecture_docs/decisions/P0_BOOTSTRAP_DECISIONS.md
+5. architecture_docs/UNITY_MASTER_ARCHITECTURE.md — Session/input, inspection controller intent, composition root
+6. architecture_docs/input_handler.md — legacy inspection notes (non-binding where brief locks differ)
+7. Baseline Session code: PlantInspectController, DwarfSelectionController, BuildingSelectionController, SimulationDriver HUD, Bootstrap, GameplayComposer
+8. Read models as needed: Agents, Enemies, Ambient/MoleAgent, Buildings sites, Tasks, World/PlantHarvest/Terrain, Fog
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include:
+- Restated goal; in/out scope matching the brief
+- Stack builder design (kinds, order L8, multi-unit)
+- Input pipeline (LMB cycle, RMB clear, fog gate, mode exclusion)
+- Info window shell + per-type sections (brief §5.6)
+- How existing dwarf/building actions move into the shell
+- Presentation: blue tile border, under-tile list, object highlight
+- Roster click integration
+- EditMode test plan
+- Risks / non-regression (HUD V1, dig/harvest/build/move)
+- Confirm OPEN QUESTIONS = None; treat §12 locks as frozen
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan and brief exit criteria.
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed feature: create local git snapshot per AGENTS.md, then STOP.
+Do not start another feature unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Obey brief §6 out of scope / hard forbids
+- No UI Toolkit migration
+- Do not invent mole combat stats, new sim rules, or save fields for inspection
+- Do not regress dig/harvest/build/move, forge, upgrade/demolish, craft, HUD V1 layout
+- Concrete service construction only in composition root (GameplayComposer) unless brief says otherwise
+- Do not invent game rules, costs, timings, or packages
+- Do not move architecture_docs under Assets/
+</code></pre>
+<hr>
+<h2>17. Brief Writer notes (non-normative)</h2>
+<p>Resolved Architect answers Q1–Q10 into locks L1–L26. Engineer recommendations applied for: under-tile OnGUI list, blue highlight superseding gold, OnGUI tech, optional soft-split with single exit, upgrade/demolish site windows parallel to construction.<br>
+<code>MoleAgent</code> has no combat stats on disk — content rules honor “if available.”</p>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-VOLUME-PATHFINDING-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-VOLUME-PATHFINDING-V1">Volume pathfinding V1</h3>
+            <p class="file-cap">FEATURE_VOLUME_PATHFINDING_V1_GROK_BUILD_BRIEF.md · 252 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-PATHFINDING-V1</code>. Standable-volume A* / nearest-stand. Accepted 17 Aug 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_VOLUME_PATHFINDING_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Volume Pathfinding V1</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-PATHFINDING-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Standable-volume A<em> / nearest-stand </em><em>V1</em>* (roadmap step 12)</td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>ADR-0010; <code>UK-FEAT-WORLD-STANDABLE-VOLUME-V1</code> implemented; spike path idea (<code>PlayspacePathfinder</code>) as reference only</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§14</strong>. Request edits if needed (briefs are <strong>not</strong> approved).  </li>
+<li>When you want coding: say <strong>start Gate B</strong>.  </li>
+<li>Coding: Gate B <strong>plan only</strong> → you approve plan → implement → accept → git snapshot + push to origin.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code>.  </li>
+<li>This brief is <strong>task law</strong>.  </li>
+<li><strong>Phase 1 plan only first</strong> after an explicit <strong>start Gate B</strong>.  </li>
+<li>Do <strong>not</strong> change live 2D <code>FindPath(Vector2Int, …)</code> meaning or Labor / AgentMotor / 2D colony movement.  </li>
+<li>Do <strong>not</strong> invent Depth, occupancy, or hop time.</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Roadmap <strong>step 12</strong>: pathfinding must walk the <strong>standable volume</strong> (±X, ±Z on a floor), not only the 2D slice.  </li>
+<li>Step 11 added <code>IsStandable</code> but <strong>did not</strong> wire A*. Live colony still uses <code>IsWalkable(x,y)</code>.  </li>
+<li>Keep New Game <strong>2D-playable</strong>. Same isolation as step 11: <strong>add</strong> a volume path API; do <strong>not</strong> replace the live mover graph yet.  </li>
+<li>Do <strong>not</strong> put live dwarves on Z in this task (no motor / presentation / labor conversion). Tests and the new API prove XZ routes (including front→back <strong>4 hops</strong> on a depth-5 hallway).  </li>
+<li>Ladders / ramps / changing feet <strong>Y</strong> stay out (structure passability remains Buildings).</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Volume</td>
+<td><code>IWorldVolumeQuery</code>: <code>Depth</code>, <code>InBounds(x,y,z)</code>, <code>GetVoxel</code>, <code>IsStandable(x, feetY, z)</code></td>
+</tr>
+<tr>
+<td>Depth</td>
+<td><code>WorldConstants.DefaultDepth = 5</code> (Z = 0…4)</td>
+</tr>
+<tr>
+<td>Stand rule</td>
+<td>2 air + solid/bedrock support (<code>WorldStandRules</code>)</td>
+</tr>
+<tr>
+<td>Live A*</td>
+<td><code>IPathfindingService.FindPath(Vector2Int, Vector2Int[, footprint])</code> on <code>IWalkabilityMap</code></td>
+</tr>
+<tr>
+<td>Cache</td>
+<td>P15 key <code>(start, goal, footprint W×H)</code>; invalidate on walkability change</td>
+</tr>
+<tr>
+<td>Spike</td>
+<td><code>PlayspacePathfinder</code> XZ BFS; <strong>not</strong> the live API</td>
+</tr>
+<tr>
+<td>Live play</td>
+<td>2D Gameplay + isolated Playspace spike</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> existing Pathfinding / World / Labor / Buildings / Agents EditMode tests; New Game 2D hops; spike scene.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Add <strong>volume pathfinding</strong> that searches <strong>standable</strong> cells: 4-neighbors <strong>±X and ±Z</strong> at the <strong>same feet Y</strong>; 1 tile X = 1 tile Z; hop metric unchanged for later motors. Keep all existing <strong>2D</strong> <code>FindPath</code> / <code>FindNearestWalkable</code> overloads <strong>behaviorally unchanged</strong> for live Labor and colonists. New overloads (Coding plan names types) take feet <code>(x, y, z)</code> and use <code>IsStandable</code> only. Session cache keys for the new API include feet Y and Z. Invalidate still runs on the existing walkability-changed callbacks (volume is derived from the same <code>SetTerrain</code>). EditMode tests: X hallway, Z hallway, depth-5 front→back is <strong>4 hops</strong> and not 3, 1-high crawl unusable, solid column blocks, OOB. Update <code>Pathfinding/README.md</code> and a <code>docs/DECISIONS.md</code> entry. Do not move <code>AgentMotor</code> or the 2D view onto Z.</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B + brief/Gate B start rules</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task law</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>architecture_docs/adr/0010-3d-play-space.md</code></td>
+<td>Axes, 1 tile X = 1 tile Z, occupancy</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>docs/DECISIONS.md</code> — standable volume V1 + spike Q1-B</td>
+<td>D=5; 4 hops front→back</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>Assets/_Project/Scripts/Pathfinding/README.md</code></td>
+<td>Live 2D A<em> to </em><em>extend</em>*</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>Assets/_Project/Scripts/World/README.md</code></td>
+<td><code>IsStandable</code> query-only until this task’s <strong>new</strong> API</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>PlayspacePathfinder</code></td>
+<td>Algorithm <strong>idea</strong> only</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>Volume <code>FindPath</code> from standable start to standable goal at a <strong>fixed feet Y</strong>: neighbors ±X, ±Z only. Success path lists feet cells inclusive. Same-cell standable → one node. Manhattan-1 shortcut allowed if both stands and adjacent in XZ.</td>
+</tr>
+<tr>
+<td>A2</td>
+<td>Volume <code>FindNearestStandable</code> (or equivalent): BFS in XZ at that feet Y; default max distance <strong>10</strong> (same idea as 2D).</td>
+</tr>
+<tr>
+<td>A3</td>
+<td>Reuse <code>PathResult</code> / <code>PathStatus</code> meanings (Blocked, CapExceeded <strong>1000</strong>, NonWalkable start/goal, OutOfBounds).</td>
+</tr>
+<tr>
+<td>A4</td>
+<td>Cache Success/Blocked for volume queries; key <strong>must</strong> include feet Y, start/goal XZ (and Z). Do <strong>not</strong> collide with 2D cache keys. <code>InvalidatePathCache()</code> clears <strong>both</strong>.</td>
+</tr>
+<tr>
+<td>A5</td>
+<td>Live 2D overloads <strong>unchanged</strong> (same walk map, same footprint rules).</td>
+</tr>
+<tr>
+<td>A6</td>
+<td>EditMode tests (§10).</td>
+</tr>
+<tr>
+<td>A7</td>
+<td><code>Pathfinding/README.md</code> + <code>World/README.md</code> one-line that volume path exists but live movers still use 2D walk.</td>
+</tr>
+<tr>
+<td>A8</td>
+<td><code>docs/DECISIONS.md</code> entry for volume path V1 (2D live / 3D API split).</td>
+</tr>
+</tbody>
+</table>
+<p>Coding plan chooses: extra methods on <code>IPathfindingService</code> vs a small sibling interface. Prefer <strong>one</strong> pathfinding service (composer already owns it) unless assemblies forbid it. Pathfinding may depend on <code>IWorldVolumeQuery</code> <strong>in addition to</strong> <code>IWalkabilityMap</code> / <code>IGridQuery</code>.</p>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Changing 2D <code>FindPath(Vector2Int, …)</code> results</td>
+<td>Keep colony playable</td>
+</tr>
+<tr>
+<td><code>AgentMotor</code> / <code>ColonistView</code> / Labor / MultiGoal on Z</td>
+<td>Later slice (presentation + movers)</td>
+</tr>
+<tr>
+<td>Climbing feet Y (ladders, ramps, ±Y edges)</td>
+<td>Structure passability / later</td>
+</tr>
+<tr>
+<td>Replacing <code>IWalkabilityMap</code></td>
+<td>Step 11 lock</td>
+</tr>
+<tr>
+<td>Building recipes / 3D cave view / world-gen volumes</td>
+<td>Steps 13–15</td>
+</tr>
+<tr>
+<td>Unit–unit blocking</td>
+<td>Existing out of scope</td>
+</tr>
+<tr>
+<td>Changing hop duration</td>
+<td>Still 0.5 s when a motor uses the path later</td>
+</tr>
+<tr>
+<td>Deleting Playspace spike pathfinder</td>
+<td>Isolated proof stays</td>
+</tr>
+<tr>
+<td>8-dir / diagonal hops</td>
+<td>ADR-0010 / existing 4-neighbor law</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<ol>
+<li>ADR-0002: pathfinding <strong>reads</strong> World; it does not draw or stamp terrain.  </li>
+<li>Pathfinding must not reference Presentation, Session, Agents, Labor, Buildings.  </li>
+<li>Volume path uses <strong><code>IsStandable</code> only</strong> (not catalog <code>IsWalkable</code>) for the new API.  </li>
+<li>Dwarf/ork occupancy is already in the stand rule (1×1 floor, 2 tall). V1 volume path is <strong>that</strong> occupancy — no separate 2×3 troll volume footprint in this task.  </li>
+<li>Composition: still construct <code>PathfindingService</code> only in <code>GameplayComposer</code>.  </li>
+<li>ADR-0008: Pathfinding README updates <strong>with</strong> implementation.</li>
+</ol>
+<hr>
+<h2>8. Suggested types / touch list (sketch only)</h2>
+<table>
+<thead>
+<tr>
+<th>Touch</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>IPathfindingService</code> / <code>PathfindingService</code></td>
+<td>New volume overloads + cache</td>
+</tr>
+<tr>
+<td><code>AStarPathfinder</code> or sibling</td>
+<td>XZ search on <code>IWorldVolumeQuery</code></td>
+</tr>
+<tr>
+<td><code>Pathfinding/README.md</code>, <code>World/README.md</code>, <code>docs/DECISIONS.md</code></td>
+<td>After implement</td>
+</tr>
+<tr>
+<td><code>UK.Pathfinding.Tests</code></td>
+<td>New volume tests</td>
+</tr>
+<tr>
+<td><code>GameplayComposer</code></td>
+<td>Only if constructor needs <code>IWorldVolumeQuery</code> (WorldService already is one)</td>
+</tr>
+</tbody>
+</table>
+<p>Unlikely: Labor, AgentMotor, TilemapWorldView, Playspace types.</p>
+<hr>
+<h2>9. Gate B reminder</h2>
+<ol>
+<li>Phase 1 plan only after <strong>start Gate B</strong>.  </li>
+<li>STOP for <strong>approve plan</strong>.  </li>
+<li>Implement → validate → STOP. Accept → git snapshot + push to origin.</li>
+</ol>
+<hr>
+<h2>10. Exit criteria</h2>
+<ul>
+<li>[ ] 2D <code>FindPath</code> / nearest / cache tests <strong>still pass</strong>.  </li>
+<li>[ ] 2-high tunnel along <strong>X</strong>: volume path succeeds.  </li>
+<li>[ ] 2-high tunnel along <strong>Z</strong>: volume path succeeds.  </li>
+<li>[ ] Depth-5 hallway, same feet Y: front Z=0 → back Z=4 is <strong>4 hops</strong>, <strong>not</strong> 3.  </li>
+<li>[ ] 1-high crawl: start or goal not standable → NonWalkable*.  </li>
+<li>[ ] Solid column blocks Z route.  </li>
+<li>[ ] Cap / OOB statuses still typed (no partial path past cap).  </li>
+<li>[ ] Volume cache hit on repeat; invalidate clears it.  </li>
+<li>[ ] New Game 2D + spike still run.  </li>
+<li>[ ] READMEs + DECISIONS updated.</li>
+</ul>
+<hr>
+<h2>11. Manual verification (Architect)</h2>
+<ol>
+<li>New Game — dwarves still path on the 2D map as today.  </li>
+<li>Play-Space Spike — unchanged.  </li>
+<li>No requirement to <em>see</em> live-colony Z motion in this slice (tests carry the API).</li>
+</ol>
+<hr>
+<h2>12. Soft split</h2>
+<p>Not needed.</p>
+<hr>
+<h2>13. Risks / notes</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Callers accidentally switch to volume path</td>
+<td>Keep 2D signatures; new overloads only</td>
+</tr>
+<tr>
+<td>Cache key collision</td>
+<td>Separate key space including Y/Z</td>
+</tr>
+<tr>
+<td>Labor still 2D</td>
+<td>Intentional until a mover+view task</td>
+</tr>
+<tr>
+<td>1000-cap on 300×180×5</td>
+<td>Same cap as 2D; document CapExceeded</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>14. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Axes / metric</td>
+<td>±X ±Z; 1 tile X = 1 tile Z</td>
+<td>ADR-0010</td>
+</tr>
+<tr>
+<td><strong>L2</strong> Depth</td>
+<td><strong>5</strong> (Z = 0…4)</td>
+<td>Step 11 / Architect</td>
+</tr>
+<tr>
+<td><strong>L3</strong> Front→back hops</td>
+<td><strong>4</strong> on a full-depth standable hallway</td>
+<td>Spike Q1-B</td>
+</tr>
+<tr>
+<td><strong>L4</strong> Occupancy</td>
+<td>Stand rule 1×1 floor, 2 tall</td>
+<td>ADR-0010 / step 11</td>
+</tr>
+<tr>
+<td><strong>L5</strong> Live 2D A*</td>
+<td><strong>Unchanged</strong></td>
+<td>This brief / step 11 isolation</td>
+</tr>
+<tr>
+<td><strong>L6</strong> No ±Y edges</td>
+<td>V1</td>
+<td>This brief</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Expansion cap</td>
+<td><strong>1000</strong></td>
+<td>Existing Pathfinding README</td>
+</tr>
+<tr>
+<td><strong>L8</strong> Building W×H / saves</td>
+<td>Unchanged</td>
+<td>Architect</td>
+</tr>
+<tr>
+<td><strong>L9</strong> Spike</td>
+<td>Keep isolated</td>
+<td>Step 11</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> None.</p>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] §14 matches intent (add volume A*, do not convert live movers)  </li>
+<li>[ ] Optional: request brief edits  </li>
+<li>[ ] When ready: <strong>start Gate B</strong></li>
+</ul>
+<hr>
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_VOLUME_PATHFINDING_V1_GROK_BUILD_BRIEF.md
+
+Unity project root:
+Unity project root
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (full file)
+3. architecture_docs/adr/0010-3d-play-space.md
+4. Assets/_Project/Scripts/Pathfinding/README.md
+5. Assets/_Project/Scripts/World/README.md — standable volume
+6. docs/DECISIONS.md — standable volume V1 + spike hops
+7. On-disk PathfindingService / AStar / IWorldVolumeQuery — extend; do not rebuild
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+NO production code until the Architect explicitly approves implementation.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Do not change live 2D FindPath behavior
+- Do not convert Labor / AgentMotor / presentation to Z
+- Do not add ±Y climbing
+- Do not remove the Playspace spike
+- DefaultDepth is 5; front→back hops on a full hallway is 4
+</code></pre>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-VOLUME-DIG-MARKS-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-VOLUME-DIG-MARKS-V1">Volume dig marks V1</h3>
+            <p class="file-cap">FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md · 260 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-DIG-MARKS-V1</code>. DIG marks on the z = 0 cutaway. Accepted 1 Sep 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Volume World dig marks V1 (roadmap V2)</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-DIG-MARKS-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Roadmap <strong>V2</strong>: dig designations visible on the <strong>z = 0</strong> cutaway <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>2.5D Phase B Volume task markers; <code>architecture_docs/ROADMAP_VOLUME_PRODUCT.md</code> V2 (R10–R11)</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§14</strong>. Request edits if needed (briefs are <strong>not</strong> approved).</li>
+<li>When you want coding: say <strong>start Gate B</strong>.</li>
+<li>Coding: plan → you approve plan → implement → accept → git snapshot + push to origin.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code>.</li>
+<li>This brief is <strong>task law</strong>.</li>
+<li>Phase 1 plan only after <strong>start Gate B</strong>. Write the plan to <code>architecture_docs/coding_plans/</code> <strong>and</strong> chat.</li>
+<li>Do <strong>not</strong> move marks to the chamber back (z = d−1).</li>
+<li>Do <strong>not</strong> start V1 (unless already tasked separately), V3–V5, F, or G.</li>
+<li>Do <strong>not</strong> change harvest/build/other marker types except as needed so Dig still rebuilds.</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Volume World digging task markings do not read in play.</li>
+<li>Only the <strong>first row (z = 0)</strong> is diggable. Marks belong on that cutaway, not in the deep cave.</li>
+<li>Fix visibility/wiring/occlusion at <strong>z = 0</strong>. Do not invent dig-at-z=4.</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Dig sim</td>
+<td><code>DigDesignateController</code> + <code>TaskType.Dig</code> on <strong>XY</strong>. Earth <code>IsDiggable</code>. <code>SetTerrain(Tunnel)</code> → <strong>d = 1</strong>. No per-Z dig</td>
+</tr>
+<tr>
+<td>2D marks</td>
+<td><code>DebugDigTaskMarkerView</code>: tile overlay, sort <strong>30</strong>, type colors; Dig unassigned <strong>red</strong></td>
+</tr>
+<tr>
+<td>Volume marks</td>
+<td><code>WorldVolumeTaskMarkerView</code> bound in <code>VolumeWorldBootstrap</code>. Quad at <code>(x+0.5, y+0.5, **0.07**)</code> default Unity orientation</td>
+</tr>
+<tr>
+<td>Why it fails (verify in plan)</td>
+<td>z = 0.07 sits <strong>inside</strong> a Solid earth voxel (z in [0,1)); 18° camera looks <strong>+Z</strong>; default Quad faces <strong>−Z</strong> → buried and/or back-face culled</td>
+</tr>
+<tr>
+<td>Dig color</td>
+<td>Same red as 2D when unassigned; assigned green; unreachable/hold gray</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> dig XY rules; 2D <code>DebugDigTaskMarkerView</code>; door modes; stamp depth; save format; hop; path cap; 18° camera.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>In Volume World, a <strong>DIG</strong> designation on an earth column is a <strong>visible mark on the z = 0 cutaway</strong> (in front of the voxel, facing the dollhouse camera). Dig stays an XY task; only that first row is markable/diggable. Harvest/build/other Volume marks are <strong>not</strong> this slice. Extract a <strong>pure pose</strong> helper so EditMode can lock position/facing without GPU. Presentation README + <code>docs/DECISIONS.md</code>.</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task law</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>ROADMAP_VOLUME_PRODUCT.md</code> V2 + <strong>R10 R11</strong></td>
+<td>Dig z=0; marks z=0; not chamber back</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ADR-0002, ADR-0010</td>
+<td>View draws; Z into cave; camera from −Z</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>WorldVolumeTaskMarkerView</code>, <code>DebugDigTaskMarkerView</code>, <code>DigDesignateController</code></td>
+<td>Baseline</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Phase B input/HUD brief</td>
+<td>Volume markers exist</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td><strong>Pure dig-mark pose</strong> (Presentation.WorldVolume): from task XY → <code>Vector3</code> position + <code>Quaternion</code> rotation. Position: cell center in XY, <strong>slightly in front of the z = 0 cutaway</strong> (z <strong>&lt; 0</strong>, not 0.07 inside the voxel). Rotation: mark faces the camera (<strong>−Z</strong> / cutaway). Plan names the epsilon (small, e.g. on the order of <strong>0.02–0.08</strong>).</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td><code>WorldVolumeTaskMarkerView</code>: <strong>Dig</strong> uses F1. Keep existing colors / assigned / unreachable. Do not change <code>IsMarkerType</code> set except Dig must remain included. Other types: <strong>leave current pose</strong> (out of scope) unless a one-line share of F1 for Dig-only is cleaner — do <strong>not</strong> spend the slice restyling harvest/build.</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td>Quad (or equivalent) must <strong>not</strong> z-fight the earth face and must not sit inside Solid. Unlit, no collider (already).</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td>EditMode tests (no GPU): Dig pose XY matches cell; <strong>z &lt; 0</strong>; z is <strong>not</strong> 4 / not chamber back; rotation forward has <strong>negative Z</strong> (faces camera). Bind/rebuild still creates a marker for an open Dig task if a cheap host test already exists — otherwise pose tests are enough.</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td>Presentation README (Volume task marks: Dig on z=0 facade) + <code>docs/DECISIONS.md</code>.</td>
+</tr>
+</tbody>
+</table>
+<p>Dig <strong>sim</strong> (<code>IsDiggable</code>, designate, tunnel d=1) <strong>unchanged</strong>. Volume pick for dig stays <strong>column XY</strong>.</p>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Marks at z = d−1 / chamber back</td>
+<td>Architect Q8</td>
+</tr>
+<tr>
+<td>Digging voxels at z &gt; 0</td>
+<td>R10; later if ever</td>
+</tr>
+<tr>
+<td>Harvest / build / demolish / haul mark polish</td>
+<td>Not V2</td>
+</tr>
+<tr>
+<td>V1 starter depth, V3 occupy-Z, V4 1-tall, V5 climb, F, G</td>
+<td>Other slices</td>
+</tr>
+<tr>
+<td>New 2D overlay parented into Volume</td>
+<td>Phase B lock</td>
+</tr>
+<tr>
+<td>New art / <code>ASSET_*</code></td>
+<td>Color quads OK</td>
+</tr>
+<tr>
+<td>Changing Task XY, save format, dig costs/time</td>
+<td>Unchanged</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<ol>
+<li><strong>ADR-0002:</strong> pose math is pure; MonoBehaviour only applies transform. Tasks/World unchanged.</li>
+<li><strong>ADR-0005:</strong> still <code>VolumeWorldBootstrap</code> binds <code>WorldVolumeTaskMarkerView</code>.</li>
+<li>Presentation may read Tasks (already). No Buildings/Pathfinding change.</li>
+<li>Camera lock 18°, look into <strong>+Z</strong>.</li>
+</ol>
+<hr>
+<h2>8. Suggested types / touch list (sketch only — not full code)</h2>
+<table>
+<thead>
+<tr>
+<th>Touch</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>New pure helper (e.g. <code>WorldVolumeDigMarkPose</code>)</td>
+<td>XY → position + rotation for z=0 facade</td>
+</tr>
+<tr>
+<td><code>WorldVolumeTaskMarkerView.UpsertMarker</code></td>
+<td>Dig uses helper; z=0.07 path goes away for Dig</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Pose unit tests</td>
+</tr>
+<tr>
+<td>Presentation README + DECISIONS</td>
+<td>After implement</td>
+</tr>
+</tbody>
+</table>
+<p>Unlikely: <code>DigDesignateController</code>, <code>TaskService</code>, mesh baker, 2D marker view.</p>
+<hr>
+<h2>9. Gate B reminder</h2>
+<p>Start only on <strong>start Gate B</strong>. Plan in chat <strong>and</strong> <code>architecture_docs/coding_plans/FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md</code> → approve → implement → STOP.</p>
+<p>Phase 1 plan must name: why z=0.07 fails; facade z (negative epsilon); facing; Dig-only vs other types.</p>
+<hr>
+<h2>10. Exit criteria</h2>
+<ul>
+<li>[ ] Volume World: <strong>D</strong> + LMB earth at the cutaway → a <strong>red</strong> (unassigned) mark is <strong>visible</strong> on that tile’s <strong>front</strong>.</li>
+<li>[ ] Mark is <strong>not</strong> inside the earth mesh and <strong>not</strong> on the chamber back wall.</li>
+<li>[ ] Assigned / unreachable colors still match 2D meaning (green / gray).</li>
+<li>[ ] Dig still XY; tunnel still <strong>d = 1</strong>. No z&gt;0 dig.</li>
+<li>[ ] F4 tests pass. README + DECISIONS updated.</li>
+</ul>
+<hr>
+<h2>11. Manual verification (Architect)</h2>
+<ol>
+<li>Volume World, dig mode, click <strong>earth</strong> on the cutaway. See a mark on that face.</li>
+<li>Orbit/pan slightly: mark stays on the <strong>front</strong>, not the deep back of a hall.</li>
+<li>2D New Game dig marks unchanged.</li>
+</ol>
+<hr>
+<h2>12. Soft split</h2>
+<p>Not needed.</p>
+<hr>
+<h2>13. Risks / notes</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Quad back-face + buried z=0.07</td>
+<td>Facade z &lt; 0 + face −Z</td>
+</tr>
+<tr>
+<td>Earth mesh z-fight</td>
+<td>Small epsilon; unlit</td>
+</tr>
+<tr>
+<td>Other task quads still invisible</td>
+<td>Accepted until a later slice</td>
+</tr>
+<tr>
+<td>Fog overlay hiding marks</td>
+<td>Do not parent 2D fog; keep unlit on cutaway</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>14. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Dig row</td>
+<td>Only <strong>z = 0</strong> (first row / cutaway)</td>
+<td>Roadmap R10</td>
+</tr>
+<tr>
+<td><strong>L2</strong> Mark Z</td>
+<td>On that facade, <strong>not</strong> chamber back</td>
+<td>Roadmap R11 / Q8</td>
+</tr>
+<tr>
+<td><strong>L3</strong> Dig sim</td>
+<td>XY <code>IsDiggable</code>; Tunnel <strong>d = 1</strong></td>
+<td>Existing + R6</td>
+</tr>
+<tr>
+<td><strong>L4</strong> Types</td>
+<td><strong>Dig only</strong> this slice</td>
+<td>Roadmap V2</td>
+</tr>
+<tr>
+<td><strong>L5</strong> Colors</td>
+<td>Same 2D Dig unassigned/assigned/unreachable</td>
+<td>Phase B / 2D view</td>
+</tr>
+<tr>
+<td><strong>L6</strong> Camera</td>
+<td>18°, look +Z</td>
+<td>Phase B</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Not this slice</td>
+<td>V1/V3–V5, F, G, z&gt;0 dig</td>
+<td>Roadmap</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> None.</p>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] V2 = visible <strong>dig</strong> marks on <strong>z = 0</strong> cutaway only</li>
+<li>[ ] Optional: request brief edits</li>
+<li>[ ] When ready: <strong>start Gate B</strong></li>
+</ul>
+<hr>
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_VOLUME_DIG_MARKS_V1_GROK_BUILD_BRIEF.md
+
+Unity project root:
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (full file)
+3. architecture_docs/ROADMAP_VOLUME_PRODUCT.md — V2 + R10 R11
+4. docs/DECISIONS.md — Volume product Q8; Phase B markers
+5. architecture_docs/adr/0002-simulation-presentation-separation.md
+6. architecture_docs/adr/0010-3d-play-space.md
+7. Presentation/WorldVolume: WorldVolumeTaskMarkerView
+8. Presentation: DebugDigTaskMarkerView (color / 2D baseline)
+9. Session: VolumeWorldBootstrap (Bind task markers)
+10. Dig: DigDesignateController (XY only — do not change unless plan proves a one-liner)
+11. Existing code the brief marks as baseline (reuse; do not rebuild)
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+Write the full plan to architecture_docs/coding_plans/FEATURE_VOLUME_DIG_MARKS_V1_CODING_PLAN.md
+(and present it in chat). Chat-only is a process fail.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include: restated goal; in/out; why z=0.07 fails; facade pose (z epsilon + facing);
+Dig-only vs other types; tests; risks; locks L1–L7.
+If the brief lists OPEN questions, stop and surface them — do not invent.
+Otherwise treat brief locks as frozen.
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan file under architecture_docs/coding_plans/
+(and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed slice: commit and push to origin (GitHub) per AGENTS.md, then STOP.
+Do not start the next phase unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Do not put dig marks on the chamber back (z = d-1)
+- Do not add dig-at-z&gt;0
+- Do not polish harvest/build/other Volume marks (Dig only)
+- Do not start V3–V5, F, or G
+- Do not parent 2D tilemap overlays into Volume World
+- Do not change catalog, save format, hop, path cap, stamp depth
+- Do not make floor tiles occupy-legal
+</code></pre>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-25D-PHASE-E-LIVE-Z-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-25D-PHASE-E-LIVE-Z-V1">2.5D Phase E — live Z V1</h3>
+            <p class="file-cap">FEATURE_25D_PHASE_E_LIVE_Z_V1_GROK_BUILD_BRIEF.md · 364 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-25D-PHASE-E-LIVE-Z-V1</code>. Feet Z, volume Labor/move, save posZ. Part of Phases A–E (historical).</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_25D_PHASE_E_LIVE_Z_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — 2.5D Phase E: live Z V1</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-25D-PHASE-E-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>2.5D <strong>Phase E</strong> — live feet <code>(x, y, z)</code> in Volume World; Labor uses volume <code>FindPath</code>; work / haul / combat on the XZ floor; save <strong>z</strong>; ladder ±Y in the volume graph</td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>2.5D Phase A + B + C + <strong>D</strong> accepted; volume <code>FindPath(Vector3Int)</code> + <code>IsLiveStandable</code>; live <code>AgentMotor</code> / <code>EnemyMotor</code> / <code>MoleAgent</code> XY; <code>SavePaths.FormatVersion</code> <strong>4</strong></td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>Unity project root/architecture_docs/</code></td>
+</tr>
+<tr>
+<td><strong>Roadmap</strong></td>
+<td><code>architecture_docs/ROADMAP_25D_FEATURE_COMPLETE.md</code> — Phase E (E1–E4, one exit)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§14</strong>. Request edits if needed (briefs are <strong>not</strong> approved).</li>
+<li>When you want coding: say <strong>start Gate B</strong>.</li>
+<li>Coding: plan → you approve plan → implement → accept → git snapshot + push to origin.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code>.</li>
+<li>This brief is <strong>task law</strong>.</li>
+<li>Phase 1 plan only after <strong>start Gate B</strong>.</li>
+<li>Do <strong>not</strong> replace default New Game / Load / Edit → 2D <code>Gameplay</code>.</li>
+<li>Do <strong>not</strong> put live <strong>Z</strong> on the 2D tilemap (motors in <code>Gameplay</code> stay XY at <strong>z = 0</strong>).</li>
+<li>Do <strong>not</strong> implement Phase F–G (cutover, kit / enemy / plant art gen).</li>
+</ol>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Phases A–D put the <strong>full sim</strong> on the 3D set, but everyone still slides on the <strong>front cut</strong> (<code>z = 0</code>). Volume <code>FindPath</code> exists and is unused by Labor / live motors.</li>
+<li>Phase E: <strong>live Z</strong> — colonists, enemies, and moles have feet <code>(x, y, z)</code>. In Volume World, Labor (and player move) uses volume <code>FindPath</code>.</li>
+<li>Work stands, haul occupy, and combat Chebyshev use the <strong>XZ walk plane</strong> (same feet Y), so a dwarf at the back of a chamber is not meleeing an enemy on the facade.</li>
+<li>Persist <strong>z</strong>. Old saves: <strong>discard</strong> (format bump).</li>
+<li>±Y / ladder climb in the <strong>volume</strong> graph, because 2D ladder hops are still required and volume A* is fixed-Y today.</li>
+<li>Exit: dwarves walk <strong>into</strong> chambers on New Game’s <strong>3D view</strong> (Volume World). Passages stay shallow (gen depths). Default New Game stays 2D until Phase F.</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Phase D</td>
+<td>Volume World = <code>GameplayComposer</code> campaign New Game; recipes; HUD + column pick; enemies/moles/fog/plants/ore at <strong>z = 0</strong>; no live Z</td>
+</tr>
+<tr>
+<td>Live motors</td>
+<td><code>AgentMotor</code> / <code>EnemyMotor</code> / <code>MoleAgent.Position</code> are <strong><code>Vector2Int</code></strong>. Hop 0.5 s/tile. Labor <code>FindPath(..., UnitFootprints.Dwarf)</code> on <strong>2D</strong> live stand at z = 0</td>
+</tr>
+<tr>
+<td>Volume path</td>
+<td><code>IPathfindingService.FindPath(Vector3Int, Vector3Int)</code> / <code>FindNearestStandable</code>: <strong>±X ±Z</strong>, <strong>fixed feet Y</strong>, <code>IsStandable</code> only. Different Y → <code>Blocked</code>. <strong>No</strong> door/lock, <strong>no</strong> <code>IsLiveStandable</code> / ladder, <strong>no</strong> enemy bash map</td>
+</tr>
+<tr>
+<td>Live 1×2</td>
+<td><code>WorldStandRules.IsLiveStandable(x, y, z)</code> = <code>IsStandable</code> <strong>or</strong> completed ladder + 2-tall clearance. 2D A<em> uses that at </em><em>z = 0</em><em>. Volume A</em> does <strong>not</strong></td>
+</tr>
+<tr>
+<td>Occupancy</td>
+<td>ADR-0010: 1×1 floor, 2 tall. Volume path V1: <strong>no</strong> W×H volume footprint (troll 2×3 is 2D slice + billboard scale only)</td>
+</tr>
+<tr>
+<td>Pick</td>
+<td>Designate/inspect/build: <code>WorldVolumeColumnPick</code> → XY, <strong>z discarded</strong>. Camera already has leftover <code>TryPickStandable</code> (Y-plane). Move is <code>DwarfMoveController.TryOrderMove(Vector2Int)</code> + 2D A*</td>
+</tr>
+<tr>
+<td>Pose</td>
+<td><code>WorldVolumeColonistPose</code> / <code>WorldVolumeEnemyPose</code> hardcode <strong>z = 0 / 0.5</strong>. <code>WorldVolumeMotor</code> leftover hops <code>Vector3Int</code> (not live colony)</td>
+</tr>
+<tr>
+<td>Combat</td>
+<td>Labor auto-melee: detect Manhattan <strong>5</strong>, strike footprint Chebyshev ≤ 1 on <strong>XY</strong> (dwarf 1×2 vs enemy size). <code>WallCombatTicker</code> same. <code>TrapCombatTicker</code>: enemy <strong>XY</strong> on trap footprint</td>
+</tr>
+<tr>
+<td>Work / haul</td>
+<td>Dig/harvest/build: Chebyshev ≤ 1 (dwarf 1×2) to target tile / footprint. Haul <strong>occupies</strong> the access/stand cell (not Chebyshev). <code>MultiGoalPathfinder</code> is <strong>XY</strong> 4-orthogonal</td>
+</tr>
+<tr>
+<td>Doors</td>
+<td><code>DoorMode</code> + 2D walk map / <code>EnemyPathWalkability</code>. Volume voxels for a door column can stay <strong>Air</strong> while Locked — volume <code>IsStandable</code> alone would walk through a locked door</td>
+</tr>
+<tr>
+<td>Save</td>
+<td><code>SavePaths.FormatVersion</code> <strong>4</strong>. Colonist/enemy <code>posX</code>/<code>posY</code>; mole <code>x</code>/<code>y</code>. No <code>posZ</code></td>
+</tr>
+<tr>
+<td>2D Gameplay</td>
+<td>Tilemap; live Z forbidden (overlapping sprites). Menu <strong>Load Game</strong> still opens <code>Gameplay</code></td>
+</tr>
+<tr>
+<td>Volume World save</td>
+<td>Pause campaign slots — <strong>same files</strong> as 2D Load Game</td>
+</tr>
+<tr>
+<td>Gen depths</td>
+<td>Passage/default Tunnel <strong>d = 1</strong>; chamber <strong>d = 5</strong>; overlap = max. Kit recipes do <strong>not</strong> carve cavities</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> 2D New Game / Load / Edit play (XY, z = 0, 2D A<em>, XY Chebyshev); Phase A–D Volume World HUD/recipes/fog/plants/enemies </em><em>presentation language</em><em>; spike; 18°; atmosphere; gen depths; hop 0.5 s; door </em><em>sim</em><em> modes; trap/wall </em><em>damage numbers</em>*; <code>EnemyPathWalkability</code> rules on 2D.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Turn on <strong>live Z in Volume World only</strong>: colonist, enemy, and mole feet become <code>(x, y, z)</code>; Volume World Labor, player move, enemy chase, and mole steps use the <strong>volume graph</strong> (standable XZ at the actor’s feet Y, plus ladder ±Y). Keep 2D <code>Gameplay</code> on the existing XY graph with <strong>z forced to 0</strong> so the tilemap never shows two depths in one cell. Work stands, haul occupy, melee, and wall-bash range in Volume World use <strong>Chebyshev on XZ at the same feet Y</strong> (1×1 floor occupancy). Persist <code>posZ</code>; bump save format and <strong>discard</strong> older files. Volume path must honor <strong>door lock / structure passability</strong> (not raw <code>IsStandable</code> alone) and a volume analog of <strong>enemy bash planning</strong>. Default New Game stays 2D. Update READMEs + <code>docs/DECISIONS.md</code> (supersede Phase A–D “no live Z / no volume A* for Labor”).</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task law</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>architecture_docs/ROADMAP_25D_FEATURE_COMPLETE.md</code> — Phase E</td>
+<td>E1–E4 + exit; F–G out; <strong>no live Z on 2D tilemap</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td>ADR-0010</td>
+<td>Axes (Y height, Z into cave); 1 tile X = 1 tile Z; occupancy; discard old saves</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ADR-0002, ADR-0005</td>
+<td>View draws; one composer; host sets motion space, does not own voxels</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Phase A–D DECISIONS (2026-08-20 … 08-22)</td>
+<td>Host, HUD, recipes, fog; <strong>this slice supersedes z = 0 motors</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>Pathfinding/README.md</code> + <code>WorldStandRules</code></td>
+<td>Volume A<em> to </em><em>extend</em>*; live stand + ladder</td>
+</tr>
+<tr>
+<td>8</td>
+<td><code>Labor/README.md</code> + <code>UnitFootprints</code> + <code>EnemyPathWalkability</code></td>
+<td>Claim/work/haul/combat to <strong>re-space</strong> in Volume mode only</td>
+</tr>
+<tr>
+<td>9</td>
+<td><code>Savegame/README.md</code></td>
+<td>formatVersion <strong>4</strong> → <strong>5</strong></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E0</strong></td>
+<td><strong>Motion space flag.</strong> Session/composer flag (plan names it) <strong>off</strong> in 2D <code>Gameplay</code> / Edit, <strong>on</strong> only in <code>VolumeWorldBootstrap</code>. Labor, motors, move, enemies, moles, combat range, and save-apply branch on it. No second <code>GameplayComposer</code>. No second Labor type.</td>
+</tr>
+<tr>
+<td><strong>E1</strong></td>
+<td><strong>Feet <code>(x, y, z)</code>.</strong> Live colonist / enemy / mole position includes Z. Volume World hops follow volume paths (4-orthogonal <strong>±X ±Z</strong> at current feet Y; 1 tile X = 1 tile Z = <strong>0.5 s</strong> unless structure/attention already shortens the hop). 2D Gameplay: paths stay 2D; <strong>z always 0</strong> after hop/spawn/load. Presentation: <code>WorldVolumeColonistPose</code> / <code>WorldVolumeEnemyPose</code> / mole billboards use <strong>live z</strong> (cell center <code>z+0.5</code>, dwarf <code>y+1</code> unchanged). Spawn / additional spawn / enemy spawn / mole spawn in Volume World: standable feet in the spawn column, prefer <strong>z = 0</strong> (facade) then nearest standable at that XY.</td>
+</tr>
+<tr>
+<td><strong>E1b</strong></td>
+<td><strong>Labor + player move use volume <code>FindPath</code>.</strong> When the flag is on: claim, repath, and <code>DwarfMoveController</code> use volume path + nearest-standable (not 2D <code>FindPath</code>). <code>MultiGoalPathfinder</code> needs a volume XZ (and E4 Y) analog or the same service — plan names it. Path budget <strong>40</strong> / Manhattan-250 still apply; Manhattan for the budget/ignore is **</td>
+</tr>
+<tr>
+<td><strong>E1c</strong></td>
+<td><strong>Volume graph is not raw <code>IsStandable</code>.</strong> A volume step to feet <code>(x, y, z)</code> is legal iff <strong>live-standable</strong> (<code>IsLiveStandable</code> at that z — so ladders work) <strong>and</strong> the <strong>XY</strong> cell is movement-passable for that unit (doors, floors-not-walked-on, locked/Auto enemy rules). <strong>Locked</strong> door XY blocks <strong>all z</strong> of that column. Open / colonist-Auto passable as today. Do <strong>not</strong> ignore <code>DoorMode</code>.</td>
+</tr>
+<tr>
+<td><strong>E1d</strong></td>
+<td><strong>Enemies + moles.</strong> Enemies in Volume World chase on the volume graph; keep <strong>bash planning</strong> (volume analog of <code>EnemyPathWalkability</code>: structure combat-target XY is plannable so the FSM still commits bash instead of detour). Do <strong>not</strong> draw path gizmos. Moles: still 2 s; random orthogonal step on <strong>±X ±Z</strong> (same Y) onto a legal volume feet cell; stay if none. Moles do <strong>not</strong> climb ±Y.</td>
+</tr>
+<tr>
+<td><strong>E2</strong></td>
+<td><strong>Work stands + haul + combat Chebyshev in XZ</strong> (flag on only). <strong>Mobile vs mobile:</strong> same feet <strong>Y</strong>; occupancy <strong>1×1 floor</strong> (not dwarf 1×2 / troll 2×3 as an XZ footprint); strike when Chebyshev <code>max(|dx|, |dz|) ≤ 1</code>. Detect: nearest enemy with XZ Manhattan <code>|dx|+|dz|</code> ≤ <strong>5</strong> and <strong>same feet Y</strong> (keep <code>AutoAttackDetectRange = 5</code>). <strong>2D Gameplay:</strong> keep current XY footprint Chebyshev / Manhattan. <strong>Unit vs XY task or building cell:</strong> target occupies its XY cell and the <strong>Z segment of that column that actually exists for the job</strong> (earth/solid column: z in <code>0..Depth-1</code> that are Solid; access/stand tile: z where the column is live-standable). Distance = min over those z of <code>max(|dx|, |dz|)</code> at <strong>same feet Y as the target tile Y</strong> (work that tile’s height; climb first to change Y — E4). Dig/harvest/build still Chebyshev ≤ 1 to that metric. <strong>Haul</strong> still <strong>occupies</strong> a standable feet cell whose <strong>XY is the access/stand tile</strong> (any legal z in that column) — not Chebyshev. Traps: keep XY footprint + existing damage; enemy <strong>feet XY</strong> on the trap (z does not dodge a trap on that column). Wall bash: volume Chebyshev XZ + same-Y vs the wall’s XY footprint using the column Z segment (Solid / building cells). Do <strong>not</strong> change damage, cooldown, HP, or spawn counts.</td>
+</tr>
+<tr>
+<td><strong>E3</strong></td>
+<td><strong>Save / load z.</strong> <code>ColonistSaveEntry.posZ</code>, <code>EnemySaveEntry.posZ</code>, <code>MoleSaveEntry.z</code>. <code>SavePaths.FormatVersion</code> <strong>5</strong>. Load <strong>refuses</strong> formatVersion ≠ 5 (old saves <strong>discard</strong>, already locked). Volume World apply uses saved z (clamp/reject illegal feet via existing nearest-standable if the cell is no longer standable — same spirit as 2D load, plan names the fallback). <strong>2D <code>Gameplay</code> apply forces z = 0</strong> (never live Z on the tilemap), even if the JSON has z ≠ 0 from a Volume World pause save into a shared campaign slot. 2D save writes <code>posZ = 0</code>.</td>
+</tr>
+<tr>
+<td><strong>E4</strong></td>
+<td><strong>Ladder ±Y in volume.</strong> Volume live graph gains <strong>±Y</strong> neighbors when both ends are <code>IsLiveStandable</code> <strong>because of a completed ladder</strong> (stacked / climb-on-cell), same clearance law as 2D live structure stand. Floor slabs stay not standable; walk the open cell above. Hop duration: ±X/±Z base 0.5 s; <strong>pure ±Y</strong> on a ladder uses existing <code>StructureMoveSpeed</code> ladder vertical multiplier (<code>dx==0</code>, <code>dy!=0</code>; treat ΔZ==0). Enemies that already climb ladders on the 2D map may use the same ±Y ladder edges in Volume World; moles do not. Construction-site ladders stay unclimbable.</td>
+</tr>
+<tr>
+<td><strong>E5</strong></td>
+<td><strong>Pick.</strong> Designate / harvest / build / inspect stay <strong>column XY</strong> (<code>IScreenToTile</code> / <code>WorldVolumeColumnPick</code>) — tasks remain 2D cells. <strong>Move mode</strong> in Volume World: pick a <strong>standable feet</strong> cell (reuse/fix <code>TryPickStandable</code> or ray-to-standable; plan names it) and <code>TryOrderMove</code> on <strong>volume</strong> path. Do not discard z for move. Invalid / non-standable click: same feedback idea as “Tile not walkable.”</td>
+</tr>
+<tr>
+<td><strong>E6</strong></td>
+<td><strong>EditMode tests</strong> (no GPU): motion flag off → 2D <code>FindPath</code> / XY Chebyshev unchanged; flag on → volume path ±X ±Z changes z; locked door blocks volume path at that XY for all z; depth-5 front z=0 → back z=4 is <strong>4 hops</strong>; work helper true for XZ-adjacent same Y, false when only XY-adjacent across Δz=4; melee helper same; haul occupy requires access XY; save round-trip posZ; formatVersion 5 rejects 4; 2D apply of posZ=4 → motor z=0; ladder ±Y volume path between two landings; mole step does not change Y; pose helper uses live z; 2D <code>ColonistView</code> / <code>EnemyView</code> tests unchanged.</td>
+</tr>
+<tr>
+<td><strong>E7</strong></td>
+<td><code>Agents</code> / <code>Pathfinding</code> / <code>Labor</code> / <code>Enemies</code> / <code>Ambient</code> / <code>Savegame</code> / <code>Session</code> / Presentation WorldVolume READMEs + <code>docs/DECISIONS.md</code>.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Live Z hops in 2D <code>Gameplay</code> / Edit tilemap</td>
+<td>Roadmap block</td>
+</tr>
+<tr>
+<td>Replacing New Game / Load / Edit default with Volume World</td>
+<td>Phase F</td>
+</tr>
+<tr>
+<td><code>Gameplay3D</code> scene</td>
+<td>Keep <code>VolumeWorldView</code></td>
+</tr>
+<tr>
+<td>Option B 3D cavity gen / carving kit interiors into World</td>
+<td>Explicitly not required; gen depths stay</td>
+</tr>
+<tr>
+<td>Unity NavMesh / physics as truth</td>
+<td>ADR-0002</td>
+</tr>
+<tr>
+<td>Player tilt; 18° change</td>
+<td>Locked</td>
+</tr>
+<tr>
+<td>Changing hop base 0.5 s, path cap 1000, Labor path budget 40</td>
+<td>Locked unless a test proves CapExceeded — do not raise silently</td>
+</tr>
+<tr>
+<td>New door modes; changing lock passability <strong>rules</strong> (only honor them on the volume graph)</td>
+<td>Sim locked</td>
+</tr>
+<tr>
+<td>Changing melee damage, trap damage, wall HP, spawn counts, mole 2 s / max 3</td>
+<td>Sim numbers locked</td>
+</tr>
+<tr>
+<td>Troll/ork <strong>volume floor</strong> W×H (2×3 as XZ)</td>
+<td>Occupancy 1×1 floor, 2 tall; 2×3 remains 2D + billboard</td>
+</tr>
+<tr>
+<td>Fog Z / second FogService / writing atmosphere fog</td>
+<td>Fog stays XY</td>
+</tr>
+<tr>
+<td>Parenting 2D tilemap views into Volume World</td>
+<td>Postcard</td>
+</tr>
+<tr>
+<td>Enemy path gizmos</td>
+<td>Phase D lock</td>
+</tr>
+<tr>
+<td>Colonist/building world HP bars, attack VFX, range rings</td>
+<td>Not 2D parity</td>
+</tr>
+<tr>
+<td><code>ASSET_*</code> gen / new kit ids</td>
+<td>Phase G</td>
+</tr>
+<tr>
+<td>F9 stress <strong>inside</strong> Volume World</td>
+<td>Still 2D harness</td>
+</tr>
+<tr>
+<td>Inventing dropped-item entities</td>
+<td>Economy + tiles already</td>
+</tr>
+<tr>
+<td>Migrating formatVersion 4 files</td>
+<td>Discard</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<ol>
+<li><strong>ADR-0002:</strong> path/motors <strong>read</strong> World + Buildings passability; views only draw live feet. No physics as truth.</li>
+<li><strong>ADR-0005:</strong> <code>VolumeWorldBootstrap</code> <strong>sets the flag</strong> and wires pick/pose; concrete services still constructed only in <code>GameplayComposer</code>.</li>
+<li><strong>ADR-0010:</strong> Y = height, Z = into the cave. 1 tile X = 1 tile Z. Buildings stay W×H on XY; Z is extrusion / motion, not a new catalog size.</li>
+<li>One pathfinding service. Volume overloads <strong>gain</strong> live-stand + passability + optional ±Y; 2D overloads stay the 2D Gameplay graph.</li>
+<li>Dual look until Phase F is expected: 2D tilemap vs Volume World XYZ.</li>
+<li>Shared campaign slots: 2D load <strong>must</strong> strip Z (E3). Do not teach the tilemap depth.</li>
+<li>Assemblies: existing Agents / Pathfinding / Labor / Enemies / Ambient / Savegame / Session / Presentation.WorldVolume. No new module unless the plan proves it.</li>
+<li>Prefer reuse: <code>VolumeAStarPathfinder</code>, <code>WorldStandRules.IsLiveStandable</code>, <code>WorldVolumeMotor</code> hop timing as <strong>reference</strong>, <code>TryPickStandable</code>, <code>EnemyPathWalkability</code> rules.</li>
+</ol>
+<hr>
+<h2>8. Suggested types / touch list (sketch only — not full code)</h2>
+<table>
+<thead>
+<tr>
+<th>Touch</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GameplayComposer</code> / <code>VolumeWorldBootstrap</code> / 2D <code>Bootstrap</code></td>
+<td>Motion-space flag; Volume on, 2D off</td>
+</tr>
+<tr>
+<td><code>AgentMotor</code> / <code>EnemyMotor</code> / <code>MoleAgent</code></td>
+<td>Feet include z; 2D callers keep z = 0</td>
+</tr>
+<tr>
+<td><code>IPathfindingService</code> volume path</td>
+<td>Live-stand + XY passability; ±Y ladder edges; cache keys already include Y/Z</td>
+</tr>
+<tr>
+<td><code>LaborService</code> / <code>MultiGoalPathfinder</code> / sleep policy</td>
+<td>Branch: 2D vs volume claim/path/work/combat</td>
+</tr>
+<tr>
+<td><code>DwarfMoveController</code></td>
+<td>Volume <code>TryOrderMove</code> feet; 2D overload unchanged</td>
+</tr>
+<tr>
+<td><code>WorldVolumeClickToMoveInput</code> / move input</td>
+<td>Standable pick for <strong>M</strong></td>
+</tr>
+<tr>
+<td><code>EnemyService</code> chase</td>
+<td>Volume path + bash-planning map when flag on</td>
+</tr>
+<tr>
+<td><code>AmbientService</code> mole step</td>
+<td>±X ±Z legal feet</td>
+</tr>
+<tr>
+<td><code>UnitFootprints</code> or a small volume-range helper</td>
+<td>Pure XZ Chebyshev / Manhattan (keep XY helpers for 2D)</td>
+</tr>
+<tr>
+<td><code>TrapCombatTicker</code> / <code>WallCombatTicker</code></td>
+<td>XY trap occupy; wall bash XZ when flag on</td>
+</tr>
+<tr>
+<td>Save DTOs + <code>SavePaths.FormatVersion</code></td>
+<td>posZ; v5</td>
+</tr>
+<tr>
+<td>Pose helpers + inspect actor chrome</td>
+<td>Live z</td>
+</tr>
+<tr>
+<td>Tests + DECISIONS + READMEs</td>
+<td>After implement</td>
+</tr>
+</tbody>
+</table>
+<p>Unlikely: <code>GameplayComposer</code> graph of <strong>new</strong> services; kit factory; fog sim; atmosphere; 2D <code>ColonistView</code> art.</p>
+<hr>
+<h2>9. Gate B reminder</h2>
+<p>Start only on <strong>start Gate B</strong>. Plan → Architect approves plan → implement → validate → STOP.</p>
+<p>Phase 1 plan must name: motion-space flag + who sets it; motor API (how 2D stays z = 0); volume graph (live-stand + door/lock + bash); Labor/multi-goal branch; XZ range helpers vs XY; move pick; save v5 + 2D force z = 0; ladder ±Y neighbors; tests.</p>
+<hr>
+<h2>10. Exit criteria</h2>
+<ul>
+<li>[ ] New Game / Load / Edit <strong>2D</strong> still hops on XY at z = 0; two dwarves never share a tilemap cell because of depth; ladders / doors / melee feel unchanged there.</li>
+<li>[ ] Volume World: a colonist ordered into a <strong>d = 5</strong> chamber walks <strong>front → back in 4 hops</strong> (z = 0 → z = 4), not a slide on the facade.</li>
+<li>[ ] Passages stay <strong>d = 1</strong> (gen); volume path cannot enter Solid behind column depth.</li>
+<li>[ ] Labor dig/harvest/build/haul/cook still complete in Volume World using volume paths (dwarves walk around in XZ, then work in place).</li>
+<li>[ ] Locked door blocks volume path (all z of that column); Open/Auto match existing sim.</li>
+<li>[ ] Dwarf at z = 4 and enemy at same XY z = 0: <strong>not</strong> in melee; they fight when XZ Chebyshev ≤ 1 and same feet Y.</li>
+<li>[ ] Haul still requires standing on the access column (some legal z), not Chebyshev from the next column.</li>
+<li>[ ] Pause save in Volume World → reload Volume World restores z. That file <strong>refuses</strong> in format 4 tools; 2D Load Game of a v5 file plays at <strong>z = 0</strong>.</li>
+<li>[ ] Completed ladder: Volume World dwarf can climb to another feet Y (E4). 2D ladder hop unchanged.</li>
+<li>[ ] Enemies still chase/bash; moles still wander; fog/plants/recipes/HUD/18° unchanged in language.</li>
+<li>[ ] No cutover. Spike unchanged.</li>
+<li>[ ] Tests in E6 pass. README + DECISIONS updated.</li>
+</ul>
+<hr>
+<h2>11. Manual verification (Architect)</h2>
+<ol>
+<li><strong>New Game 2D</strong> — walk, ladder, door lock, melee, save/load: same as before (z never visible).</li>
+<li><strong>Volume World</strong> — find or gen a <strong>deep chamber</strong> (d = 5). <strong>M</strong>, click the <strong>back floor</strong>. Dwarf walks into the cave (several hops toward +Z), not along the black cutaway only.</li>
+<li>Click a <strong>d = 1</strong> passage floor — they stay in the shallow cut. They must not clip into Solid earth behind.</li>
+<li>Lock a door — dwarf/enemy does not walk through it in 3D; Open lets them through.</li>
+<li>Park a dwarf at the <strong>back</strong> of a hall and an enemy on the <strong>front</strong> of the same hall: no instant melee. Lure them together in XZ — fight + HP bar.</li>
+<li>Dig / harvest in a chamber — dwarf walks to an XZ-adjacent stand, then work frames.</li>
+<li>Place / use a <strong>ladder</strong> between two standable landings — dwarf climbs (Y changes). Floor slab is not a walkway.</li>
+<li>Pause <strong>Save</strong> in Volume World, Main Menu <strong>Volume World</strong> is a new game; use pause <strong>Load</strong> (or the slot) in Volume World — dwarf is still in the chamber. Then <strong>Load Game</strong> 2D on that slot — dwarf is on the 2D map at that XY, <strong>not</strong> a depth stack.</li>
+<li>Fog <strong>F</strong>, plants, recipes, HUD, 18° — still there.</li>
+</ol>
+<hr>
+<h2>12. Soft split</h2>
+<p>If Phase 1 shows this is too large, split <strong>only</strong> inside the <strong>same</strong> accepted plan:</p>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Must ship before Architect accept of this brief</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>E-walk</strong></td>
+<td>E0 + E1 + E1b + E1c + E1d + E3 + E5 (live feet, volume Labor/move/chase, doors, save, pick)</td>
+</tr>
+<tr>
+<td><strong>E-range</strong></td>
+<td>E2 (XZ work / haul / combat)</td>
+</tr>
+<tr>
+<td><strong>E-climb</strong></td>
+<td>E4 (ladder ±Y)</td>
+</tr>
+</tbody>
+</table>
+<p>Default is <strong>one</strong> push. Do <strong>not</strong> accept “they walk in Z but still melee across the hall” (E2 is part of the exit). Do <strong>not</strong> accept Volume World with no floor change if 2D ladders still exist (E4 is part of this brief).</p>
+<hr>
+<h2>13. Risks / notes</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Volume <code>IsStandable</code> walks locked doors</td>
+<td>E1c: compose live-stand + XY passability</td>
+</tr>
+<tr>
+<td>Shared campaign slots leak Z onto 2D</td>
+<td>E3: 2D apply forces z = 0</td>
+</tr>
+<tr>
+<td>XY Chebyshev vs deep hall</td>
+<td>E2: mobile combat is XZ + same Y, 1×1 floor</td>
+</tr>
+<tr>
+<td>Target column “all z” flattening combat</td>
+<td>Mobile vs mobile uses the <strong>other unit’s feet z</strong>, not the whole column. XY tasks use the column’s <strong>real</strong> Z segment</td>
+</tr>
+<tr>
+<td>Troll 2×3 used as XZ depth 3</td>
+<td>Forbid; billboard scale only</td>
+</tr>
+<tr>
+<td>Kit hall looks 5 deep but World is d = 1</td>
+<td>Live Z follows <strong>gen / dig column depth</strong>, not recipe local Z (skip-Solid already)</td>
+</tr>
+<tr>
+<td><code>MultiGoalPathfinder</code> XY-only</td>
+<td>Volume analog required for claim; keep 2D path for flag off</td>
+</tr>
+<tr>
+<td>Ladder Solid vs volume Air</td>
+<td>Reuse <code>IsLiveStandable</code>; do not mark ladder columns Air</td>
+</tr>
+<tr>
+<td>Path cap 1000 with ±Y</td>
+<td>Keep cap; do not raise without CapExceeded evidence</td>
+</tr>
+<tr>
+<td>Cadence / scaling</td>
+<td>At accept, check <code>PERFORMANCE_LOG.md</code>. Not F9-in-volume. Do not skip a <strong>due</strong> 2D F9 run without Architect exception</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>14. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Default New Game / Load / Edit</td>
+<td><strong>2D <code>Gameplay</code></strong></td>
+<td>Phase F</td>
+</tr>
+<tr>
+<td><strong>L2</strong> Where live Z exists</td>
+<td><strong>Volume World composer only</strong></td>
+<td>Roadmap block + Phase E</td>
+</tr>
+<tr>
+<td><strong>L3</strong> 2D motors</td>
+<td>XY hops; <strong>z = 0</strong> always (spawn, tick, 2D load)</td>
+<td>Roadmap; overlapping sprites</td>
+</tr>
+<tr>
+<td><strong>L4</strong> Axes</td>
+<td>X along, Y height, Z into cave; 1 tile X = 1 tile Z</td>
+<td>ADR-0010</td>
+</tr>
+<tr>
+<td><strong>L5</strong> Hop time</td>
+<td>0.5 s per X or Z tile; ladder ±Y uses existing vertical multiplier</td>
+<td>ADR-0010; <code>StructureMoveSpeed</code></td>
+</tr>
+<tr>
+<td><strong>L6</strong> Occupancy</td>
+<td>1×1 floor, 2 tall for volume movers this slice</td>
+<td>ADR-0010; volume path V1</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Volume neighbors</td>
+<td>±X ±Z on legal feet; <strong>±Y only</strong> on completed ladder live-stand (E4)</td>
+<td>This brief; Pathfinding V1 + live structure stand</td>
+</tr>
+<tr>
+<td><strong>L8</strong> Volume step legality</td>
+<td><code>IsLiveStandable</code> <strong>and</strong> XY movement-passable (doors/floors). Locked door = all z</td>
+<td>This brief</td>
+</tr>
+<tr>
+<td><strong>L9</strong> Enemy bash</td>
+<td>Keep planning-through combat-target XY; no path gizmos</td>
+<td><code>EnemyPathWalkability</code>; Phase D</td>
+</tr>
+<tr>
+<td><strong>L10</strong> Moles</td>
+<td>2 s; ±X ±Z; no ±Y; max 3</td>
+<td>Ambient README</td>
+</tr>
+<tr>
+<td><strong>L11</strong> Combat (Volume)</td>
+<td>Same feet Y; Chebyshev <code>max(|dx|, |dz|) ≤ 1</code>; detect XZ Manhattan ≤ 5 same Y</td>
+<td>Roadmap E2; keep constants 1 and 5</td>
+</tr>
+<tr>
+<td><strong>L12</strong> Combat (2D)</td>
+<td>Unchanged XY footprint Chebyshev / Manhattan</td>
+<td>Phase D / P11</td>
+</tr>
+<tr>
+<td><strong>L13</strong> Work (Volume)</td>
+<td>Chebyshev XZ ≤ 1 to the target’s Z segment; same feet Y as target tile Y</td>
+<td>Roadmap E2</td>
+</tr>
+<tr>
+<td><strong>L14</strong> Haul (Volume)</td>
+<td>Occupy access XY + legal z in that column</td>
+<td>2D haul occupy lock</td>
+</tr>
+<tr>
+<td><strong>L15</strong> Traps</td>
+<td>XY footprint; z does not dodge</td>
+<td><code>TrapCombatTicker</code></td>
+</tr>
+<tr>
+<td><strong>L16</strong> Designate / inspect / build pick</td>
+<td>XY column; z discarded</td>
+<td>Phase B</td>
+</tr>
+<tr>
+<td><strong>L17</strong> Move pick (Volume)</td>
+<td>Standable <strong>feet</strong> including z</td>
+<td>This brief; leftover <code>TryPickStandable</code></td>
+</tr>
+<tr>
+<td><strong>L18</strong> Save</td>
+<td>formatVersion <strong>5</strong>; <code>posZ</code>; refuse ≠ 5; 2D apply z = 0</td>
+<td>ADR-0010 discard; E3</td>
+</tr>
+<tr>
+<td><strong>L19</strong> Spawn z</td>
+<td>Prefer z = 0 in the spawn column</td>
+<td>Facade; walk <strong>into</strong> chambers</td>
+</tr>
+<tr>
+<td><strong>L20</strong> Gen depths</td>
+<td>Unchanged (passage 1 / chamber 5)</td>
+<td>World gen volume depth V1</td>
+</tr>
+<tr>
+<td><strong>L21</strong> Fog</td>
+<td>XY only</td>
+<td>Phase D</td>
+</tr>
+<tr>
+<td><strong>L22</strong> Camera / HUD / recipes / FOW art</td>
+<td>Unchanged from Phase D</td>
+<td>Phase B–D</td>
+</tr>
+<tr>
+<td><strong>L23</strong> Art gen</td>
+<td>None</td>
+<td>Phase G</td>
+</tr>
+<tr>
+<td><strong>L24</strong> Flag default</td>
+<td>Off unless Volume World host sets it</td>
+<td>E0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> None.</p>
+<hr>
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] Phase E = live Z in Volume World (walk into chambers, XZ combat, save z, ladders) — not 2D live Z, not cutover, not new art</li>
+<li>[ ] Optional: request brief edits</li>
+<li>[ ] When ready: <strong>start Gate B</strong></li>
+</ul>
+<hr>
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_25D_PHASE_E_LIVE_Z_V1_GROK_BUILD_BRIEF.md
+
+Unity project root:
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (full file)
+3. architecture_docs/ROADMAP_25D_FEATURE_COMPLETE.md — Phase E only
+4. architecture_docs/adr/0010-3d-play-space.md
+5. architecture_docs/adr/0002-simulation-presentation-separation.md
+6. architecture_docs/adr/0005-manual-composition-root-first.md
+7. docs/DECISIONS.md — Phase A–D Volume World + live stand / volume path / gen depth
+8. Pathfinding: IPathfindingService, VolumeAStarPathfinder, WorldStandRules
+9. Agents: AgentMotor, Colonist, AgentsSaveSnapshot
+10. Labor: LaborService path/work/melee, MultiGoalPathfinder
+11. Enemies: EnemyMotor, EnemyPathWalkability, EnemyService chase
+12. Ambient: MoleAgent / AmbientService step
+13. Session: VolumeWorldBootstrap, DwarfMoveController, TrapCombatTicker, WallCombatTicker, GameplayComposer
+14. Presentation/WorldVolume: ColonistPose, EnemyPose, ColumnPick, CameraController.TryPickStandable
+15. Savegame: SavePaths.FormatVersion, SaveFileDto
+16. Existing code the brief marks as baseline (reuse; do not rebuild)
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include: restated goal; in/out scope; motion-space flag; motor API
+(2D z = 0); volume graph (live-stand + door/lock + enemy bash + ladder ±Y);
+Labor/multi-goal branch; XZ vs XY range; move pick; save v5 + 2D force z = 0;
+tests; risks; locks L1–L24.
+If the brief lists OPEN questions, stop and surface them — do not invent.
+Otherwise treat brief locks as frozen.
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan (and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed slice: commit and push to origin (GitHub) per AGENTS.md, then STOP.
+Do not start Phase F unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Do not replace 2D New Game / Load / Edit / tilemap views
+- Do not add a Gameplay3D scene
+- Do not put live Z on the 2D tilemap (Gameplay motors stay z = 0)
+- Do not implement Phase F–G
+- Do not carve kit interiors or Option B cavities
+- Do not use Unity NavMesh / physics as truth
+- Do not add player tilt; keep 18°
+- Do not change hop 0.5 s, path cap 1000, or Labor budget 40 without evidence
+- Do not change door modes, trap/melee/wall numbers, mole 2 s / max 3
+- Do not treat troll 2×3 as an XZ floor footprint
+- Do not invent Z fog or a second FogService
+- Do not parent 2D tilemap views into Volume World
+- Do not draw enemy path gizmos
+- Do not generate ASSET_* art or new kit ids
+- Do not migrate formatVersion 4 saves
+- Do not invent game rules, costs, sizes, timings, or packages
+- Do not move architecture_docs under Assets/
+- Concrete service construction only in GameplayComposer
+- Do not regress 2D Gameplay or Phase A–D Volume World presentation
+</code></pre>
+          </div>
+        </details>
           </div>
         </article>
 
-        <article class="artifact" aria-labelledby="brief-path">
-          <header>
-            <h3 id="brief-path">Volume pathfinding V1</h3>
-            <p class="file-cap">FEATURE_VOLUME_PATHFINDING_V1_GROK_BUILD_BRIEF.md</p>
-          </header>
-          <div class="body">
-            <table class="sheet">
-              <caption>Metadata</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-VOLUME-PATHFINDING-V1</td></tr>
-                <tr><td>Feature / version</td><td>Standable-volume A* / nearest-stand V1 (roadmap step 12)</td></tr>
-                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
-                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
-                <tr><td>Status (as written)</td><td>Brief delivered. Gate B starts only when the Architect explicitly starts it. No production code until Architect approves the Gate B plan.</td></tr>
-                <tr><td>Unity project root</td><td>Unity project root</td></tr>
-              </tbody>
-            </table>
-            <h3>Architect intent (excerpt)</h3>
-            <ol>
-              <li>Pathfinding must walk the standable volume (±X, ±Z on a floor), not only the 2D slice.</li>
-              <li>Keep New Game 2D-playable: add a volume path API; do not replace the live mover graph yet.</li>
-              <li>Do not put live dwarves on Z in this task. Tests and the new API prove XZ routes (including front→back 4 hops on a depth-5 hallway).</li>
-              <li>Ladders / ramps / changing feet Y stay out.</li>
-            </ol>
-            <h3>Goal (one paragraph)</h3>
-            <p>Add volume pathfinding that searches standable cells: 4-neighbors ±X and ±Z at the same feet Y; 1 tile X = 1 tile Z. Keep all existing 2D FindPath / FindNearestWalkable overloads behaviorally unchanged for live Labor and colonists. New overloads take feet (x, y, z) and use IsStandable only. CapExceeded 1000. EditMode tests: X hallway, Z hallway, depth-5 front→back is 4 hops and not 3. Do not move AgentMotor or the 2D view onto Z.</p>
-            <p>Later accepted as UK-FEAT-VOLUME-PATHFINDING-V1 (17 Aug 2026).</p>
-          </div>
-        </article>
-
-        <article class="artifact" aria-labelledby="brief-inspect">
-          <header>
-            <h3 id="brief-inspect">Inspection tool V1</h3>
-            <p class="file-cap">FEATURE_INSPECTION_TOOL_V1_GROK_BUILD_BRIEF.md</p>
-          </header>
-          <div class="body">
-            <table class="sheet">
-              <caption>Metadata</caption>
-              <thead><tr><th>Field</th><th>Value</th></tr></thead>
-              <tbody>
-                <tr><td>Task ID</td><td>UK-FEAT-INSPECTION-TOOL-V1</td></tr>
-                <tr><td>Feature / version</td><td>Unified world inspection: rotating tile stack, blue highlight, 3-section info windows V1</td></tr>
-                <tr><td>Engineer</td><td>Grok Build (sole coder)</td></tr>
-                <tr><td>Architect</td><td>Human (Colin) — approvals and acceptance</td></tr>
-                <tr><td>Unity project root</td><td>Unity project root</td></tr>
-              </tbody>
-            </table>
-            <h3>Architect intent (excerpt)</h3>
-            <ol>
-              <li>Players need an inspection tool that shows information about things in the game world, with type-specific content and actions.</li>
-              <li>Left-click a world object/tile (in default navigate) opens inspection for that tile’s stack.</li>
-              <li>Rotating selection cycles multiple objects on the same grid tile (e.g. dwarf on plant on cave).</li>
-              <li>Selected tile and selected object use a blue border; a list of stack objects appears under the tile.</li>
-              <li>An info window (header / content / interaction) appears for the selected object — one window at a time.</li>
-            </ol>
-            <h3>Goal (one paragraph)</h3>
-            <p>Replace fragmented world-click selection (dwarf-first priority, separate plant dump, no enemies/sites/terrain stack) with a unified default-navigate inspection system: LMB builds a rotating stack of inspectable objects on a fog-visible tile, highlights the tile and active object in blue, shows an under-tile object list, and opens a single fixed left-side 3-section info window per selected type — with harvest/dig actions from plant/resource panels and existing dwarf/building interactions retained (minus Deselect buttons; RMB dismisses).</p>
-            <p>Later accepted as UK-FEAT-INSPECTION-TOOL-V1 (31 Jul 2026).</p>
-          </div>
-        </article>
-        <p>Full private brief files are hundreds of lines (locks, forbids, kickoff blocks). Captions name the files; they are not downloads.</p>
       </div>
     </section>
 
