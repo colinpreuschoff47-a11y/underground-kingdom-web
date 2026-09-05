@@ -10,9 +10,12 @@
   <meta property="og:title" content="Underground Kingdom">
   <meta property="og:description" content="Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. Dig tunnels, raise masonry, and keep the hearth lit. Developed 100% with Grok Build. PC. Unity 6. In development.">
   <meta property="og:type" content="website">
-  <meta property="og:image" content="assets/hero-cavern.svg">
+  <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+  <meta name="twitter:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
+  <link rel="icon" href="assets/favicon.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="assets/logo-icon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap">
@@ -27,7 +30,7 @@
 
   <header class="site-nav">
     <a class="wordmark" href="index.html" aria-current="page">
-      <img src="assets/logo.svg" width="80" height="88" alt="">
+      <img src="assets/logo-icon-64.png" width="64" height="64" alt="">
       <span>Underground Kingdom</span>
     </a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-links" aria-label="Open menu">
@@ -56,7 +59,8 @@
       <div class="hero-shade" aria-hidden="true"></div>
       <div class="hero-inner reveal">
         <p class="kicker">A dwarven colony sim · underground only</p>
-        <h1 id="game-title">Underground Kingdom</h1>
+        <h1 id="game-title" class="sr-only">Underground Kingdom</h1>
+        <img class="hero-logo" src="assets/logo-wordmark.jpg" width="1080" height="432" alt="Underground Kingdom">
         <p class="tagline">Carve a home in the hostile deep.</p>
         <p class="lede">Underground Kingdom is a dwarven colony sim set in a cold, dangerous cavern world. You are not a hero on a raid; you are the mind of a hall.</p>
         <p class="lede">Dig tunnels, raise masonry, and turn a foothold of firelight into a working settlement while the wilderness stays dark, hungry, and close.</p>

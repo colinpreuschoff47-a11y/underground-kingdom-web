@@ -1250,3 +1250,51 @@ pre.code {
 @media (prefers-reduced-motion: reduce) {
   .spoiler { scroll-behavior: auto; }
 }
+
+
+/* Official logos */
+.wordmark img {
+  width: 2.35rem;
+  height: 2.35rem;
+  object-fit: contain;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px color-mix(in srgb, var(--gold) 35%, transparent);
+}
+.hero-logo {
+  display: block;
+  width: min(36rem, 92vw);
+  height: auto;
+  margin: 0.35rem 0 1rem;
+  filter: drop-shadow(0 8px 28px rgba(0, 0, 0, 0.65));
+}
+.hero-inner .tagline {
+  margin-top: 0.25rem;
+}
+.hero h1.sr-only,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+.brand-crest {
+  display: block;
+  width: min(14rem, 55vw);
+  height: auto;
+  margin: 0 auto 1.25rem;
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 1px color-mix(in srgb, var(--gold) 30%, transparent),
+    0 12px 40px rgba(0, 0, 0, 0.55);
+}
+.page-hero .brand-crest {
+  margin-left: 0;
+}
+@media (max-width: 640px) {
+  .hero-logo { width: min(22rem, 94vw); }
+}

@@ -37,3 +37,13 @@ Asset URLs are relative (`css/styles.css`, `js/main.js`, `assets/logo.svg`, `ind
 ## Identity
 
 Void `#080A0E`, cave `#163040` / `#14181E`, gold `#C9A03A` / `#E6C05C`, teal `#2C6670`, fire `#E07020`, glow `#8AD0E2`. Cinzel + Source Serif 4.
+
+
+## Brand assets
+
+Official logos (Colin, for the X account / site):
+
+- `docs/assets/logo-wordmark.png` — title treatment
+- `docs/assets/logo-crest.jpg` — circular hammer & pickaxe crest
+- `docs/assets/og-card.jpg` — 1200×630 social share card
+- `docs/assets/favicon.png` / `apple-touch-icon.png` — icons
