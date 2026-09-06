@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example Grok Build briefs — Underground Kingdom</title>
-  <meta name="description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z.">
+  <meta name="description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Example Grok Build briefs">
-  <meta property="og:description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z.">
+  <meta property="og:description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -4618,6 +4618,1414 @@ HARD FORBIDS
         </details>
           </div>
         </article>
+
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1">Volume back-wall climb V1</h3>
+            <p class="file-cap">FEATURE_VOLUME_BACK_WALL_CLIMB_V1_GROK_BUILD_BRIEF.md · 335 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1</code>. Roadmap V5: colonists climb z = d−1 without a ladder. Accepted 5 Sep 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_VOLUME_BACK_WALL_CLIMB_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Volume background-wall climb V1 (roadmap V5)</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Roadmap <strong>V5</strong>: colonist <strong>background-wall climb</strong> (±Y without a ladder) <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>V1 starter d=5; V2 dig marks; V3 per-voxel occupy; V4 1-tall wall/ladder visuals; <code>architecture_docs/ROADMAP_VOLUME_PRODUCT.md</code> V5 (<strong>R6, R14, R15, R17</strong>)</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td>Unity project root</td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>architecture_docs/</code></td>
+</tr>
+<tr>
+<td><strong>Difficulty class</strong></td>
+<td><strong>complex</strong> (colonist volume graph ±Y; World climb-face; Agents motor; Labor/task inherit; enemy graph must stay ladder-only)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§14</strong>. Request edits if needed (briefs are <strong>not</strong> approved).</li>
+<li>When you want coding: say <strong>start Gate B</strong>.</li>
+<li>Coding: plan → you approve plan → implement → accept → git snapshot + push to origin.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code>.</li>
+<li>This brief is <strong>task law</strong>. Roadmap locks <strong>R6, R14, R15, R17</strong>.</li>
+<li>Phase 1 plan only after <strong>start Gate B</strong>. Write the plan to <code>architecture_docs/coding_plans/</code> <strong>and</strong> chat.</li>
+<li>Do <strong>not</strong> raise volume A* <code>MaxExpansions</code> as the design.</li>
+<li>Do <strong>not</strong> teach <strong>enemies</strong> to free-climb.</li>
+<li>Do <strong>not</strong> tune climb vs ladder <strong>speed</strong>.</li>
+<li>Do <strong>not</strong> start F, G, or a V5b ladder-speed slice.</li>
+<li>Do <strong>not</strong> extend the <strong>ladder</strong> live-stand exception off <strong>z = 0</strong> as the free-climb design (ladders may stay broken in Volume).</li>
+</ol>
+<hr />
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Colonists go <strong>upstairs without a ladder</strong> by walking to the cave <strong>back wall</strong> and climbing that face.</li>
+<li>Climb face = last air in the column (<strong>z = d−1</strong>), solid immediately behind. <strong>2-tall clearance</strong>. Hop <strong>0.5 s</strong>. Colonists only.</li>
+<li><strong>d ≥ 1, including player-dug tunnels</strong> (those stay <strong>d = 1</strong>). There z = d−1 <strong>is</strong> z = 0, so a normal 1-deep tunnel <strong>is</strong> climbable. If d=1 climb fails, V5 is not done.</li>
+<li>In <strong>d &gt; 1</strong> halls: z = 0 is the cutaway. <strong>Cannot</strong> free-climb from z = 0; walk back first, then ±Y.</li>
+<li>Volume ladders may stay broken. V5 is the upstairs path. Do not retune climb vs ladder speed.</li>
+</ol>
+<hr />
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Column <code>d</code></td>
+<td>Air for <code>z &lt; d</code>, Solid for <code>z ≥ d</code>. OOB <code>GetVoxel</code> → Solid. Dig / new Tunnel <strong>d = 1</strong>. Starter hall <strong>d = 5</strong>. Stamps do <strong>not</strong> write <code>d</code></td>
+</tr>
+<tr>
+<td>Climb face (geometry)</td>
+<td>Last air <strong>z = d−1</strong>; Solid at <strong>z+1</strong> (in-volume earth or OOB). Not implemented as ±Y today</td>
+</tr>
+<tr>
+<td>Volume occupy (colonists)</td>
+<td>Live-stand <strong>and</strong> <code>IVolumeWalkabilityMap</code> at <strong>that z</strong>. Depth-1 stamps occupy <strong>z = 0</strong> only. Floors <strong>never</strong> feet-on-slab. 5-deep solid <strong>all z</strong></td>
+</tr>
+<tr>
+<td>Live-stand</td>
+<td><code>IsStandable</code> (2 air + solid support) <strong>or</strong> completed <strong>ladder</strong> + 2-tall clearance at <strong>z = 0 only</strong></td>
+</tr>
+<tr>
+<td>Volume graph</td>
+<td><code>VolumeLiveStep</code>: ±X ±Z at same Y; <strong>±Y only <code>CanClimbY</code></strong> = completed ladder at from or to, same XZ, |ΔY|=1, both occupy</td>
+</tr>
+<tr>
+<td>Colonist planner</td>
+<td><code>FindColonistVolumePath</code> = volume A<em> </em><em>first</em>*; 2D-then-lift only after Blocked/CapExceeded (ladder supplement)</td>
+</tr>
+<tr>
+<td>Shared A*</td>
+<td><code>FindPath(Vector3Int)</code> and colonist volume A* share <code>VolumeAStarPathfinder</code> / <code>CanClimbY</code>. Enemies use raw <code>FindPath(Vector3Int)</code> + XY <code>EnemyPathWalkability</code> (no <code>IVolumeWalkabilityMap</code>)</td>
+</tr>
+<tr>
+<td>Labor multi-goal</td>
+<td><code>MultiGoalPathfinder</code> volume BFS also calls <code>CanClimbY</code> (ladder-only today)</td>
+</tr>
+<tr>
+<td><code>FindNearestStandable</code></td>
+<td>Volume BFS ±X ±Z + ladder <code>CanClimbY</code>. Callers: Labor, Tasks, <strong>EnemyService</strong></td>
+</tr>
+<tr>
+<td>Motors</td>
+<td><code>AgentService.IsColonistVolumeStepAllowed</code> = <code>IsLiveStandable</code> <strong>and</strong> <code>IsMovementPassable(x,y,z)</code>. Hop base <strong>0.5 s</strong>. Ladder ×1.10 only when structure type is ladder and hop is pure ±Y</td>
+</tr>
+<tr>
+<td>2D Gameplay</td>
+<td>Slice2D; 1×2 occupy at z = 0; ±Y ladders only. Debug scene stays</td>
+</tr>
+<tr>
+<td>Cap</td>
+<td><code>VolumeAStarPathfinder.MaxExpansions</code> = <strong>1000</strong></td>
+</tr>
+<tr>
+<td>Pathfinding deps</td>
+<td><code>UK.Pathfinding</code> must <strong>not</strong> reference Content or Buildings</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> V1–V4 exits; stamp-depth preserve; dig <strong>d = 1</strong>; door <strong>modes</strong>; floor-not-occupy-legal; catalog W×H; save format (no bump); hop <strong>0.5 s</strong>; path cap <strong>1000</strong>; Labor budget <strong>40</strong>; 18° camera; ladder exception <strong>z = 0</strong>; enemy/bash XY; 2D 1×2; depth-1 occupy z = 0; behind-wall walk.</p>
+<hr />
+<h2>3. Goal (one paragraph)</h2>
+<p>In Volume World, a colonist reaches a higher (or lower) <strong>landing</strong> with <strong>no ladder</strong> by walking to <strong>z = d−1</strong> and stepping <strong>±Y</strong> on that back face, with <strong>2-tall clearance</strong>, hop <strong>0.5 s</strong>. This must work in a <strong>d = 5</strong> hall (climb only at the back, <strong>not</strong> at z = 0) <strong>and</strong> in a <strong>d = 1</strong> dug tunnel (climb at z = 0). Player <strong>M</strong> move, Labor routes, and Volume task reachability inherit the same colonist graph. Enemies stay ladder-only ±Y. Ladders are not the upstairs design of this slice. EditMode tests. Pathfinding + World + Agents (+ Labor/Tasks inherit) READMEs + <code>docs/DECISIONS.md</code>.</p>
+<hr />
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task law</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>architecture_docs/ROADMAP_VOLUME_PRODUCT.md</code> <strong>V5</strong> + <strong>R6 R14 R15 R17</strong></td>
+<td>Sequence + locks</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>docs/DECISIONS.md</code> — Volume product Q8–Q15 (back-wall climb); V3 occupy; live structure stand (2-tall); hop 0.5 s</td>
+<td>Baseline vs change</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ADR-0002, ADR-0010</td>
+<td>Sim ≠ view; Y height, Z into cave</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>VolumeLiveStep.CanClimbY</code> / <code>CanStep</code> / <code>CanOccupy</code>; <code>WorldStandRules</code>; <code>PathfindingService.FindColonistVolumePath</code>; <code>AgentService.IsColonistVolumeStepAllowed</code>; <code>Labor.MultiGoalPathfinder</code> volume ±Y</td>
+<td>Touch</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td><strong>Climb face (geometry).</strong> A feet cell <code>(x, y, z)</code> is a <strong>back-wall climb face</strong> iff it is in-bounds <strong>Air</strong> and the voxel <strong>immediately behind</strong> (<code>z+1</code>) is <strong>Solid</strong> (OOB counts as Solid). Equivalent to <strong>z = d−1</strong> when <strong>d &gt; 0</strong>. Plan may put a pure helper on <code>WorldStandRules</code> (or sibling). <strong>Do not</strong> require <code>GetColumnDepth</code> on <code>IWorldVolumeQuery</code>. <strong>Do not</strong> fold this into <code>IsLiveStandable</code> (enemies share live-stand).</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td><strong>Colonist ±Y on that face.</strong> Colonist volume steps: same XZ, |ΔY| = <strong>1</strong>, both ends legal for the colonist climb graph (<strong>F3</strong>). <strong>No ladder required.</strong> In <strong>d &gt; 1</strong>, z = 0 is <strong>not</strong> a climb face (Air behind). In <strong>d = 1</strong>, z = 0 <strong>is</strong> the climb face. Completed-ladder <code>CanClimbY</code> <strong>stays</strong> as today (z = 0 exception unchanged).</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td><strong>2-tall landings (ladder analog, colonist graph only).</strong> <code>IsStandable</code> still needs floor support, so a 2-high upstairs (feet Y to Y+2) has an intermediate Y+1 with <strong>no</strong> floor. Colonist A<em> </em><em>must</em><em> traverse that intermediate on the climb face (Manhattan-1 ±Y), same idea as stacked ladders connecting 2-high landings. </em><em>2-tall clearance stays:</em><em> Air at feet </em><em>and</em><em> body at that z; </em><em>OOB body is not</em><em> clearance; 1-high crawl stays illegal. Floor </em><em>tiles</em><em> stay not occupy-legal at any z. 5-deep solid cells still block all z (no climb through Storage). Depth-1 wall/locked door at z = 0 do </em><em>not</em>* block climb at z = d−1 in a deep column.</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td><strong>Landings vs cling nodes.</strong> <strong>Stand goals</strong> (<code>IsVolumePassable</code>, move pick, spawn, Labor/task stand tiles) stay <strong>landings</strong>: current occupy (live-stand <strong>and</strong> walk at that z) — floor support or completed ladder. Do <strong>not</strong> make a mid-air cling cell a clickable / work stand goal. <strong>Path intermediates</strong> on the climb face may be cling nodes (no floor) so ±Y can connect landings. <strong>±X ±Z from a cling-only node is not required</strong> and <strong>must not</strong> flood the back wall as a second horizontal graph (R14 is “then ±Y on that face”; cap <strong>1000</strong>). Plan names the two predicates and the A* neighbor rule.</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td><strong>Colonist consumers share F2/F3.</strong> <code>FindColonistVolumePath</code> (volume A<em> first); Labor volume multi-goal BFS (<code>MultiGoalPathfinder</code> <code>CanClimbY</code>); Volume World </em><em>M</em><em> move motors (<code>IsColonistVolumeStepAllowed</code> must </em><em>not</em><em> reject a legal climb hop mid-path); Volume task reachability already uses <code>FindColonistVolumePath</code> — upstairs DIG/Labor inherit. 2D-then-lift stays a </em><em>ladder supplement</em>* only.</td>
+</tr>
+<tr>
+<td><strong>F6</strong></td>
+<td><strong>Enemies / bash not in V5.</strong> Raw <code>FindPath(Vector3Int)</code>, enemy <code>FindNearestStandable</code>, <code>EnemyPathWalkability</code>, bash <code>IVolumePlanThrough</code>: <strong>no</strong> back-wall free-climb. Ladder ±Y for enemies unchanged. Plan <strong>must</strong> split colonist vs enemy step policy so adding F2 does not silently teach orks to climb the cave back.</td>
+</tr>
+<tr>
+<td><strong>F7</strong></td>
+<td><strong>Hop / speed (R15).</strong> Each climb hop uses existing motor hop <strong>0.5 s</strong> base. Do <strong>not</strong> change <code>AgentMotor.HopDurationSeconds</code>. Do <strong>not</strong> apply ladder <strong>×1.10</strong> to free-climb (no ladder type). Do <strong>not</strong> add a climb-vs-ladder speed table. Attention / floor multipliers on <strong>landings</strong> stay as today.</td>
+</tr>
+<tr>
+<td><strong>F8</strong></td>
+<td><strong>2D Gameplay.</strong> No free-climb on the 2D 1×2 graph. Slice2D ±Y stays <strong>ladders only</strong>.</td>
+</tr>
+<tr>
+<td><strong>F9</strong></td>
+<td>EditMode (no GPU): see <strong>§10</strong>. If an <strong>exit</strong> path returns <code>CapExceeded</code>, <strong>STOP and ask</strong> — do <strong>not</strong> raise 1000.</td>
+</tr>
+<tr>
+<td><strong>F10</strong></td>
+<td>Pathfinding, World (climb-face / live-stand one-liner), Agents (volume step), Labor (multi-goal ±Y) READMEs; Tasks one-liner if reach text still says ladder-only Y; <code>docs/DECISIONS.md</code> index + entry.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why ±Y cannot stay ladder-only:</strong> Volume World upstairs today needs a completed ladder (and Volume stacked ladders still fail in play). R14 / R15: free-climb on the back face is the upstairs path, including <strong>d = 1</strong> dig.</p>
+<hr />
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Raise <code>MaxExpansions</code> as the climb design</td>
+<td>R17; cap only with CapExceeded evidence</td>
+</tr>
+<tr>
+<td>Enemy / mole / bash free-climb</td>
+<td>R14 — colonists only</td>
+</tr>
+<tr>
+<td>Tune climb vs ladder <strong>speed</strong>; V5b</td>
+<td>R15</td>
+</tr>
+<tr>
+<td>Extend ladder live-stand exception to every Z as the free-climb design</td>
+<td>R15 — ladders may stay broken; V5 is terrain back-face</td>
+</tr>
+<tr>
+<td>Free-climb from <strong>z = 0</strong> when <strong>d &gt; 1</strong></td>
+<td>R14 cutaway</td>
+</tr>
+<tr>
+<td>Forbidding climb at <strong>z = 0</strong> when <strong>d = 1</strong></td>
+<td>R14 / R6 — that <strong>is</strong> the back face</td>
+</tr>
+<tr>
+<td>Making floor <strong>tiles</strong> occupy-legal feet</td>
+<td>Platform law</td>
+</tr>
+<tr>
+<td>Flatten structure <code>d</code> / carve recipe Z into World</td>
+<td>R8</td>
+</tr>
+<tr>
+<td>Walkable interiors of 5-deep kits</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td>Changing catalog W×H, door <strong>modes</strong>, hop 0.5 s, Labor budget 40, save format</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td>Digging / marking at z &gt; 0</td>
+<td>V2 lock</td>
+</tr>
+<tr>
+<td>Horizontal “cliff walk” product (traverse ±X along cling-only back wall at mid-height)</td>
+<td>Not R14; A* flood risk</td>
+</tr>
+<tr>
+<td>New climb animation / <code>ASSET_*</code></td>
+<td>Presentation hop lerp stays</td>
+</tr>
+<tr>
+<td>Unity NavMesh / physics as truth</td>
+<td>ADR-0010</td>
+</tr>
+<tr>
+<td>Deleting 2D <code>Gameplay</code>; Phase F / G</td>
+<td>Later slices</td>
+</tr>
+<tr>
+<td><code>UK.Pathfinding</code> → Content or Buildings; <code>UK.World</code> → Content for climb-face</td>
+<td>Module contracts (climb face is voxels)</td>
+</tr>
+<tr>
+<td>New modules unless the plan proves an interface cannot live in World/Pathfinding/Session</td>
+<td>Prefer existing assemblies</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. Architecture constraints</h2>
+<ol>
+<li><strong>ADR-0002:</strong> climb legality is sim (World geometry + Pathfinding colonist graph + Agents step). Views only follow <code>Feet</code>. No second composer.</li>
+<li><strong>ADR-0010:</strong> Y is height; Z is into the cave. 1 hop X = 1 hop Z = 1 hop Y; hop time 0.5 s.</li>
+<li><strong>One colonist climb predicate</strong> shared by A*, Labor multi-goal ±Y, and colonist motors. Do not fork “playtest-only” ±Y in Presentation.</li>
+<li><strong>Enemy graph stays ladder-only.</strong> Shared <code>VolumeLiveStep.CanClimbY</code> / <code>FindPath(Vector3Int)</code> / <code>FindNearestStandable</code> are the foot-gun. Plan names the split (flag, colonist-only stepper, or separate nearest) <strong>before</strong> code.</li>
+<li><strong><code>IsLiveStandable</code> ladder exception stays z = 0.</strong> Climb-face cling is <strong>not</strong> that exception.</li>
+<li><strong>Dependencies:</strong> Pathfinding reads <code>IWorldVolumeQuery</code> voxels. Session still binds <code>ColonistWalkabilityMap</code>. Concrete <code>PathfindingService</code> stays composer-owned.</li>
+<li><strong>Fallback:</strong> XY-only walk maps (enemies, old fixtures) must <strong>not</strong> gain colonist free-climb.</li>
+</ol>
+<hr />
+<h2>8. Suggested types / touch list (sketch only — not full code)</h2>
+<table>
+<thead>
+<tr>
+<th>Touch</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>WorldStandRules</code> (or tiny sibling)</td>
+<td>Pure <code>IsBackWallClimbFace(volume, x, y, z)</code> from voxels</td>
+</tr>
+<tr>
+<td><code>VolumeLiveStep</code></td>
+<td>Colonist ±Y: ladder <strong>or</strong> climb-face; cling intermediates; do not change enemy default</td>
+</tr>
+<tr>
+<td><code>VolumeAStarPathfinder</code> / <code>PathfindingService</code></td>
+<td>Colonist search uses F2; <code>FindPath(Vector3Int)</code> enemy path does not</td>
+</tr>
+<tr>
+<td><code>FindNearestStandable</code></td>
+<td>Keep ladder-only <strong>or</strong> add colonist overload — enemies must not inherit F2</td>
+</tr>
+<tr>
+<td><code>Labor.MultiGoalPathfinder</code></td>
+<td>Colonist volume BFS ±Y uses F2</td>
+</tr>
+<tr>
+<td><code>AgentService.IsColonistVolumeStepAllowed</code></td>
+<td>Allow legal climb hops (including cling intermediate)</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>New back-wall climb fixture file; do not weaken enemy ladder-only tests</td>
+</tr>
+<tr>
+<td>READMEs + DECISIONS</td>
+<td>After implement</td>
+</tr>
+</tbody>
+</table>
+<p>Unlikely: recipe factory; save DTOs; <code>SharedShellDepth</code>; door inspect UI; fog Z; <code>CreateLadder</code> art.</p>
+<hr />
+<h2>9. Gate B reminder</h2>
+<p>Start only on <strong>start Gate B</strong>. Plan in chat <strong>and</strong> <code>architecture_docs/coding_plans/FEATURE_VOLUME_BACK_WALL_CLIMB_V1_CODING_PLAN.md</code> → Architect approves → implement → validate → STOP.</p>
+<p>Phase 1 plan must name: climb-face voxel rule; colonist vs enemy <code>CanClimbY</code> split; landing vs cling predicates; how 2-high landings path without floor at Y+1; A<em> neighbor rule that does not flood cling ±X; motor step; Labor multi-goal; tests including </em><em>d = 5 back</em><em> and </em><em>d = 1 z = 0</em>*; CapExceeded-on-exit-path → ask, do not raise cap; locks L1–L16.</p>
+<hr />
+<h2>10. Exit criteria</h2>
+<ul>
+<li>[ ] <strong>d = 5 hall:</strong> colonist walks to the back wall (<strong>z = 4</strong> when d = 5), climbs to a higher <strong>landing</strong> with <strong>no ladder</strong>. Player <strong>M</strong> and Labor.</li>
+<li>[ ] <strong>d = 5 hall:</strong> colonist <strong>cannot</strong> free-climb <strong>±Y at z = 0</strong> (cutaway). Ladder ±Y at z = 0 unchanged if a ladder exists.</li>
+<li>[ ] <strong>d = 1 dug tunnel:</strong> colonist climbs <strong>±Y at z = 0</strong> (the only air) to a higher landing. Same 2-tall clearance. <strong>If this fails, V5 is not done.</strong></li>
+<li>[ ] 1-high crawl on the climb face stays illegal. OOB body not clearance.</li>
+<li>[ ] Enemies do <strong>not</strong> free-climb those fixtures (still Blocked without a ladder).</li>
+<li>[ ] Floors still not occupy-legal feet. 5-deep solid still blocks all z. Stamps still do not write <code>d</code>. No save bump. Cap still 1000 unless Architect later amends DECISIONS with evidence.</li>
+<li>[ ] Hop base still 0.5 s. No ladder speed on free-climb. No climb-vs-ladder speed table.</li>
+<li>[ ] F9 tests pass. READMEs + DECISIONS updated.</li>
+</ul>
+<h3>F9 EditMode list</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td><strong>d = 5</strong>, two-high landings (feet Y and Y+2), <strong>no</strong> ladder: <code>FindColonistVolumePath</code> from occupy-legal lower <strong>(x, Y, 0)</strong> to occupy-legal upper landing (<strong>same or back z</strong>) <strong>succeeds</strong>. Path <strong>changes Y</strong> via <strong>z = d−1</strong>. Path does <strong>not</strong> contain a <strong>±Y</strong> edge at <strong>z = 0</strong>. Status ≠ CapExceeded</td>
+</tr>
+<tr>
+<td><strong>(b)</strong></td>
+<td>Same d = 5 fixture: colonist <strong>±Y</strong> legal at <strong>z = d−1</strong>; colonist <strong>±Y</strong> <strong>illegal</strong> at <strong>z = 0</strong> (no ladder). Motor/step allows the climb hops used in (a)</td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td><strong>d = 1</strong> stacked tunnel (two-high landings), <strong>no</strong> ladder: <code>FindColonistVolumePath</code> <strong>succeeds</strong> with <strong>±Y at z = 0</strong>. Status ≠ CapExceeded</td>
+</tr>
+<tr>
+<td><strong>(d)</strong></td>
+<td>1-high crawl on the climb face: colonist path <strong>fails</strong> (not occupy / not 2-tall)</td>
+</tr>
+<tr>
+<td><strong>(e)</strong></td>
+<td>Enemy <code>FindPath(Vector3Int)</code> on fixtures <strong>(a)</strong> and <strong>(c)</strong>: <strong>not</strong> success via free-climb (Blocked / no back-wall ±Y)</td>
+</tr>
+<tr>
+<td><strong>(f)</strong></td>
+<td>Floor slab: still not <code>IsVolumePassable</code> at any z; stand remains <strong>above</strong> on Y</td>
+</tr>
+<tr>
+<td><strong>(g)</strong></td>
+<td>5-deep solid cell: still not occupy-legal at z = d−1; colonist path does not climb <strong>through</strong> that column</td>
+</tr>
+<tr>
+<td><strong>(h)</strong></td>
+<td>Depth-1 <strong>wall</strong> on d = 5 at z = 0: back-wall climb in that XY still legal at z = d−1 when live-stand/clearance holds (wall does not occupy the back)</td>
+</tr>
+<tr>
+<td><strong>(i)</strong></td>
+<td>Labor volume multi-goal / <code>FindColonistVolumePath</code> used as claim: upstairs landing is reachable without a ladder on fixture (a) or (c) (plan names the exact helper)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Manual verification (Architect)</h2>
+<ol>
+<li><strong>Volume World</strong>, starter <strong>d = 5</strong> hall. From the cutaway floor, <strong>M</strong>-click a standable tile <strong>one landing up</strong> on the same back wall (dig a 2-tall shaft up from the hall if the starter has no upstairs yet). Dwarf <strong>walks into the cave</strong> (z → 4), then <strong>climbs</strong>, no ladder placed. Clicking a cell that would require <strong>climbing the cutaway</strong> (z = 0) does <strong>not</strong> free-climb there.</li>
+<li><strong>Dig</strong> a <strong>d = 1</strong> vertical shaft (normal dig). Dwarf climbs <strong>at z = 0</strong> to the upper landing. Same 2-tall clearance.</li>
+<li>Spawn / existing <strong>enemies</strong> do not walk up that back wall (they still need today’s ladder/bash law).</li>
+<li>Hop still reads as the usual 0.5 s step, not a new climb speed.</li>
+</ol>
+<hr />
+<h2>12. Soft split</h2>
+<p>Not needed. Graph-without-motor leaves the dwarf stuck mid-climb (<code>EnsureUpcomingWalkable</code>). Motor-without-graph cannot path. Enemy split is in-scope, not a later slice.</p>
+<hr />
+<h2>13. Risks / notes</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Shared <code>CanClimbY</code> teaches enemies to climb</td>
+<td>F6 — split before wiring F2 into <code>VolumeAStarPathfinder</code></td>
+</tr>
+<tr>
+<td><code>IsLiveStandable</code> + cling would make mid-air pick/spawn/work stands</td>
+<td>F4 — landings vs cling</td>
+</tr>
+<tr>
+<td>Cling ±X floods d=5 back wall → CapExceeded</td>
+<td>F4 — vertical-only cling; exit paths are <strong>short</strong> shafts</td>
+</tr>
+<tr>
+<td>2-high landing impossible if both ±Y ends must be <code>IsStandable</code></td>
+<td>F3 — cling intermediate, same as stacked ladders</td>
+</tr>
+<tr>
+<td><code>IsColonistVolumeStepAllowed</code> still requires <code>IsLiveStandable</code> → motor aborts</td>
+<td>F5 — motor uses the colonist climb step predicate</td>
+</tr>
+<tr>
+<td><code>FindNearestStandable</code> used by EnemyService</td>
+<td>Must stay ladder-only</td>
+</tr>
+<tr>
+<td>Ladder playtest still fails</td>
+<td>Accepted (R15). Do not retune ladder exception or speed</td>
+</tr>
+<tr>
+<td>Large hall A* already near cap</td>
+<td>Exit fixtures are short. CapExceeded on <strong>(a)/(c)</strong> → ask Architect</td>
+</tr>
+<tr>
+<td>2D debug suddenly climbs every dug tunnel</td>
+<td>F8 — Volume only</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>14. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Climb face</td>
+<td><strong>z = d−1</strong> (Air + Solid immediately behind). Colonists <strong>±Y</strong> there</td>
+<td>Roadmap R14</td>
+</tr>
+<tr>
+<td><strong>L2</strong> d &gt; 1 cutaway</td>
+<td><strong>Cannot</strong> free-climb at <strong>z = 0</strong></td>
+<td>Roadmap R14</td>
+</tr>
+<tr>
+<td><strong>L3</strong> d = 1 dig</td>
+<td>Player-dug Tunnel stays <strong>d = 1</strong>; z = 0 <strong>is</strong> the climb face; upstairs <strong>must</strong> work</td>
+<td>Roadmap R6 / R14</td>
+</tr>
+<tr>
+<td><strong>L4</strong> Who</td>
+<td><strong>Colonists only.</strong> Enemies / moles / bash <strong>not</strong> V5</td>
+<td>Roadmap R14</td>
+</tr>
+<tr>
+<td><strong>L5</strong> Clearance</td>
+<td><strong>2-tall</strong> stays. OOB body not clearance. 1-high crawl illegal</td>
+<td>Roadmap R14 + live stand</td>
+</tr>
+<tr>
+<td><strong>L6</strong> Hop</td>
+<td><strong>0.5 s</strong> base. Do not change hop constant</td>
+<td>Roadmap R14 + existing motor</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Speed</td>
+<td>Do <strong>not</strong> tune climb vs ladder speed. No ladder ×1.10 on free-climb</td>
+<td>Roadmap R15</td>
+</tr>
+<tr>
+<td><strong>L8</strong> Ladders</td>
+<td>Not the V5 upstairs path. Exception stays <strong>z = 0</strong>. May stay broken in Volume</td>
+<td>Roadmap R15</td>
+</tr>
+<tr>
+<td><strong>L9</strong> Planner</td>
+<td>Per-voxel colonist volume graph (already V3). Do not revert to 2D-then-lift-only</td>
+<td>Roadmap R17</td>
+</tr>
+<tr>
+<td><strong>L10</strong> Cap</td>
+<td>Do <strong>not</strong> raise <code>MaxExpansions</code> as this design</td>
+<td>Roadmap R17</td>
+</tr>
+<tr>
+<td><strong>L11</strong> Floors</td>
+<td><strong>Not</strong> occupy-legal feet on the slab at any z</td>
+<td>V3 / platform</td>
+</tr>
+<tr>
+<td><strong>L12</strong> 5-deep solid</td>
+<td>Still block <strong>all z</strong></td>
+<td>V3</td>
+</tr>
+<tr>
+<td><strong>L13</strong> Stamps</td>
+<td>Do <strong>not</strong> write <code>d</code></td>
+<td>Roadmap R8</td>
+</tr>
+<tr>
+<td><strong>L14</strong> 2D slice</td>
+<td>No free-climb. Ladders only for ±Y</td>
+<td>Dual space / R3 / R16</td>
+</tr>
+<tr>
+<td><strong>L15</strong> Cling</td>
+<td>Path intermediate on the face; <strong>not</strong> a stand goal; <strong>not</strong> a horizontal cliff graph</td>
+<td>This brief / R14</td>
+</tr>
+<tr>
+<td><strong>L16</strong> Not this slice</td>
+<td>F, G, V5b, dig at z &gt; 0, save bump</td>
+<td>Roadmap</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> None.</p>
+<hr />
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] V5 = colonist back-wall climb at <strong>z = d−1</strong>, including <strong>d = 1</strong> dig; no free-climb at z = 0 when <strong>d &gt; 1</strong></li>
+<li>[ ] Optional: request brief edits</li>
+<li>[ ] When ready: <strong>start Gate B</strong></li>
+</ul>
+<hr />
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_VOLUME_BACK_WALL_CLIMB_V1_GROK_BUILD_BRIEF.md
+
+Unity project root:
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (full file)
+3. architecture_docs/ROADMAP_VOLUME_PRODUCT.md — V5 + R6 R14 R15 R17
+4. docs/DECISIONS.md — index first, then: Volume product Q8–Q15; V3 occupy; live structure stand; hop duration; path cap
+5. architecture_docs/adr/0002-simulation-presentation-separation.md
+6. architecture_docs/adr/0010-3d-play-space.md
+7. Pathfinding: VolumeLiveStep, VolumeAStarPathfinder, PathfindingService.FindColonistVolumePath / FindPath(Vector3Int) / FindNearestStandable
+8. World: WorldStandRules, IWorldVolumeQuery (Air / Solid / OOB Solid)
+9. Agents: AgentService.IsColonistVolumeStepAllowed; AgentMotor hop 0.5 s
+10. Labor: MultiGoalPathfinder volume CanClimbY; LaborVolumeNavigation
+11. Enemies: EnemyService FindPath(Vector3Int) / FindNearestStandable — must stay ladder-only
+12. Existing code the brief marks as baseline (reuse; do not rebuild)
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+Write the full plan to architecture_docs/coding_plans/FEATURE_VOLUME_BACK_WALL_CLIMB_V1_CODING_PLAN.md
+(and present it in chat). Chat-only is a process fail.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include: restated goal; in/out; climb-face voxel rule; colonist vs enemy CanClimbY split;
+landing vs cling; 2-high landing path without floor at Y+1; A* neighbor rule (no cling ±X flood);
+motor step; Labor multi-goal; tests (d=5 back-wall AND d=1 z=0); CapExceeded-on-exit-path → ask,
+do not raise cap; locks L1–L16.
+If the brief lists OPEN questions, stop and surface them — do not invent.
+Otherwise treat brief locks as frozen.
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan file under architecture_docs/coding_plans/
+(and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed slice: commit and push to origin (GitHub) per AGENTS.md, then STOP.
+Do not start the next phase unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Do not raise volume A* MaxExpansions as the climb design
+- Do not teach enemies / moles / bash to free-climb
+- Do not tune climb vs ladder speed; no V5b; no ladder ×1.10 on free-climb
+- Do not extend the ladder live-stand exception off z = 0 as the free-climb design
+- Do not allow free-climb at z = 0 when d &gt; 1
+- Do not skip d = 1 dug-tunnel climb (z = 0 is the back face)
+- Do not make floor tiles occupy-legal feet
+- Do not flatten structure column depths
+- Do not add a horizontal cling-only cliff graph
+- Do not start Phase F or G; do not delete 2D Gameplay
+- Do not change hop 0.5 s, save format, catalog W×H, door modes, Labor budget
+- UK.Pathfinding must not reference UK.Content or UK.Buildings
+</code></pre>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-VOLUME-CUTOVER-V1">
+          <header>
+            <h3 id="brief-UK-FEAT-VOLUME-CUTOVER-V1">Volume cutover V1</h3>
+            <p class="file-cap">FEATURE_VOLUME_CUTOVER_V1_GROK_BUILD_BRIEF.md · 340 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-VOLUME-CUTOVER-V1</code>. Roadmap F: New Game / Load / Edit → Volume World; 2D Gameplay stays debug. Accepted 5 Sep 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_VOLUME_CUTOVER_V1_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Volume World cutover V1 (roadmap F)</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-VOLUME-CUTOVER-V1</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Roadmap <strong>F</strong>: Volume World is the <strong>product</strong> New Game / Load (and Edit); 2D <code>Gameplay</code> stays <strong>debug</strong> <strong>V1</strong></td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>2.5D A–E on disk; Volume V1–V5 live; <code>architecture_docs/ROADMAP_VOLUME_PRODUCT.md</code> <strong>F</strong> (<strong>R3, R7, R16</strong>)</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td>Unity project root</td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>architecture_docs/</code></td>
+</tr>
+<tr>
+<td><strong>Difficulty class</strong></td>
+<td><strong>complex</strong> (cutover: default scene, dual-space, save format, Edit/F9 host, product vs debug presentation)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§14</strong>. Request edits if needed (briefs are <strong>not</strong> approved).</li>
+<li>When you want coding: say <strong>start Gate B</strong>.</li>
+<li>Coding: plan → you approve plan → implement → accept → git snapshot + push to origin.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code>.</li>
+<li>This brief is <strong>task law</strong>. Roadmap locks <strong>R3, R7, R16</strong>.</li>
+<li>Phase 1 plan only after <strong>start Gate B</strong>. Write the plan to <code>architecture_docs/coding_plans/</code> <strong>and</strong> chat.</li>
+<li>Do <strong>not</strong> delete the 2D <code>Gameplay</code> scene.</li>
+<li>Do <strong>not</strong> start <strong>G</strong> (<code>ASSET_*</code> kit / furniture / enemy-plant gold).</li>
+<li>Do <strong>not</strong> put live Z on the 2D tilemap.</li>
+<li>Do <strong>not</strong> author a new test map (Architect authors after Volume plays).</li>
+<li>Do <strong>not</strong> rewrite chunk mesh / fog / billboards for FPS unless a <strong>blocking</strong> product bug.</li>
+</ol>
+<hr />
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Volume World is the game. Main Menu <strong>New Game</strong> and <strong>Load Game</strong> open the 3D set + <strong>18°</strong> camera, not the 2D tilemap.</li>
+<li><strong>Leave</strong> scene <code>Gameplay</code> as <strong>debug</strong> (<strong>R16</strong>). It must stay launchable. It is not the product.</li>
+<li>Tilemap / painted AO / hero hall PNG are <strong>not</strong> the product cave or placed 3D building. Volume buildings stay <strong>recipes</strong>.</li>
+<li>Old campaign saves <strong>do not matter</strong>. Format bump allowed. Current test map <strong>may be deleted or ignored</strong>; Architect authors a new one after Volume plays (<strong>R7</strong>).</li>
+<li>Perf: the product view <strong>is</strong> chunk mesh + volume fog + billboards. Stress if cadence/scaling due — enable the harness on the product host; do not invent a map or pass budgets.</li>
+</ol>
+<hr />
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Menu New Game / Edit / Load / Load Edit</td>
+<td><code>MainMenuController</code> → <code>SessionFlowController.LoadGameplay()</code> → scene <strong><code>Gameplay</code></strong>. <code>PendingGameplayLoad</code> carries Load / New Edit / Load Edit. New Game <strong>clears</strong> pending</td>
+</tr>
+<tr>
+<td>Menu Volume World extra</td>
+<td>Button <code>UiStringKeys.VolumeWorldView</code> (“Volume World”) → <code>LoadVolumeWorldView()</code> → scene <strong><code>VolumeWorldView</code></strong>. Always campaign <strong>New Game</strong> (<code>NewGameLaunch.StartCampaign</code>). <strong>Does not</strong> consume <code>PendingGameplayLoad</code></td>
+</tr>
+<tr>
+<td>2D host</td>
+<td><code>Bootstrap.StartGameplay</code>: consume pending (Load campaign / New Edit / Load Edit / else New Game). <strong>Never</strong> <code>EnableVolumeMotion()</code>. <code>MotionSpace</code> default <strong>Slice2D</strong>. Tilemap + <code>BuildingViewHost</code> + <code>ColonistViewHost</code>. Wires <strong>F9</strong> <code>StressTestInput</code> + <strong>G</strong> <code>EnemyAnchorInput</code></td>
+</tr>
+<tr>
+<td>Volume host</td>
+<td><code>VolumeWorldBootstrap</code>: <code>EnableVolumeMotion()</code> <strong>then</strong> <code>StartCampaign</code> only. HUD/designate/ghost/inspect/move/pause/fog/recipes/billboards live. <strong>No</strong> <code>StressTestInput</code>, <strong>no</strong> <code>EnemyAnchorInput</code>. Phase B lock: no Fill / G / F9 in Volume World</td>
+</tr>
+<tr>
+<td>Camera</td>
+<td><code>WorldVolumeCameraController.DefaultPitchDegrees</code> = <strong>18</strong>. No player tilt. Home = volume AABB fit. URP renderer <strong>index 1</strong></td>
+</tr>
+<tr>
+<td>Dual space</td>
+<td>Volume: live feet Z, colonist per-voxel graph, back-wall climb. 2D: Slice2D motors <strong>z = 0</strong>; 1×2 occupy; ±Y ladders only</td>
+</tr>
+<tr>
+<td>Buildings (Volume)</td>
+<td>Phase C: <code>BuildingRecipeResolver</code> (storage/tent = <code>layout_*</code>). Not leftover PNG stamps. Fireplace/door/hall/wall/floor/ladder dedicated recipes. 1-tall wall/ladder (V4)</td>
+</tr>
+<tr>
+<td>Buildings (2D)</td>
+<td><code>BuildingView</code> + hero/frame PNGs (including <code>building_meeting_hall.png</code>)</td>
+</tr>
+<tr>
+<td>Saves</td>
+<td><code>SavePaths.FormatVersion</code> = <strong>5</strong> (<code>posZ</code>). Refuse ≠ 5. 2D apply forces z = 0. Shared campaign slots 1–3. Edit slots under <code>saves/edit/</code></td>
+</tr>
+<tr>
+<td>Test map</td>
+<td>PlayerPrefs designated edit slot; F9 loads it into the <strong>bound</strong> session. F9 with no designation <strong>refuses</strong>. Last <code>PERFORMANCE_LOG</code> entries <strong>2026-08-10</strong> (cadence overdue; cutover is also a <strong>scaling</strong> trigger)</td>
+</tr>
+<tr>
+<td>Spike</td>
+<td>Menu <strong>Play-Space Spike</strong> → isolated <code>PlayspaceSpike</code>. No composer. Keep</td>
+</tr>
+<tr>
+<td>V1–V5</td>
+<td>Starter hall <strong>d = 5</strong>; 5-deep place; dig marks z = 0; depth-1 occupy z = 0; 1-tall wall/ladder; back-wall climb including <strong>d = 1</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> V1–V5 exits; ADR-0010 axes; 18° / no tilt; hop <strong>0.5 s</strong>; path cap <strong>1000</strong>; Labor budget <strong>40</strong>; catalog W×H; door <strong>modes</strong>; stamps do not write <code>d</code>; floor tiles not occupy-legal; enemy/bash XY; 2D 1×2 on the debug scene; recipe buildings on Volume; New Game modifiers snapshot; pause/save/HUD commands.</p>
+<hr />
+<h2>3. Goal (one paragraph)</h2>
+<p>Make <strong>Volume World the product</strong>: Main Menu <strong>New Game</strong>, <strong>Load Game</strong>, <strong>Edit Mode</strong>, and <strong>Load Edit Map</strong> load scene <code>VolumeWorldView</code> (18° dollhouse camera, <code>EnableVolumeMotion</code> before session start). The Volume host <strong>consumes</strong> <code>PendingGameplayLoad</code> the same way 2D <code>Bootstrap</code> does today (campaign load / new edit / load edit / else New Game). Leave scene <code>Gameplay</code> launchable as <strong>2D (debug)</strong> (Slice2D, tilemap, <code>BuildingView</code>). Discard pre-cutover saves via <strong>formatVersion 6</strong> (no migrate). Do not treat tilemap, painted AO, or hero hall PNG as the product. Wire Edit <strong>Fill / G</strong> and <strong>F9</strong> on the Volume host. Do not delete <code>Gameplay</code>, spike, 2D views, or 2D art. Update Session / Presentation / Savegame READMEs, stamp roadmap <strong>F</strong> done, and <code>docs/DECISIONS.md</code>.</p>
+<hr />
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Task law</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>architecture_docs/ROADMAP_VOLUME_PRODUCT.md</code> <strong>F</strong> + <strong>R3 R7 R16</strong></td>
+<td>Sequence + locks</td>
+</tr>
+<tr>
+<td>4</td>
+<td>ADR-0010 (discard old saves at cutover; recipes not hero PNG; 18°; Y height / Z into cave)</td>
+<td>Product space + save discard</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ADR-0002, ADR-0009</td>
+<td>Sim ≠ view; one composer</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>docs/DECISIONS.md</code> — Dual 2D vs Volume (until F); Phase E live Z / format 5; Phase B HUD; Phase C recipes; Volume product Q8–Q15</td>
+<td>Baseline vs change</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>docs/PERFORMANCE_LOG.md</code></td>
+<td>Cadence / scaling / F9 method; no invented budgets</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Session: <code>MainMenuController</code>, <code>SessionFlowController</code>, <code>PendingGameplayLoad</code>, <code>Bootstrap</code>, <code>VolumeWorldBootstrap</code>, <code>NewGameLaunch</code>, <code>GameplayComposer.EnableVolumeMotion</code></td>
+<td>Touch</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Presentation: <code>WorldVolumeCameraController</code> (18°); Volume recipe views — <strong>not</strong> <code>TilemapWorldView</code> as product</td>
+<td>Touch</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>F1</strong></td>
+<td><strong>Product scene.</strong> Main Menu <strong>New Game</strong> and <strong>Load Game</strong> load <strong><code>VolumeWorldView</code></strong>, not <code>Gameplay</code>. Camera stays <strong>18°</strong>, no player tilt, Home = volume AABB (existing <code>WorldVolumeCameraController</code>). Do <strong>not</strong> add a third <code>Gameplay3D</code> scene.</td>
+</tr>
+<tr>
+<td><strong>F2</strong></td>
+<td><strong>Edit on the product too.</strong> <strong>Edit Mode</strong> and <strong>Load Edit Map</strong> also load <code>VolumeWorldView</code>. Roadmap §0: 2D New Game / Edit remain the menu default <strong>until F</strong>. After F there is one product.</td>
+</tr>
+<tr>
+<td><strong>F3</strong></td>
+<td><strong>Volume host consumes pending launch.</strong> <code>VolumeWorldBootstrap</code> (or a shared helper both hosts call) applies <code>PendingGameplayLoad</code> exactly as <code>Bootstrap.StartGameplay</code> does today: Load campaign → <code>LoadIntoBoundSession</code> (fail → New Game + warn); Load Edit → <code>LoadEditIntoBoundSession</code> (fail → New Edit + warn); New Edit → <code>StartNewEditMode</code>; else → <code>NewGameLaunch.StartCampaign</code>. <strong><code>EnableVolumeMotion()</code> before</strong> generate/load/edit start. Clear pending after consume. Do <strong>not</strong> fork a second New Game / load implementation.</td>
+</tr>
+<tr>
+<td><strong>F4</strong></td>
+<td><strong>2D debug scene (R16).</strong> Scene <code>Gameplay</code> <strong>stays</strong> in the build list. Main Menu keeps a button that loads it. <strong>Repurpose</strong> the current <strong>Volume World</strong> extra: label <strong>2D (debug)</strong> (string table; keep or rename the key). That button: <code>PendingGameplayLoad.Clear()</code> then <code>LoadGameplay()</code> → 2D New Game campaign (Slice2D, tilemap). It is <strong>not</strong> required to Load/Edit on 2D this slice (<strong>R3</strong>: 2D is not the product). Debug 2D must still be <strong>launchable</strong> (exit).</td>
+</tr>
+<tr>
+<td><strong>F5</strong></td>
+<td><strong>Edit tools + F9 on Volume.</strong> Phase B “no Fill / G / F9 in Volume World” is <strong>lifted</strong>. Volume host wires <code>EnemyAnchorInput</code> (<strong>G</strong>) and <code>StressTestInput</code> (<strong>F9</strong>) the same way <code>Bootstrap</code> does (HUD Fill already follows <code>IsEditMode</code>). 2D debug host may keep its existing wiring.</td>
+</tr>
+<tr>
+<td><strong>F6</strong></td>
+<td><strong>Saves (R7 + ADR-0010).</strong> Bump <code>SavePaths.FormatVersion</code> <strong>5 → 6</strong>. Refuse ≠ 6. <strong>No migrate</strong> from 5 (or older). Schema may stay otherwise unchanged (still <code>posZ</code>). Campaign <strong>and</strong> edit slots share the version — old edit/test maps refuse. Do not delete files on disk from this task (persistentDataPath is the player’s). “Delete / ignore” = product does not depend on the current 2D-era map.</td>
+</tr>
+<tr>
+<td><strong>F7</strong></td>
+<td><strong>F3 product presentation.</strong> Volume World <strong>must not</strong> parent or bind <code>TilemapWorldView</code>, <code>BuildingView</code> / <code>BuildingViewHost</code>, or 2D fog tile overlay as the cave/building view. Placed 3D buildings stay <strong>recipes</strong> (Phase C). Hero hall PNG (<code>building_meeting_hall.png</code>) is <strong>2D debug only</strong>, not the placed Volume hall. Painted AO / earth autotile is <strong>2D debug only</strong>. Do <strong>not</strong> delete those 2D types or art this slice.</td>
+</tr>
+<tr>
+<td><strong>F8</strong></td>
+<td><strong>Perf / stress (roadmap F4).</strong> Product view remains existing <strong>chunk mesh + <code>WorldVolumeFogView</code> + billboards</strong>. Do <strong>not</strong> retune chunk size, fog densities, or billboard batching unless New Game is <strong>unplayable</strong>. Cadence (last log <strong>2026-08-10</strong>) <strong>and</strong> scaling (default path is now 3D presentation) are <strong>due</strong>. After implementation: <strong>attempt</strong> F9 on Volume World. If a designated test map <strong>loads</strong>: log a <code>PERFORMANCE_LOG</code> entry (<code>n/a — baseline phase</code>; no invented thresholds). If F9 <strong>refuses</strong> or the old map is unusable: <strong>report in Phase 3</strong>; do <strong>not</strong> author a map (<strong>R7</strong>); do <strong>not</strong> fail cutover on a missing map. Architect exception for the map is R7.</td>
+</tr>
+<tr>
+<td><strong>F9</strong></td>
+<td>EditMode tests (no GPU): see <strong>§10</strong>.</td>
+</tr>
+<tr>
+<td><strong>F10</strong></td>
+<td>Docs: Session README (menu defaults + debug 2D + Volume consumes pending + Fill/G/F9); Presentation Volume World “default New Game still 2D” lines; Savegame <code>FormatVersion = 6</code>; <code>docs/DECISIONS.md</code> index + entry (supersede “Dual 2D vs Volume until F”); stamp <code>ROADMAP_VOLUME_PRODUCT.md</code> <strong>F</strong> done, remaining <strong>G</strong>.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Why Load/Edit cannot stay 2D-only:</strong> Volume host today always <code>StartCampaign</code>, so a menu that only changes New Game’s scene would make <strong>Load</strong> open empty New Game on Volume or still dump Load/Edit to tilemap. Cutover exit is <strong>one product</strong>.</p>
+<hr />
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Reason</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Delete scene <code>Gameplay</code> / <code>TilemapWorldView</code> / <code>BuildingView</code> / 2D art</td>
+<td><strong>R16</strong> — debug stays</td>
+</tr>
+<tr>
+<td>Live Z on the 2D tilemap</td>
+<td>ADR-0010 / historical 2.5D block</td>
+</tr>
+<tr>
+<td>New <code>Gameplay3D</code> scene</td>
+<td>Keep <code>VolumeWorldView</code></td>
+</tr>
+<tr>
+<td>Start <strong>G</strong> (<code>ASSET_*</code> kit / furniture / enemy-plant gold)</td>
+<td>Does not block F</td>
+</tr>
+<tr>
+<td>Author a new test map / mass-seed a fake stress map</td>
+<td><strong>R7</strong> — Architect authors after Volume plays</td>
+</tr>
+<tr>
+<td>Invent PERFORMANCE_LOG pass/fail budgets</td>
+<td>Log policy: baseline until Architect sets</td>
+</tr>
+<tr>
+<td>Rewrite chunk mesh / fog / billboards for FPS</td>
+<td>F4 is product-path + measure, not a perf project</td>
+</tr>
+<tr>
+<td>Delete Play-Space Spike menu/scene</td>
+<td>Not named in F</td>
+</tr>
+<tr>
+<td>Migrate format 5 → 6</td>
+<td>Discard (<strong>R7</strong>, ADR-0010)</td>
+</tr>
+<tr>
+<td>Revert V1–V5 (d=5 hall, occupy z=0, climb, 1-tall visuals)</td>
+<td>Baseline</td>
+</tr>
+<tr>
+<td>Flatten structure <code>d</code>; floor tiles occupy-legal; raise path cap</td>
+<td>Unchanged</td>
+</tr>
+<tr>
+<td>Player camera tilt; change 18°</td>
+<td>Locked</td>
+</tr>
+<tr>
+<td>Option B 3D cavity gen; Unity NavMesh / physics as truth</td>
+<td>ADR-0010 / ADR-0002</td>
+</tr>
+<tr>
+<td>Second <code>GameplayComposer</code> / duplicated <code>StartNewGameFromModifiers</code></td>
+<td>ADR-0009</td>
+</tr>
+<tr>
+<td>Hide 2D debug behind Editor-only <code>#if</code> unless the plan proves shipping cannot keep one button</td>
+<td>Exit: debug scene <strong>launchable</strong></td>
+</tr>
+<tr>
+<td><code>UK.World</code> → Content; Pathfinding → Content/Buildings</td>
+<td>Module contracts</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>7. Architecture constraints</h2>
+<ol>
+<li><strong>ADR-0009:</strong> only <code>GameplayComposer</code> constructs domain services. Both scene hosts construct the composer, then bind views. Volume host is still <strong>not</strong> a second composition root.</li>
+<li><strong>ADR-0002:</strong> cutover is <strong>which view + which motion space</strong> the menu starts. Sim rules (V1–V5, Labor, save DTO fields) stay. Views still read; they do not own voxels.</li>
+<li><strong>ADR-0010:</strong> product play-space is Volume (X along, Y height, Z into cave). 2D debug remains Slice2D at z = 0. Buildings as <strong>recipes</strong> on the product view.</li>
+<li><strong>One pending-launch dispatcher.</strong> Prefer a small shared helper (Session) used by <code>Bootstrap</code> and <code>VolumeWorldBootstrap</code> over copying the load/edit/new branches.</li>
+<li><strong>Motion space:</strong> Volume path <strong>must</strong> <code>EnableVolumeMotion()</code> before New Game / load / edit apply. 2D debug <strong>must not</strong>.</li>
+<li><strong>Default <code>MotionSpace</code> stays Slice2D</strong> so EditMode tests and 2D debug do not silently go Volume.</li>
+<li>Menu strings via <code>StringTable</code> / <code>UiStringKeys</code> (English).</li>
+</ol>
+<hr />
+<h2>8. Suggested types / touch list (sketch only — not full code)</h2>
+<table>
+<thead>
+<tr>
+<th>Touch</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>MainMenuController</code></td>
+<td>New Game / Load / Edit / Load Edit → <code>LoadVolumeWorldView</code>; Volume World button → <strong>2D (debug)</strong> <code>LoadGameplay</code></td>
+</tr>
+<tr>
+<td><code>SessionFlowController</code></td>
+<td>Keep both scene loaders; optional <code>LoadProductGameplay</code> alias to Volume</td>
+</tr>
+<tr>
+<td><code>PendingGameplayLoad</code></td>
+<td>Unchanged kinds; Volume host consumes</td>
+</tr>
+<tr>
+<td>Shared start helper (new, Session)</td>
+<td>Apply pending → composer (from <code>Bootstrap.StartGameplay</code> body)</td>
+</tr>
+<tr>
+<td><code>VolumeWorldBootstrap</code></td>
+<td>EnableVolumeMotion → apply pending (not always StartCampaign); wire F9 + G</td>
+</tr>
+<tr>
+<td><code>Bootstrap</code></td>
+<td>Still 2D debug only; use the shared helper; still no EnableVolumeMotion</td>
+</tr>
+<tr>
+<td><code>SavePaths</code> + save tests</td>
+<td>FormatVersion <strong>6</strong>; refuse 5</td>
+</tr>
+<tr>
+<td><code>StringTable</code> / <code>UiStringKeys</code></td>
+<td><strong>2D (debug)</strong>; tests that still expect “Volume World”</td>
+</tr>
+<tr>
+<td><code>StressTestInput</code> / <code>EnemyAnchorInput</code></td>
+<td>Add on Volume host</td>
+</tr>
+<tr>
+<td>READMEs + DECISIONS + roadmap F stamp</td>
+<td>After implement</td>
+</tr>
+</tbody>
+</table>
+<p>Unlikely: Pathfinding graph; recipe factories; hop; camera pitch constant; spike bootstrap.</p>
+<hr />
+<h2>9. Gate B reminder</h2>
+<p>Start only on <strong>start Gate B</strong>. Plan in chat <strong>and</strong> <code>architecture_docs/coding_plans/FEATURE_VOLUME_CUTOVER_V1_CODING_PLAN.md</code> → Architect approves → implement → validate → STOP.</p>
+<p>Phase 1 plan must name: menu → scene map; shared pending-launch helper vs copy; EnableVolumeMotion order; format 6 refuse rule; 2D debug button; Volume F9/G wiring; F8 stress attempt vs R7 map exception; tests; locks L1–L16.</p>
+<hr />
+<h2>10. Exit criteria</h2>
+<ul>
+<li>[ ] Main Menu <strong>New Game</strong> opens <strong>Volume World</strong> (3D set, <strong>18°</strong>, live Z). Starter hall is the V1 <strong>d = 5</strong> preset, recipes not hero PNG.</li>
+<li>[ ] <strong>Load Game</strong> of a <strong>format 6</strong> slot opens <strong>Volume World</strong> and restores <code>posZ</code> (not stripped).</li>
+<li>[ ] <strong>Edit Mode</strong> / <strong>Load Edit Map</strong> (format 6) open <strong>Volume World</strong>. Fill / G work in Edit on that scene.</li>
+<li>[ ] Format <strong>5</strong> (and older) <strong>refuse</strong> (<code>CanLoad</code> / load fail). No migrate.</li>
+<li>[ ] <strong>2D (debug)</strong> still opens scene <code>Gameplay</code> (tilemap, Slice2D, z = 0). Scene file <strong>not</strong> deleted.</li>
+<li>[ ] Volume World does <strong>not</strong> use <code>TilemapWorldView</code> / <code>BuildingView</code> as the cave or placed building.</li>
+<li>[ ] Spike menu still works. No G art. Hop 0.5 s, cap 1000, 18°, V1–V5 unchanged.</li>
+<li>[ ] F9 is wired on Volume. Stress log <strong>or</strong> Phase 3 note that the test map is absent/unusable (<strong>R7</strong>).</li>
+<li>[ ] F9 tests pass. READMEs + DECISIONS + roadmap F stamp.</li>
+</ul>
+<h3>F9 EditMode list</h3>
+<table>
+<thead>
+<tr>
+<th>Id</th>
+<th>Assert</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>(a)</strong></td>
+<td>Product menu actions resolve to scene name <code>VolumeWorldView</code> (helper or <code>SessionFlowController</code> constant used by New Game / Load / Edit / Load Edit)</td>
+</tr>
+<tr>
+<td><strong>(b)</strong></td>
+<td>2D debug action resolves to scene name <code>Gameplay</code></td>
+</tr>
+<tr>
+<td><strong>(c)</strong></td>
+<td>Shared (or Volume) start: pending <strong>LoadCampaign</strong> calls save load <strong>not</strong> <code>StartCampaign</code>; pending <strong>NewEdit</strong> starts edit mode; empty pending starts campaign New Game</td>
+</tr>
+<tr>
+<td><strong>(d)</strong></td>
+<td>Volume start path calls <code>EnableVolumeMotion</code> <strong>before</strong> New Game / load apply (<code>MotionSpace.Volume</code>)</td>
+</tr>
+<tr>
+<td><strong>(e)</strong></td>
+<td>2D <code>Bootstrap</code> path does <strong>not</strong> enable Volume motion (default Slice2D)</td>
+</tr>
+<tr>
+<td><strong>(f)</strong></td>
+<td><code>SavePaths.FormatVersion == 6</code>; <code>CanLoad</code> false for header 5; a format-6 round-trip still writes <code>posZ</code></td>
+</tr>
+<tr>
+<td><strong>(g)</strong></td>
+<td>String table: 2D debug label is <strong>2D (debug)</strong> (or the locked English string); no leftover requirement that the extra button reads “Volume World” as the product entry</td>
+</tr>
+<tr>
+<td><strong>(h)</strong></td>
+<td>Existing Volume Phase A/B composer tests and 2D NewGameStarter tests still pass (do not retarget 2D fixtures to Volume motion unless they were Volume-only)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Manual verification (Architect)</h2>
+<ol>
+<li><strong>New Game</strong> from the main menu: pitched 18° cave, recipe starter hall (not the 9×5 hall PNG), dwarves walk <strong>into</strong> the hall (Z). Pause / HUD / dig / place still work.</li>
+<li><strong>Save</strong> in Volume, return to menu, <strong>Load</strong> that slot: same Volume view, dwarves keep depth.</li>
+<li>An <strong>old</strong> format-5 file (if you still have one) does <strong>not</strong> load.</li>
+<li><strong>2D (debug)</strong>: tilemap Gameplay, dwarves on the facade (z = 0). Ugly/broken vs Volume is acceptable (<strong>R3</strong>).</li>
+<li><strong>Edit Mode</strong> in Volume: instant place, Fill, G anchors. Optional: F9 — only if a test map is designated; otherwise skip (you author a new map later).</li>
+</ol>
+<hr />
+<h2>12. Soft split</h2>
+<p>Not needed. Menu-only without Volume pending-consume makes Load start a New Game. Format bump without menu leaves the product on 2D. F9 wiring is required once Edit lives on Volume.</p>
+<hr />
+<h2>13. Risks / notes</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Volume host forgets pending → Load is always New Game</td>
+<td><strong>F3</strong> + test <strong>(c)</strong></td>
+</tr>
+<tr>
+<td><code>EnableVolumeMotion</code> after load → <code>posZ</code> stripped / motors XY</td>
+<td><strong>F3</strong> order; test <strong>(d)</strong></td>
+</tr>
+<tr>
+<td>Shared helper accidentally enables Volume on 2D debug</td>
+<td>Helper does <strong>not</strong> set motion space; hosts do</td>
+</tr>
+<tr>
+<td>Format 6 + leftover tests expect <code>"formatVersion": 5</code></td>
+<td>Update Savegame tests in this slice</td>
+</tr>
+<tr>
+<td>StringTableTests expect “Volume World”</td>
+<td>Update <strong>(g)</strong></td>
+</tr>
+<tr>
+<td>F9 on Volume with a 2D-era test map is unplayable</td>
+<td><strong>F8</strong> / <strong>R7</strong> — do not fail cutover; do not invent a map</td>
+</tr>
+<tr>
+<td>Cadence debt if no map</td>
+<td>Phase 3 flags remaining PERF; Architect authors map then a later F9</td>
+</tr>
+<tr>
+<td>2D debug Load still desired</td>
+<td>Out of scope; request brief edit if needed</td>
+</tr>
+<tr>
+<td>Spike mistaken for product</td>
+<td>Keep as extra; New Game is Volume</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>14. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L1</strong> Product New Game</td>
+<td>Scene <code>VolumeWorldView</code> + 18° camera</td>
+<td>Roadmap F1</td>
+</tr>
+<tr>
+<td><strong>L2</strong> Product Load</td>
+<td>Same scene; consume campaign slot; live Z</td>
+<td>Roadmap F1</td>
+</tr>
+<tr>
+<td><strong>L3</strong> Product Edit</td>
+<td>Edit Mode + Load Edit Map → Volume World</td>
+<td>Roadmap §0 “until F” + one product</td>
+</tr>
+<tr>
+<td><strong>L4</strong> 2D leftover</td>
+<td>Scene <code>Gameplay</code> <strong>not</strong> deleted; Main Menu <strong>2D (debug)</strong> launches it (New Game campaign, Slice2D)</td>
+<td>Roadmap F2 / <strong>R16</strong></td>
+</tr>
+<tr>
+<td><strong>L5</strong> 2D may break</td>
+<td>Not required to keep 2D Load/Edit/parity</td>
+<td><strong>R3</strong></td>
+</tr>
+<tr>
+<td><strong>L6</strong> Tilemap / hero PNG / painted AO</td>
+<td>Not the product cave or placed 3D building. Volume = mesh + recipes</td>
+<td>Roadmap F3; ADR-0010</td>
+</tr>
+<tr>
+<td><strong>L7</strong> Saves</td>
+<td>Format <strong>6</strong>; refuse older; no migrate</td>
+<td><strong>R7</strong>; ADR-0010 discard</td>
+</tr>
+<tr>
+<td><strong>L8</strong> Test map</td>
+<td>Ignore / may refuse; <strong>do not</strong> author a new one in F</td>
+<td><strong>R7</strong></td>
+</tr>
+<tr>
+<td><strong>L9</strong> Camera</td>
+<td><strong>18°</strong>, no player tilt</td>
+<td>F1; existing Volume lock</td>
+</tr>
+<tr>
+<td><strong>L10</strong> Motion</td>
+<td>Volume product: <code>EnableVolumeMotion</code> before start. 2D debug: Slice2D z = 0</td>
+<td>Phase E dual space</td>
+</tr>
+<tr>
+<td><strong>L11</strong> F9 / Fill / G</td>
+<td>Enabled on Volume host (Phase B gate lifted)</td>
+<td>Consequence of L3 + F4 perf</td>
+</tr>
+<tr>
+<td><strong>L12</strong> Stress budgets</td>
+<td>Do not invent. Log n/a or skip with R7 note</td>
+<td><code>PERFORMANCE_LOG.md</code></td>
+</tr>
+<tr>
+<td><strong>L13</strong> Spike</td>
+<td>Keep</td>
+<td>Not in F</td>
+</tr>
+<tr>
+<td><strong>L14</strong> G art</td>
+<td>Out</td>
+<td>Roadmap G does not block F</td>
+</tr>
+<tr>
+<td><strong>L15</strong> V1–V5 / hop 0.5 s / cap 1000 / stamps vs <code>d</code></td>
+<td>Unchanged</td>
+<td>Prior Volume locks</td>
+</tr>
+<tr>
+<td><strong>L16</strong> Scene names</td>
+<td>Product = <code>VolumeWorldView</code>; debug 2D = <code>Gameplay</code></td>
+<td>On-disk + F1/F2</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> None. (Architect may still request brief edits — e.g. keep Edit on 2D, keep format 5, or Editor-only 2D debug.)</p>
+<hr />
+<h2>15. Architect checklist</h2>
+<ul>
+<li>[ ] F = Volume is New Game / Load / Edit default; <code>Gameplay</code> is <strong>2D (debug)</strong>; format 6 discard; no G art</li>
+<li>[ ] Optional: request brief edits (Edit stays 2D? keep format 5? hide 2D debug?)</li>
+<li>[ ] When ready: <strong>start Gate B</strong></li>
+</ul>
+<hr />
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_VOLUME_CUTOVER_V1_GROK_BUILD_BRIEF.md
+
+Unity project root:
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. The active brief (full file)
+3. architecture_docs/ROADMAP_VOLUME_PRODUCT.md — F + R3 R7 R16
+4. docs/DECISIONS.md — index first, then: Dual 2D vs Volume (until F); Phase E live Z / format 5;
+   Phase B HUD / no F9 in Volume; Phase C recipes; Volume product Q8–Q15
+5. docs/PERFORMANCE_LOG.md — cadence / scaling / F9 method (no invented budgets)
+6. architecture_docs/adr/0002-simulation-presentation-separation.md
+7. architecture_docs/adr/0009-manual-composition-root-remains-default.md
+8. architecture_docs/adr/0010-3d-play-space.md
+9. Session: MainMenuController, SessionFlowController, PendingGameplayLoad,
+   Bootstrap.StartGameplay, VolumeWorldBootstrap, NewGameLaunch,
+   GameplayComposer.EnableVolumeMotion
+10. Savegame: SavePaths.FormatVersion, CanLoad refuse rule
+11. Presentation: WorldVolumeCameraController (18°); Volume recipe views
+12. Existing code the brief marks as baseline (reuse; do not rebuild)
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only.
+Write the full plan to architecture_docs/coding_plans/FEATURE_VOLUME_CUTOVER_V1_CODING_PLAN.md
+(and present it in chat). Chat-only is a process fail.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include: restated goal; in/out; menu → scene map; shared pending-launch helper vs copy;
+EnableVolumeMotion order; format 6 refuse; 2D debug button; Volume F9/G wiring;
+F8 stress attempt vs R7 map exception; tests (a)–(h); locks L1–L16.
+If the brief lists OPEN questions, stop and surface them — do not invent.
+Otherwise treat brief locks as frozen.
+
+Then STOP and wait for written implementation approval.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan file under architecture_docs/coding_plans/
+(and brief exit criteria).
+Gate B Phase 3 validation report → STOP.
+When the Architect explicitly accepts the completed slice: commit and push to origin (GitHub) per AGENTS.md, then STOP.
+Do not start the next phase unless tasked.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- Do not delete the 2D Gameplay scene
+- Do not put live Z on the 2D tilemap
+- Do not start Phase G / ASSET_* kit art
+- Do not author a new test map
+- Do not invent PERFORMANCE_LOG pass budgets
+- Do not rewrite chunk mesh / fog / billboards for FPS unless New Game is unplayable
+- Do not migrate format 5 saves; bump to 6 and refuse older
+- Do not add a Gameplay3D scene; keep VolumeWorldView
+- Do not delete Play-Space Spike
+- Do not revert V1–V5, hop 0.5 s, path cap 1000, 18°, stamps-vs-d, door modes
+- Do not build a second GameplayComposer
+</code></pre>
+          </div>
+        </details>
+          </div>
+        </article>
+
 
       </div>
     </section>
