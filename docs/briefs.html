@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example Grok Build briefs — Underground Kingdom</title>
-  <meta name="description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover.">
+  <meta name="description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover, large service split V2.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Example Grok Build briefs">
-  <meta property="og:description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover.">
+  <meta property="og:description" content="Full Grok Build FEATURE_* briefs behind spoilers: food, sleep, inspection, volume pathfinding, dig marks, live Z, back-wall climb, cutover, large service split V2.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -6021,6 +6021,1211 @@ HARD FORBIDS
 - Do not revert V1–V5, hop 0.5 s, path cap 1000, 18°, stamps-vs-d, door modes
 - Do not build a second GameplayComposer
 </code></pre>
+          </div>
+        </details>
+          </div>
+        </article>
+
+        <article class="artifact" aria-labelledby="brief-UK-FEAT-LARGE-SERVICE-SPLIT-V2">
+          <header>
+            <h3 id="brief-UK-FEAT-LARGE-SERVICE-SPLIT-V2">Large service split V2</h3>
+            <p class="file-cap">FEATURE_LARGE_SERVICE_SPLIT_V2_GROK_BUILD_BRIEF.md · 485 lines · Engineer: Grok Build</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-LARGE-SERVICE-SPLIT-V2</code>. Maintainability: extract real seams from hero types after Volume V1–V5 + F. Accepted 6 Sep 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full brief — FEATURE_LARGE_SERVICE_SPLIT_V2_GROK_BUILD_BRIEF.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Feature — Large Service Split / Refactor V2</h1>
+<h2>Grok Build Task Brief (Architect-gated)</h2>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-LARGE-SERVICE-SPLIT-V2</code></td>
+</tr>
+<tr>
+<td><strong>Feature / version</strong></td>
+<td>Large service / HUD / board modularity <strong>V2</strong> (maintainability)</td>
+</tr>
+<tr>
+<td><strong>Depends on</strong></td>
+<td>Product baseline after Volume V1–V5 + F (G cancelled); <code>UK-FEAT-LARGE-SERVICE-SPLIT-V1</code> (D2/D3/D4 landed); 2026-09-06 modularity review</td>
+</tr>
+<tr>
+<td><strong>Engineer</strong></td>
+<td>Grok Build (sole coder)</td>
+</tr>
+<tr>
+<td><strong>Architect</strong></td>
+<td>Human (Colin) — approvals and acceptance</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td>Brief <strong>delivered</strong>. Gate B starts only when the Architect <strong>explicitly</strong> starts it (<code>AGENTS.md</code>). <strong>No production code until Architect approves the Gate B plan.</strong></td>
+</tr>
+<tr>
+<td><strong>Product</strong></td>
+<td>Underground Kingdom (Unity / C#)</td>
+</tr>
+<tr>
+<td><strong>Language</strong></td>
+<td>English (brief + code identifiers)</td>
+</tr>
+<tr>
+<td><strong>Unity project root</strong></td>
+<td><code>Unity project root</code></td>
+</tr>
+<tr>
+<td><strong>Architecture docs root</strong></td>
+<td><code>architecture_docs/</code></td>
+</tr>
+<tr>
+<td><strong>Difficulty class</strong></td>
+<td><strong>complex</strong> (many modules; Task reachability is path-graph adjacent; Labor/Buildings/Session façades; optional ISP would be a public-interface cutover)</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>0. How to use this brief</h2>
+<h3>For the Architect</h3>
+<ol>
+<li>Read <strong>§0.1</strong>, <strong>§12</strong>, and <strong>§13</strong>. Request edits if needed (briefs are <strong>not</strong> approved).</li>
+<li>When you want coding: say <strong>start Gate B</strong>.</li>
+<li>Coding: plan → you approve plan → implement <strong>only approved drops</strong> (one drop per approval unless you authorize more) → you spot-check play → accept → git snapshot + push per <code>AGENTS.md</code>.</li>
+</ol>
+<h3>For Grok Build (Coding Engineer)</h3>
+<ol>
+<li>Obey <code>architecture_docs/AGENTS.md</code> Gate B.</li>
+<li>This brief is <strong>task law</strong>. V1 policy still binds: <strong>no hard LOC cap</strong>; extract <strong>only real seams</strong>; prefer <strong>leave</strong> over a dishonest split.</li>
+<li>Phase 1 plan only after <strong>start Gate B</strong>. Write the plan to <code>architecture_docs/coding_plans/</code> <strong>and</strong> chat.</li>
+<li><strong>Zero intentional gameplay / balance / API-behavior change.</strong> Structural only.</li>
+<li>Do <strong>not</strong> re-open V1 KEEP files in §2.3 unless a real shared helper falls out of an approved drop.</li>
+<li>After approved extracts land: write <strong>largest-files overview V2</strong> (§5 A10 / §10 E7).</li>
+</ol>
+<h3>0.1 Advice to the Architect (non-normative — read before starting Gate B)</h3>
+<p><strong>Verdict: Yes — extract the remaining mixed-domain blobs. No — do not chase a line-number trophy, and do not start assembly moves / ISP unless you opt in.</strong></p>
+<p>V1 already pulled HUD chrome out of <code>SimulationDriver</code>, forge into a collaborator (later folded into <code>BuildingProductionService</code>), and Labor blackboard/claim-policy helpers. Since then the same façades <strong>grew again</strong>: eat/sleep/volume/production/egress/inspection. <code>LARGE_FILES_OVERVIEW_V1.md</code> is <strong>stale</strong> (it defended leaving <code>LaborService</code> / <code>TaskService</code> whole).</p>
+<table>
+<thead>
+<tr>
+<th>Benefit</th>
+<th>Why it matters here</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>LLM-first maintainability</td>
+<td>Master: small files + assembly walls. Hero types (~4k Labor, ~2.5k Buildings façade) are the opposite.</td>
+</tr>
+<tr>
+<td>Honest seams already exist</td>
+<td>Inspection formatters vs commands; job board vs reachability; Labor path session vs executors; production vs egress.</td>
+</tr>
+<tr>
+<td>Null-stub tax</td>
+<td><code>AgentService.NullBuildingService</code> tracks all ~82 <code>IBuildingService</code> members. Every Buildings add bit-rots Agents.</td>
+</tr>
+<tr>
+<td>Safer later features</td>
+<td>Mixed tick+HUD and mixed board+pathing raise conflict and AI error rate.</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Consequence</th>
+<th>Mitigation (this brief)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vanity splits</td>
+<td>Worse navigation</td>
+<td>No LOC cap; §2.3 KEEP is binding</td>
+</tr>
+<tr>
+<td>Fake modularity</td>
+<td>Types share one mutable field bag</td>
+<td>Labor extracts need a path/runtime session object, not public blackboard fields</td>
+</tr>
+<tr>
+<td>Behavior regressions</td>
+<td>Haul/claim/save/volume path bugs</td>
+<td>Behavior freeze + EditMode green + smoke</td>
+</tr>
+<tr>
+<td>Public API churn</td>
+<td>DI / Null stubs / callers</td>
+<td><strong>Default: freeze interface semantics.</strong> ISP is opt-in only (§13 D-OPT)</td>
+</tr>
+<tr>
+<td>Assembly moves</td>
+<td><code>UK.UI</code> / <code>UK.Input</code> / Enemies tickers</td>
+<td><strong>Out of V2 default</strong></td>
+</tr>
+<tr>
+<td>Splitting stamps from occupy</td>
+<td>Units on floors, bash of walkable doors</td>
+<td>Hard forbid</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Bottom line:</strong> Refactor for <strong>clarity and ownership</strong>. Leaving a cohesive file large is correct.</p>
+<hr>
+<h2>1. Architect intent (non-normative summary)</h2>
+<ol>
+<li>Full modularity review of the C# tree (2026-09-06): largest files + hero modules; argue split vs keep.</li>
+<li>Turn that review into a <strong>coding brief</strong>, not an implementation.</li>
+<li>Split <strong>unnecessarily large</strong> hero types where seams are real; <strong>keep</strong> cohesive large files.</li>
+<li>Maintainability / structure only — not a new player-facing feature.</li>
+</ol>
+<hr>
+<h2>2. Prerequisites + baseline on disk (verify; do not rebuild / do not regress)</h2>
+<h3>2.1 What V1 already did (do not redo)</h3>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>On-disk result</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D4 HUD</td>
+<td><code>Session/Hud/*</code>: <code>HudResourceBar</code>, <code>BuildBrowserHud</code>, <code>CraftPanelHud</code>, <code>TaskListHud</code>, <code>InspectionHudPresenter</code>, <code>GameplayHudUiState</code>, <code>InspectionInfoWindowLayout</code></td>
+</tr>
+<tr>
+<td>D2 forge</td>
+<td>Later superseded by <code>BuildingProductionService</code> (internal; <code>BuildingService</code> façade delegates production)</td>
+</tr>
+<tr>
+<td>D3 Labor</td>
+<td><code>LaborBlackboard</code>, <code>LaborClaimPolicy</code>; plus later <code>LaborSleepPolicy</code>, <code>LaborVolumeNavigation</code>, <code>MultiGoalPathfinder</code></td>
+</tr>
+<tr>
+<td>D1 Tasks</td>
+<td><strong>Skipped</strong> — board left whole</td>
+</tr>
+<tr>
+<td>D5 tests</td>
+<td><strong>Skipped</strong> — <code>LaborServiceTests</code> still one suite</td>
+</tr>
+</tbody>
+</table>
+<p>Policy lock (DECISIONS 2026-08-04): no hard LOC cap; façades + <code>IBuildingService</code> / <code>ILaborService</code> / <code>ITaskService</code> <strong>semantics</strong> stay; no new assemblies; no Utils dump.</p>
+<h3>2.2 Inventory (physical lines, 2026-09-06)</h3>
+<p>Diagnostic only — <strong>not</strong> a split mandate.</p>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th style="text-align: right;">~Lines</th>
+<th>Role</th>
+<th>V2 interest</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Labor/LaborService.cs</code></td>
+<td style="text-align: right;">4082</td>
+<td>Claim + 11 executors + path session + stands + melee</td>
+<td><strong>High</strong> — D5</td>
+</tr>
+<tr>
+<td><code>Buildings/BuildingService.cs</code></td>
+<td style="text-align: right;">2581</td>
+<td>Construction/upgrade/demolish/stamps/occupy/HP/doors/armory/save + production façade</td>
+<td><strong>Medium</strong> — leave stamps+occupy; optional save/armory helpers</td>
+</tr>
+<tr>
+<td><code>Buildings/BuildingProductionService.cs</code></td>
+<td style="text-align: right;">2279</td>
+<td>Refinement + ProductionWork + input hauls <strong>and</strong> egress</td>
+<td><strong>High</strong> — D6 egress</td>
+</tr>
+<tr>
+<td><code>Tasks/TaskService.cs</code></td>
+<td style="text-align: right;">2146</td>
+<td>Job board + 2D/volume reachability</td>
+<td><strong>High</strong> — D4</td>
+</tr>
+<tr>
+<td><code>Session/Hud/InspectionHudPresenter.cs</code></td>
+<td style="text-align: right;">1820</td>
+<td>Window + chrome + formatters + <strong>commands</strong></td>
+<td><strong>High</strong> — D1</td>
+</tr>
+<tr>
+<td><code>Presentation/TilemapWorldView.cs</code></td>
+<td style="text-align: right;">1536</td>
+<td>2D debug terrain paint</td>
+<td><strong>Low</strong> — do not delete; paint split optional D7</td>
+</tr>
+<tr>
+<td><code>Agents/AgentService.cs</code></td>
+<td style="text-align: right;">1336</td>
+<td>Registry + needs + motors + <strong>nested Null*</strong></td>
+<td><strong>High</strong> — D3 Nulls</td>
+</tr>
+<tr>
+<td><code>Presentation/PresentationSpriteCatalog.cs</code></td>
+<td style="text-align: right;">1185</td>
+<td>SO registry + disk/atlas loader</td>
+<td><strong>Medium</strong> — D7 loader</td>
+</tr>
+<tr>
+<td><code>Enemies/EnemyService.cs</code></td>
+<td style="text-align: right;">1156</td>
+<td>Spawn + AI + 2D/volume chase twins</td>
+<td><strong>Medium</strong> — D7 planner</td>
+</tr>
+<tr>
+<td><code>Session/Stress/StressTestHarness.cs</code></td>
+<td style="text-align: right;">1067</td>
+<td>F9 lifecycle + seeding</td>
+<td><strong>Low</strong> — seeder extract optional</td>
+</tr>
+<tr>
+<td><code>Presentation/WorldVolume/WorldVolumeViewHost.cs</code></td>
+<td style="text-align: right;">883</td>
+<td>Bind + colonist/stamp sync</td>
+<td><strong>Medium</strong> — D7 sync types</td>
+</tr>
+<tr>
+<td><code>Inventory/AgentInventory.cs</code></td>
+<td style="text-align: right;">876</td>
+<td>Dwarf bag (general/food/gear)</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Session/SimulationDriver.cs</code></td>
+<td style="text-align: right;">868</td>
+<td>Tick <strong>and</strong> HUD orchestration; duplicated stress tick list</td>
+<td><strong>High</strong> — D2</td>
+</tr>
+<tr>
+<td><code>World/WorldGenerator.cs</code></td>
+<td style="text-align: right;">813</td>
+<td>Gen pipeline; cave carving ~half</td>
+<td><strong>Medium</strong> — D7 carver</td>
+</tr>
+<tr>
+<td><code>Session/MainMenuController.cs</code></td>
+<td style="text-align: right;">810</td>
+<td>Menu + settings + slots</td>
+<td><strong>Low</strong> — optional panel extract</td>
+</tr>
+<tr>
+<td><code>Buildings/BuildingInventory.cs</code></td>
+<td style="text-align: right;">770</td>
+<td>Slot ledger + factories</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Pathfinding/PathfindingService.cs</code></td>
+<td style="text-align: right;">705</td>
+<td>Façade + colonist lift</td>
+<td><strong>Medium</strong> — D7 lift</td>
+</tr>
+<tr>
+<td><code>Session/WallCombatTicker.cs</code></td>
+<td style="text-align: right;">693</td>
+<td>Enemy ↔ structure bash</td>
+<td><strong>KEEP in Session</strong> unless D-OPT</td>
+</tr>
+<tr>
+<td><code>Session/Stress/StressServiceAllocTracker.cs</code></td>
+<td style="text-align: right;">678</td>
+<td>Sample + report</td>
+<td><strong>Low</strong> — formatter optional</td>
+</tr>
+<tr>
+<td><code>Session/InspectionController.cs</code></td>
+<td style="text-align: right;">586</td>
+<td>LMB stack / sticky / fog</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Session/GameplayComposer.cs</code></td>
+<td style="text-align: right;">566</td>
+<td>Composition root</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Session/BuildingSelectionController.cs</code></td>
+<td style="text-align: right;">552</td>
+<td>Selection + order ladder</td>
+<td><strong>Low</strong> — with D1 if needed</td>
+</tr>
+<tr>
+<td><code>World/WorldService.cs</code></td>
+<td style="text-align: right;">509</td>
+<td>Live grid/volume/regrowth</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Savegame/SaveService.cs</code></td>
+<td style="text-align: right;">490</td>
+<td>Capture/apply orchestrator</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Economy/EconomyService.cs</code></td>
+<td style="text-align: right;">454</td>
+<td>Empire bank</td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>Buildings/IBuildingService.cs</code></td>
+<td style="text-align: right;">322</td>
+<td>~82 members</td>
+<td><strong>Freeze semantics</strong>; ISP is D-OPT</td>
+</tr>
+</tbody>
+</table>
+<p>Module concentration (Scripts, physical lines): Session ~18k / 81 files; Presentation ~13k / 71; Buildings ~7.6k; Labor ~5.2k with <strong>one file ~78%</strong>. <code>UK.UI</code> / <code>UK.Input</code> / <code>UK.Diagnostics</code> are placeholders. Combat kernel is ~179 lines (keep thin).</p>
+<h3>2.3 Binding KEEP (do not split in V2)</h3>
+<p>These are large <strong>or</strong> tempting and still <strong>cohesive</strong>. Phase 1 must not propose splitting them except a one-line helper that falls out of an approved drop.</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Why KEEP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>AgentInventory</code></td>
+<td>One bag, three slot policies, shared lists + <code>InventoryChanged</code></td>
+</tr>
+<tr>
+<td><code>BuildingInventory</code></td>
+<td>Slot ledger + factories; no orchestration</td>
+</tr>
+<tr>
+<td><code>WorldService</code></td>
+<td>Live authority over grid/volume/regrowth/save; gen already extracted</td>
+</tr>
+<tr>
+<td><code>SaveService</code></td>
+<td>Capture/apply <strong>order</strong> is the contract. Smell is concrete casts (interface gap), not size</td>
+</tr>
+<tr>
+<td><code>EconomyService</code></td>
+<td>One empire bank (resources + items)</td>
+</tr>
+<tr>
+<td><code>GameplayComposer</code></td>
+<td>Composition root. Do not fragment wiring</td>
+</tr>
+<tr>
+<td><code>InspectionController</code></td>
+<td>Input + sticky stack. HUD must <strong>not</strong> move here</td>
+</tr>
+<tr>
+<td><code>InspectionStackBuilder</code> / <code>InspectionStackSource</code> / <code>InspectionInfoWindowLayout</code></td>
+<td>Already split enough</td>
+</tr>
+<tr>
+<td><code>Bootstrap</code> / <code>VolumeWorldBootstrap</code></td>
+<td>Scene hosts, not domain gods. Shared wiring helper OK if both hosts are touched</td>
+</tr>
+<tr>
+<td><code>BuildingCatalog</code></td>
+<td>Data catalog</td>
+</tr>
+<tr>
+<td><code>ILaborService</code></td>
+<td>Stay <code>Tick</code> only</td>
+</tr>
+<tr>
+<td><code>HaulTripPacker</code> / <code>EgressTripPacker</code></td>
+<td>Already pure</td>
+</tr>
+<tr>
+<td><code>AStarPathfinder</code> / <code>VolumeAStarPathfinder</code></td>
+<td>Already extracted</td>
+</tr>
+<tr>
+<td><code>WorldVolume/</code> siblings</td>
+<td>Already the healthy split; only the <strong>host</strong> may slim (D7)</td>
+</tr>
+<tr>
+<td>Combat kernel (<code>CombatService</code> / <code>DamageCalculator</code>)</td>
+<td>Stay stateless damage</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Hard KEEP-together (Buildings):</strong> registry + sites + stamps + occupy/passability + upgrade-hides-building. Do <strong>not</strong> extract “UpgradeService” or “OccupancyService” as a second writer of those facts.</p>
+<h3>2.4 Architectural baseline (do not regress)</h3>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>On-disk fact (verify)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Public contracts</td>
+<td><code>IBuildingService</code>, <code>ILaborService</code>, <code>ITaskService</code> remain the cross-module boundaries; <strong>semantics frozen</strong></td>
+</tr>
+<tr>
+<td>Composition root</td>
+<td><code>GameplayComposer</code> constructs concrete services (ADR-0005 / ADR-0009)</td>
+</tr>
+<tr>
+<td>Tick order</td>
+<td>clock → probe → <strong>Tasks → Buildings → World.TickRegrowth → Labor → motors → food/attention → Enemies → TrapCombat → WallCombat → Ambient</strong></td>
+</tr>
+<tr>
+<td>Labor claim order</td>
+<td><strong>EAT → SLEEP → BUILD → DEMOLISH → SMITHING → COOKING → AUTO_DELIVER → ProductionWork → DIG → HARVEST</strong> (+ job prefs; Eat/Sleep bypass; ProductionWork no job gate)</td>
+</tr>
+<tr>
+<td>Path budget</td>
+<td>Labor max <strong>40</strong> <code>FindPath</code> / multi-goal units per tick; colonist round-robin</td>
+</tr>
+<tr>
+<td>Volume</td>
+<td>Product scene <code>VolumeWorldView</code>; 2D <code>Gameplay</code> is debug; colonist climb graph ≠ enemy ladder-only</td>
+</tr>
+<tr>
+<td>Save</td>
+<td>Format <strong>6</strong>; snapshot meaning unchanged; no version bump for this refactor</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>No new assemblies in V2 default. <code>UK.Enemies</code> already references Buildings; Buildings must <strong>not</strong> reference Enemies</td>
+</tr>
+<tr>
+<td>F9</td>
+<td>Shipping in Session. <code>UK.Diagnostics</code> is editor-only — <strong>do not</strong> move F9 there</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Do not regress:</strong> accepted gameplay, input bindings, events, save meaning, tick/claim order, Volume vs 2D, EditMode green suites for touched areas.</p>
+<hr>
+<h2>3. Goal (one paragraph)</h2>
+<p>Improve maintainability of the remaining hero types by extracting <strong>only clear, cohesive responsibilities</strong> into <strong>same-module</strong> collaborators (and moving Agent test doubles out of production <code>AgentService</code>), while <strong>preserving identical external behavior</strong>, stable public interface <strong>semantics</strong>, composition-root rules, and Volume/2D dual hosts. <strong>Do not force</strong> extractions to meet any line-count target. <strong>Do not</strong> fill <code>UK.UI</code> / <code>UK.Input</code> or move combat tickers / split <code>IBuildingService</code> unless the Architect opts in (§13 D-OPT). When approved work is done, write <strong>largest-files overview V2</strong> that measures remaining large files and <strong>defends</strong> further leave vs deferred seams.</p>
+<hr>
+<h2>4. Authoritative references (priority)</h2>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Doc / source</th>
+<th>Use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>architecture_docs/AGENTS.md</code></td>
+<td>Gate B, no-guess, git after accept</td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>This brief</strong></td>
+<td>Scope, KEEP list, drops, forbids</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>docs/DECISIONS.md</code> — index first, then <strong>2026-08-04 Sense-driven large service split</strong></td>
+<td>V1 policy still binds</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>architecture_docs/UNITY_MASTER_ARCHITECTURE.md</code> — Module Overview + Composition Root (not Migration Roadmap)</td>
+<td>Ownership, façades, no Utils dump</td>
+</tr>
+<tr>
+<td>5</td>
+<td>ADR-0002, ADR-0004, ADR-0005 / 0009</td>
+<td>Sim ≠ view; assembly walls; composition root</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Module READMEs under <code>Assets/_Project/Scripts/{Labor,Buildings,Tasks,Agents,Session,Presentation,Enemies,World,Pathfinding}/</code></td>
+<td>Update after structural moves</td>
+</tr>
+<tr>
+<td>7</td>
+<td><code>architecture_docs/briefs/features/LARGE_FILES_OVERVIEW_V1.md</code></td>
+<td>Historical; <strong>stale</strong> — replace with V2 overview</td>
+</tr>
+<tr>
+<td>8</td>
+<td>On-disk services + EditMode tests</td>
+<td>Behavioral baseline — extract, don’t rewrite</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>5. In scope (concrete deliverables)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Deliverable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A1</strong></td>
+<td><strong>Sense-driven extracts only.</strong> Phase 1 lists each §2.2 candidate as <strong>split / leave</strong> with reasons. Implement only Architect-approved drops. Skipping a drop is allowed and preferred over a weak cut.</td>
+</tr>
+<tr>
+<td><strong>A2</strong></td>
+<td><strong>No line-count hard cap.</strong> Counts are diagnostic (plan estimates + overview).</td>
+</tr>
+<tr>
+<td><strong>A3</strong></td>
+<td><strong>Honor §2.3 KEEP.</strong> Do not propose splitting those types as V2 work.</td>
+</tr>
+<tr>
+<td><strong>A4</strong></td>
+<td><strong>Stable façades.</strong> Keep type names <code>LaborService</code>, <code>BuildingService</code>, <code>BuildingProductionService</code>, <code>TaskService</code>, <code>SimulationDriver</code>, <code>AgentService</code>, <code>EnemyService</code> by default. Collaborators are <code>internal</code> (or test-only).</td>
+</tr>
+<tr>
+<td><strong>A5</strong></td>
+<td><strong>Same-module only</strong> (except D3 Nulls → EditMode tests / test folder). No new assemblies.</td>
+</tr>
+<tr>
+<td><strong>A6</strong></td>
+<td><strong>Drops D1–D6</strong> as the default V2 program (§13). D7 is optional if time/approval remains. D8 overview is required after the last code drop.</td>
+</tr>
+<tr>
+<td><strong>A7</strong></td>
+<td><strong>Tests:</strong> existing EditMode green; no intentional golden-master change. Split test files only if navigation improves (not required).</td>
+</tr>
+<tr>
+<td><strong>A8</strong></td>
+<td><strong>Docs:</strong> touched module READMEs; <code>docs/DECISIONS.md</code> index + entry for V2 policy/extracts.</td>
+</tr>
+<tr>
+<td><strong>A9</strong></td>
+<td><strong>Dead code</strong> in touched files may go: Labor ranked-claim leftovers; unused <code>BuildingSelectionController.FormatPanelText</code> if confirmed unused; do <strong>not</strong> hunt the whole repo.</td>
+</tr>
+<tr>
+<td><strong>A10</strong></td>
+<td><strong>Post-refactor largest-files overview V2 (required):</strong> <code>architecture_docs/briefs/features/LARGE_FILES_OVERVIEW_V2.md</code>, linked from DECISIONS. Must include: top ~12 remaining C# files under <code>Assets/_Project/</code>; per file lines + responsibility + <strong>further split?</strong>; explicit <strong>why not</strong> for leftovers; deferred items only as a list, not in-scope work.</td>
+</tr>
+</tbody>
+</table>
+<h3>5.1 Default extract sketches (non-binding names — Phase 1 proposes)</h3>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Target</th>
+<th>Extract (if justified)</th>
+<th>Leave on façade</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>D1</strong></td>
+<td><code>InspectionHudPresenter</code></td>
+<td>Formatters; world chrome; command/button layer</td>
+<td>Window layout already in <code>InspectionInfoWindowLayout</code>; controller stays input</td>
+</tr>
+<tr>
+<td><strong>D2</strong></td>
+<td><code>SimulationDriver</code></td>
+<td>HUD orchestrator (<code>DrawHud</code> / roster / toolbar); <strong>one</strong> tick-order helper so F9 cannot drift from live</td>
+<td>Clock + sim pipeline host</td>
+</tr>
+<tr>
+<td><strong>D3</strong></td>
+<td><code>AgentService</code></td>
+<td>Nested <code>NullBuildingService</code> / <code>NullWorldService</code> / <code>NullEventBus</code> / <code>NullStockpileAnchor</code> → tests; <code>ColonistBuildingVolumeWalk</code> sibling of <code>EnemyPathWalkability</code></td>
+<td>Registry, spawn, motors, needs tick, kill, save</td>
+</tr>
+<tr>
+<td><strong>D4</strong></td>
+<td><code>TaskService</code></td>
+<td><code>TaskReachability</code> (2D + volume stands, probe, budgeted <code>Tick</code> recheck); optional single register+publish kernel for <code>Create*</code></td>
+<td><code>_tasks</code> / <code>_byId</code> / lifecycle / availability cache / save</td>
+</tr>
+<tr>
+<td><strong>D5</strong></td>
+<td><code>LaborService</code></td>
+<td><code>LaborPathSession</code> (budget + volume last-path); <code>LaborWorkStands</code>; collapse smith≈cook and build≈demolish; then haul / dig-harvest / needs / melee <strong>if</strong> still justified</td>
+<td><code>Tick</code>, claim <strong>order</strong> (<code>TryAssignWork</code>), <code>ExecuteCurrentTask</code> dispatch, <code>_boards</code> ownership, save</td>
+</tr>
+<tr>
+<td><strong>D6</strong></td>
+<td><code>BuildingProductionService</code></td>
+<td><code>BuildingEgressService</code> (output reserves, export ensure, pickup/return)</td>
+<td>Refinement orders, ProductionWork, input hauls, <code>TickProduction</code> orchestration</td>
+</tr>
+<tr>
+<td><strong>D7</strong> (optional)</td>
+<td>Catalog / Volume host / gen / enemy chase / path lift</td>
+<td>File loader; stamp/colonist sync; <code>CaveCarver</code>; <code>EnemyChasePlanner</code>; <code>ColonistVolumePathLift</code></td>
+<td>Public façades; do <strong>not</strong> delete <code>TilemapWorldView</code></td>
+</tr>
+</tbody>
+</table>
+<p>Coding may use: collaborators owned by the façade, <code>internal</code> helpers, static pure helpers. Prefer <strong>composition over <code>partial</code></strong>. Prefer <strong>no extract</strong> over a dishonest one.</p>
+<p>Labor D5 <strong>must</strong> keep path-budget and <code>_lastVolumePath</code> on a single session object. Do not expose half the blackboard as public fields.</p>
+<hr>
+<h2>6. Out of scope / hard forbids</h2>
+<table>
+<thead>
+<tr>
+<th>Forbid</th>
+<th>Why</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Any intentional gameplay / balance / timing / cost / input change</td>
+<td>Structural only</td>
+</tr>
+<tr>
+<td>Forced splits to meet a line limit</td>
+<td>Architect: only when it makes sense</td>
+</tr>
+<tr>
+<td>New player-facing features, UI redesign, new hotkeys</td>
+<td>Not requested</td>
+</tr>
+<tr>
+<td>New assemblies / filling <code>UK.UI</code> / <code>UK.Input</code> / moving F9 into <code>UK.Diagnostics</code></td>
+<td>V2 default; Diagnostics is editor-only</td>
+</tr>
+<tr>
+<td>Moving wall/trap tickers into <code>UK.Combat</code></td>
+<td>Kernel stays stateless <code>ApplyDamage</code></td>
+</tr>
+<tr>
+<td>Moving wall/trap tickers into Buildings</td>
+<td>Would create Buildings → Enemies</td>
+</tr>
+<tr>
+<td><strong>ISP / shrinking <code>IBuildingService</code></strong></td>
+<td>Public API; D-OPT only</td>
+</tr>
+<tr>
+<td>Splitting construction stamps from occupy/passability</td>
+<td>Floor/ladder/door/upgrade-hide invariants</td>
+</tr>
+<tr>
+<td>One class per <code>TaskType</code></td>
+<td>Labor executes; Tasks owns the board</td>
+</tr>
+<tr>
+<td>Data-driven Labor claim table</td>
+<td>README locks claim order</td>
+</tr>
+<tr>
+<td>Public Labor executor plugin API</td>
+<td>Keep <code>internal</code></td>
+</tr>
+<tr>
+<td>Deleting 2D <code>TilemapWorldView</code> / debug <code>Gameplay</code> host</td>
+<td>Product is Volume; 2D debug stays</td>
+</tr>
+<tr>
+<td>Changing save <strong>meaning</strong> or format version</td>
+<td>Regressions</td>
+</tr>
+<tr>
+<td>Rewriting claim order, bag policy, egress floors, production timers “while here”</td>
+<td>Scope creep</td>
+</tr>
+<tr>
+<td>“Utils” dumping-ground assembly</td>
+<td>Master forbids</td>
+</tr>
+<tr>
+<td>Mass renames of public interface methods</td>
+<td>Noise / break risk</td>
+</tr>
+<tr>
+<td><code>partial</code> as primary strategy for pure C# services</td>
+<td>Weak seam discipline</td>
+</tr>
+<tr>
+<td>ECS migration / Python porting</td>
+<td>Out of scope</td>
+</tr>
+<tr>
+<td>Raising path caps / Labor budget as a refactor side effect</td>
+<td>Unrelated</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Architecture constraints</h2>
+<table>
+<thead>
+<tr>
+<th>Constraint</th>
+<th>Rule</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Ownership</td>
+<td>One owner per fact — extracts do not duplicate registries</td>
+</tr>
+<tr>
+<td>Dependency direction</td>
+<td>Unchanged vs baseline</td>
+</tr>
+<tr>
+<td>Composition root</td>
+<td>Concrete services in <code>GameplayComposer</code> (and tests); façades <strong>may</strong> construct private collaborators (same as V1 forge/production)</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Keep existing bus publish points</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>No new assemblies in V2 default</td>
+</tr>
+<tr>
+<td>Identifiers / docs</td>
+<td>English</td>
+</tr>
+<tr>
+<td>Size policy</td>
+<td>Lines are <strong>metrics</strong>, not laws</td>
+</tr>
+<tr>
+<td>Volume vs 2D</td>
+<td>Dual hosts stay; do not mix tilemap paint into Volume host</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Suggested types / touch list (sketch only)</h2>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Likely touches</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Session HUD / driver</td>
+<td><code>InspectionHudPresenter.cs</code>, new formatter/chrome/command files, <code>SimulationDriver.cs</code>, possibly <code>BuildingSelectionController.cs</code></td>
+</tr>
+<tr>
+<td>Agents</td>
+<td><code>AgentService.cs</code> (remove nested Nulls), new walk type, EditMode test doubles</td>
+</tr>
+<tr>
+<td>Tasks</td>
+<td><code>TaskService.cs</code>, new reachability type, <code>Tasks/README.md</code></td>
+</tr>
+<tr>
+<td>Labor</td>
+<td><code>LaborService.cs</code>, new session/stands/executor types, <code>Labor/README.md</code></td>
+</tr>
+<tr>
+<td>Buildings</td>
+<td><code>BuildingProductionService.cs</code>, new egress type; <strong>not</strong> a second stamp writer</td>
+</tr>
+<tr>
+<td>Presentation / World / Enemies / Pathfinding</td>
+<td>Only if D7 approved</td>
+</tr>
+<tr>
+<td>Tests</td>
+<td>Follow extracts; Agent Nulls; existing suites stay green</td>
+</tr>
+<tr>
+<td>Composer</td>
+<td>Prefer avoid; only if a façade ctor needs a new collaborator argument <strong>and</strong> that cannot stay privately constructed</td>
+</tr>
+<tr>
+<td>Docs</td>
+<td>READMEs, DECISIONS, <code>LARGE_FILES_OVERVIEW_V2.md</code></td>
+</tr>
+</tbody>
+</table>
+<p>Exact names are <strong>Gate B Phase 1 proposals</strong>.</p>
+<hr>
+<h2>9. Gate B reminder (Coding session)</h2>
+<ol>
+<li><strong>Phase 1:</strong> Map §2.2 → <strong>split vs leave</strong>; propose types only for <strong>split</strong>; risks; tests; overview V2 path — <strong>no production code</strong>. Plan file: <code>architecture_docs/coding_plans/FEATURE_LARGE_SERVICE_SPLIT_V2_CODING_PLAN.md</code>.</li>
+<li><strong>STOP</strong> for Architect implementation approval.</li>
+<li><strong>Phase 2:</strong> Implement <strong>only approved</strong> drops (default: <strong>one drop per approval</strong>).</li>
+<li><strong>Phase 3:</strong> Validation (compile, tests, forbids) — then <strong>STOP</strong>. After the last approved code drop, <strong>write overview V2</strong> in that Phase 3 (or a dedicated D8 drop).</li>
+<li>After Architect <strong>accepts</strong> completed work: git snapshot + push per <code>AGENTS.md</code>.</li>
+</ol>
+<hr>
+<h2>10. Exit criteria (playable / testable checklist)</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Criterion</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>E1</td>
+<td>Every <strong>implemented</strong> extract was justified by a real responsibility seam (no vanity splits).</td>
+</tr>
+<tr>
+<td>E2</td>
+<td>§2.3 KEEP files were not split (except incidental one-liners).</td>
+</tr>
+<tr>
+<td>E3</td>
+<td><strong>No</strong> requirement that any file be under N lines.</td>
+</tr>
+<tr>
+<td>E4</td>
+<td><code>IBuildingService</code> / <code>ILaborService</code> / <code>ITaskService</code> <strong>semantics</strong> unchanged (unless Architect approved D-OPT ISP).</td>
+</tr>
+<tr>
+<td>E5</td>
+<td><code>GameplayComposer</code> wiring + tick order + Labor claim order unchanged in behavior.</td>
+</tr>
+<tr>
+<td>E6</td>
+<td>Relevant EditMode tests green (Labor, Buildings, Tasks, Agents, Session inspection, Pathfinding as touched).</td>
+</tr>
+<tr>
+<td>E7</td>
+<td><strong><code>LARGE_FILES_OVERVIEW_V2.md</code></strong> written and linked from DECISIONS.</td>
+</tr>
+<tr>
+<td>E8</td>
+<td>Touched module READMEs + DECISIONS updated.</td>
+</tr>
+<tr>
+<td>E9</td>
+<td>No intentional gameplay change; Architect smoke on touched systems.</td>
+</tr>
+<tr>
+<td>E10</td>
+<td>Each accepted drop leaves tree compilable and test-green.</td>
+</tr>
+<tr>
+<td>E11</td>
+<td>Save/load still format 6; snapshots round-trip with same meaning.</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>11. Manual verification steps (Architect steps 7–8)</h2>
+<p>After each major drop (and full V2):</p>
+<ol>
+<li><strong>New Game</strong> (Volume product) → place building → haulers deliver → build completes.</li>
+<li><strong>Upgrade / demolish / pause-cancel site</strong> if Buildings/Labor/inspection touched.</li>
+<li><strong>Dig / harvest</strong> including behind a depth-1 wall (task reach + Labor claim).</li>
+<li><strong>Eat / sleep / smith / cook / ProductionWork / export haul</strong> if Labor or production touched.</li>
+<li><strong>Inspection</strong> window: dwarf, building, site, plant — buttons still work (D1/D2).</li>
+<li><strong>Save → Load</strong> smoke (format 6).</li>
+<li><strong>Pause / Esc</strong>; 2D debug still boots if D2/D7 touched hosts.</li>
+<li>Read <strong>overview V2</strong> — agree remaining large files are intentionally cohesive (or note follow-ups).</li>
+</ol>
+<hr>
+<h2>12. Spec / content locks</h2>
+<table>
+<thead>
+<tr>
+<th>Lock</th>
+<th>Value</th>
+<th>Source</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Line hard cap</td>
+<td><strong>None</strong></td>
+<td>Architect decision V1 (DECISIONS 2026-08-04); this brief</td>
+</tr>
+<tr>
+<td>Split policy</td>
+<td><strong>Only when it makes sense</strong>; prefer leave</td>
+<td>Same</td>
+</tr>
+<tr>
+<td>Behavior</td>
+<td>Freeze — structural only</td>
+<td>Architect + AGENTS</td>
+</tr>
+<tr>
+<td>Public interface semantics</td>
+<td>Frozen (<code>IBuildingService</code> / <code>ILaborService</code> / <code>ITaskService</code>)</td>
+<td>V1 + this brief</td>
+</tr>
+<tr>
+<td>Façade type names</td>
+<td>Keep by default</td>
+<td>This brief</td>
+</tr>
+<tr>
+<td>Assemblies</td>
+<td>No new assemblies; no UI/Input fill; no F9→Diagnostics</td>
+<td>This brief</td>
+</tr>
+<tr>
+<td>Combat kernel</td>
+<td>Stay thin; tickers stay Session unless D-OPT</td>
+<td>This brief</td>
+</tr>
+<tr>
+<td>Buildings stamps + occupy</td>
+<td>Stay one writer</td>
+<td>2026-09-06 review</td>
+</tr>
+<tr>
+<td>Labor claim order</td>
+<td>Unchanged (Eat→Sleep→Build→…)</td>
+<td>Labor README</td>
+</tr>
+<tr>
+<td>Tick order</td>
+<td>Unchanged</td>
+<td>Session README</td>
+</tr>
+<tr>
+<td>Save format</td>
+<td><strong>6</strong>, meaning unchanged</td>
+<td>DECISIONS 2026-09-05 cutover</td>
+</tr>
+<tr>
+<td>2D debug view</td>
+<td>Keep; do not delete <code>TilemapWorldView</code></td>
+<td>Cutover</td>
+</tr>
+<tr>
+<td>Extract style</td>
+<td>Real types/helpers; <code>partial</code> last resort</td>
+<td>V1 + this brief</td>
+</tr>
+<tr>
+<td>Drop cadence</td>
+<td>One approved drop per implementation approval unless Architect authorizes more</td>
+<td>Risk control</td>
+</tr>
+<tr>
+<td>Overview V2</td>
+<td>Required at <code>briefs/features/LARGE_FILES_OVERVIEW_V2.md</code></td>
+<td>This brief</td>
+</tr>
+<tr>
+<td>Gameplay features</td>
+<td>None</td>
+<td>Architect</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>13. Soft-split drops</h2>
+<p>Recommended order: <strong>D1 → D2 → D3 → D4 → D5 → D6 → (D7) → D8</strong>.<br>
+Architect may skip entire drops if Phase 1 argues “leave.”</p>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Focus</th>
+<th>Done when</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>D1</strong></td>
+<td><code>InspectionHudPresenter</code> — formatters vs chrome vs commands</td>
+<td>Inspection tests green; inspect buttons still mutate via existing services</td>
+</tr>
+<tr>
+<td><strong>D2</strong></td>
+<td><code>SimulationDriver</code> — HUD orchestrator out; <strong>single</strong> tick-order path (live + F9)</td>
+<td>Session HUD smoke; tick order identical</td>
+</tr>
+<tr>
+<td><strong>D3</strong></td>
+<td><code>AgentService</code> Null* → tests; volume walk type</td>
+<td>Agents tests green; parameterless/test ctors still work</td>
+</tr>
+<tr>
+<td><strong>D4</strong></td>
+<td><code>TaskService</code> reachability (+ optional <code>Create*</code> kernel)</td>
+<td>Tasks + Volume reach tests green</td>
+</tr>
+<tr>
+<td><strong>D5</strong></td>
+<td><code>LaborService</code> path session + stands + collapsed executors</td>
+<td>Labor suites green (claim, sleep, eat, haul, volume)</td>
+</tr>
+<tr>
+<td><strong>D6</strong></td>
+<td>Production <strong>egress</strong> collaborator</td>
+<td>Buildings production/egress tests green</td>
+</tr>
+<tr>
+<td><strong>D7</strong></td>
+<td>Optional presentation/gen/enemy/path leftovers</td>
+<td>Only if approved; 2D debug still runs</td>
+</tr>
+<tr>
+<td><strong>D8</strong></td>
+<td>Overview V2</td>
+<td>File accepted</td>
+</tr>
+</tbody>
+</table>
+<h3>D-OPT (out of V2 unless Architect opts in in writing)</h3>
+<table>
+<thead>
+<tr>
+<th>Opt-in</th>
+<th>What</th>
+<th>Why it is not default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>ISP</strong></td>
+<td>Split <code>IBuildingService</code> into registry / construction / production / armory / structure-combat; façade still implements all</td>
+<td>Public API; Null stubs and callers churn</td>
+</tr>
+<tr>
+<td><strong>Tickers → Enemies</strong></td>
+<td><code>WallCombatTicker</code> / <code>TrapCombatTicker</code></td>
+<td>Session README + cycle story; Enemies asmdef already refs Buildings — docs must be aligned in the same drop</td>
+</tr>
+<tr>
+<td><strong>Fill <code>UK.UI</code> / <code>UK.Input</code></strong></td>
+<td>Move HUD / <code>*Input.cs</code></td>
+<td>New assembly occupancy; composition/asmdef graph</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>14. Architect checklist (before Coding session)</h2>
+<ul>
+<li>[ ] Read §0.1; agree sense-only policy (no hard LOC cap)</li>
+<li>[ ] Optional: opt in D-OPT (ISP / tickers / UI assembly) or skip D7</li>
+<li>[ ] Confirm no parallel feature work on the same god-files mid-drop</li>
+<li>[ ] Brief edits if needed → Engineer patches file + kickoff, then STOP</li>
+<li>[ ] <strong>start Gate B</strong> (explicit) → paste §16 kickoff into a <strong>fresh Coding</strong> session if starting clean</li>
+</ul>
+<hr>
+<h2>15. OPEN QUESTIONS</h2>
+<p><strong>None blocking.</strong> Defaults in §12–§13 stand.</p>
+<p>Optional Architect overrides (not required to start Gate B):</p>
+<ol>
+<li>Opt in <strong>D-OPT ISP</strong> / <strong>tickers → Enemies</strong> / <strong>UK.UI+Input</strong>?</li>
+<li>Skip <strong>D7</strong> entirely (recommended if you want a shorter V2)?</li>
+<li>Combine multiple drops in one implementation approval?</li>
+<li>Prioritize <strong>D5 Labor</strong> first instead of HUD (D1/D2)?</li>
+</ol>
+<hr>
+<h2>16. Coding Agent kickoff (copy-paste)</h2>
+<pre><code class="language-text">You are Grok Build, sole Engineer for Underground Kingdom (Unity/C#).
+Architect: human (Colin). Follow architecture_docs/AGENTS.md Gate B strictly.
+
+══════════════════════════════════════
+ACTIVE TASK ONLY
+══════════════════════════════════════
+architecture_docs/briefs/features/FEATURE_LARGE_SERVICE_SPLIT_V2_GROK_BUILD_BRIEF.md
+
+Unity project root (write code HERE only):
+Unity project root
+
+Stay inside this Unity project root. Specs SoT = architecture_docs/ here.
+Fresh session: no prior chat obligations. The brief is task law.
+
+══════════════════════════════════════
+MUST READ (in order)
+══════════════════════════════════════
+1. architecture_docs/AGENTS.md
+2. architecture_docs/briefs/features/FEATURE_LARGE_SERVICE_SPLIT_V2_GROK_BUILD_BRIEF.md (full)
+3. docs/DECISIONS.md — index first, then 2026-08-04 Sense-driven large service split
+4. architecture_docs/UNITY_MASTER_ARCHITECTURE.md — Module Overview + Composition Root only (NOT Migration Roadmap)
+5. ADR-0002, ADR-0004, ADR-0005 (or 0009)
+6. Assets/_Project/Scripts/{Labor,Buildings,Tasks,Agents,Session,Presentation}/README.md as touched
+7. architecture_docs/briefs/features/LARGE_FILES_OVERVIEW_V1.md (historical / stale)
+8. Baseline: LaborService, BuildingService, BuildingProductionService, TaskService,
+   InspectionHudPresenter, SimulationDriver, AgentService, GameplayComposer
+
+══════════════════════════════════════
+START: GATE B — PHASE 1 ONLY (NO CODE)
+══════════════════════════════════════
+Produce Analysis &amp; Architecture plan only for this refactor.
+Write the full plan to architecture_docs/coding_plans/FEATURE_LARGE_SERVICE_SPLIT_V2_CODING_PLAN.md
+AND present it in chat. Chat-only is a fail.
+NO production code until the Architect explicitly approves implementation.
+
+Plan must include:
+- Restated goal (behavior-free, sense-driven structure only)
+- Explicit policy: NO hard line-count cap; do NOT force splits
+- Candidate map for brief §2.2: each file split seam(s) OR leave with reason
+- Honor brief §2.3 KEEP
+- Soft-split drops you recommend implementing first (skip unjustified drops)
+- For proposed extracts only: types, state ownership, file list, dependency direction
+- Confirmation public interface semantics + gameplay + tick/claim order + save format 6 stay frozen
+- Test plan (EditMode modules touched)
+- Risks and mitigations (especially Labor path budget / volume last-path; Buildings stamps vs occupy)
+- Docs: READMEs, DECISIONS.md, LARGE_FILES_OVERVIEW_V2.md path + outline
+
+Then STOP and wait for written implementation approval.
+Default: implement ONE approved drop per approval unless Architect authorizes more.
+
+══════════════════════════════════════
+AFTER IMPLEMENTATION APPROVAL
+══════════════════════════════════════
+Implement exactly the approved plan file under architecture_docs/coding_plans/
+(and the approved drop only).
+Keep behavior identical — extract/move only. Prefer leave over dishonest split.
+Gate B Phase 3: compile, tests, forbids — then STOP.
+After the last approved code drop: WRITE architecture_docs/briefs/features/LARGE_FILES_OVERVIEW_V2.md
+(largest remaining C# files + why further split does/doesn't make sense) — then STOP.
+When the Architect explicitly accepts completed work: commit and push to origin per AGENTS.md, then STOP.
+Do not start the next drop unless tasked/approved.
+
+══════════════════════════════════════
+HARD FORBIDS
+══════════════════════════════════════
+- No gameplay/balance/timing/cost/input changes
+- No forced splits to hit any line count
+- No vanity / mid-method / partial-as-primary splits for pure C# services
+- No new assemblies, no Utils dump, no filling UK.UI/UK.Input, no F9→Diagnostics
+- No IBuildingService ISP unless Architect opted in
+- No moving wall/trap tickers into Combat or Buildings
+- No splitting Buildings stamps from occupy/passability
+- No deleting 2D TilemapWorldView / debug Gameplay host
+- No public interface semantic churn
+- Do not regress save/load (format 6), tick order, or Labor claim order
+- Concrete service construction remains composition-root-correct
+- Do not invent features “while refactoring”
+- Do not raise path caps or Labor path budget
+</code></pre>
+<hr>
+<h2>17. Architect checklist (acceptance)</h2>
+<ul>
+<li>[ ] Approved extracts landed (or Architect agreed skip)</li>
+<li>[ ] No forced vanity splits; §2.3 KEEP honored</li>
+<li>[ ] EditMode green; manual smoke OK</li>
+<li>[ ] READMEs + DECISIONS updated</li>
+<li>[ ] <strong>LARGE_FILES_OVERVIEW_V2.md</strong> reviewed</li>
+<li>[ ] Accept → Engineer git snapshot + push</li>
+</ul>
+<hr>
+<p><em>End of brief — UK-FEAT-LARGE-SERVICE-SPLIT-V2</em></p>
           </div>
         </details>
           </div>

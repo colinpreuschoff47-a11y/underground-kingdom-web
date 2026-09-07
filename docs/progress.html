@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Progress — Underground Kingdom</title>
-  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F. Remaining: G art.">
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Progress">
-  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F. Remaining: G art.">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -121,12 +121,22 @@
             <ul class="commit-list">
               <li><time datetime="2026-09-05">5 Sep 2026</time><span class="done">Volume V4 1-tall ladder/wall (roadmap done). Volume V5 back-wall climb (UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1). Volume cutover F (UK-FEAT-VOLUME-CUTOVER-V1).</span></li>
             </ul>
+          </li>
+          <li class="era">
+            <p class="when">6 September 2026</p>
+            <h3>Volume roadmap complete + large service split V2 <span class="badge badge-done">Implemented</span></h3>
+            <p>Architect cancelled Volume roadmap G (gold kit / furniture / enemy-plant art). Color fallbacks stay valid. Volume product sequence is complete: V1–V5 + F. Then: Large service split V2 — structural extracts only (inspection HUD internals, tick runner vs HUD orchestrator, Agent Nulls + walk type, TaskReachability, Labor path/stands/station/structure, BuildingEgress, catalog/host/carver/chase/lift, overview V2). No intentional gameplay change.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-05">5 Sep 2026</time><span class="done">Volume product roadmap complete — Phase G cancelled (decision logged with cutover F acceptance day).</span></li>
+              <li><time datetime="2026-09-06">6 Sep 2026</time><span class="done">Large service split V2 (UK-FEAT-LARGE-SERVICE-SPLIT-V2) — drops D1–D8 accepted.</span></li>
+            </ul>
             <div class="remain-box">
               <h4>Remaining (honest)</h4>
               <ul>
-                <li><span class="badge badge-wait">Remaining</span> G — art (kit_block / kit_floor / kit_pillar / kit_arch / kit_trim). Color fallbacks valid until G.</li>
+                <li><span class="badge badge-done">Done</span> Volume product roadmap (V1–V5 + F). G cancelled — not remaining work.</li>
+                <li><span class="badge badge-go">Approved</span> Ladder path fix V1 — coding plan exists (26 Aug 2026), no accept commit. Volume ladders may stay broken; V5 free-climb is the upstairs path.</li>
               </ul>
-              <p style="margin:0.8rem 0 0">Ladder path fix V1 has an <a href="plans.html#plan-UK-FEAT-VOLUME-LADDER-PATH-FIX-V1">Approved</a> coding plan (26 Aug 2026) and no accept commit. Volume ladders may stay broken; V5 free-climb is the upstairs path. We do not mark the ladder fix implemented.</p>
+              <p style="margin:0.8rem 0 0">Fresh product slices start only when the Architect tasks them. Color kit fallbacks remain valid until an explicit <code>ASSET_*</code> task.</p>
             </div>
           </li>
         </ol>

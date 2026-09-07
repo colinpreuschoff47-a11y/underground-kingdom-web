@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Example Gate B coding plans — Underground Kingdom</title>
-  <meta name="description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, back-wall climb, cutover, ladder path fix.">
+  <meta name="description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, back-wall climb, cutover, large service split V2, ladder path fix.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Example Gate B coding plans">
-  <meta property="og:description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, back-wall climb, cutover, ladder path fix.">
+  <meta property="og:description" content="Full Gate B coding plans behind spoilers: dig marks, depth-1 occupy, wall visual, back-wall climb, cutover, large service split V2, ladder path fix.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -1995,6 +1995,800 @@ Debug2DSceneName  == GameplaySceneName        == &quot;Gameplay&quot;
 <hr />
 <h2>10. STOP</h2>
 <p>No production code in this phase. Implement only after the Architect <strong>approves this plan file</strong>.</p>
+          </div>
+        </details>
+          </div>
+        </article>
+        <article class="artifact" aria-labelledby="plan-UK-FEAT-LARGE-SERVICE-SPLIT-V2">
+          <header>
+            <h3 id="plan-UK-FEAT-LARGE-SERVICE-SPLIT-V2">Large service split V2 <span class="badge badge-done">Implemented</span></h3>
+            <p class="file-cap">FEATURE_LARGE_SERVICE_SPLIT_V2_CODING_PLAN.md · 422 lines</p>
+          </header>
+          <div class="body">
+            <p><strong>Task ID:</strong> <code>UK-FEAT-LARGE-SERVICE-SPLIT-V2</code>. Class complex · Drops D1–D8 · Accepted 6 Sep 2026.</p>
+            <p>Local Windows paths in the original are redacted to <strong>Unity project root</strong>.</p>
+        <details class="spoiler">
+          <summary>Show full Gate B plan — FEATURE_LARGE_SERVICE_SPLIT_V2_CODING_PLAN.md</summary>
+          <div class="spoiler-body md-doc">
+<h1>Gate B Phase 1 — Large service split V2</h1>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Task ID</strong></td>
+<td><code>UK-FEAT-LARGE-SERVICE-SPLIT-V2</code></td>
+</tr>
+<tr>
+<td><strong>Brief</strong></td>
+<td><code>architecture_docs/briefs/features/FEATURE_LARGE_SERVICE_SPLIT_V2_GROK_BUILD_BRIEF.md</code></td>
+</tr>
+<tr>
+<td><strong>Date</strong></td>
+<td>2026-09-06</td>
+</tr>
+<tr>
+<td><strong>Status</strong></td>
+<td><strong>Implemented</strong></td>
+</tr>
+<tr>
+<td><strong>Class</strong></td>
+<td>complex</td>
+</tr>
+</tbody>
+</table>
+<p><strong>OPEN QUESTIONS:</strong> none blocking. First implementation approval should name <strong>which drop</strong> (default: <strong>D1 only</strong>).</p>
+<hr>
+<h2>0. One plan file, not one run</h2>
+<p><strong>Do not</strong> implement D1–D6 in a single coding run. Risk is haul/claim/volume-path/inspection regressions that cannot be bisected.</p>
+<p><strong>Do not</strong> write multiple plan files for this brief. <code>AGENTS.md</code>: one plan per task; stem = brief.</p>
+<table>
+<thead>
+<tr>
+<th>Question</th>
+<th>Answer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Multiple <strong>plan files</strong> now?</td>
+<td><strong>No.</strong> This file is the only plan.</td>
+</tr>
+<tr>
+<td>One <strong>implementation run</strong> for the whole V2 program?</td>
+<td><strong>No.</strong> One drop per Architect implementation approval (brief §12).</td>
+</tr>
+<tr>
+<td>Multiple <strong>briefs</strong> later?</td>
+<td>Optional follow-ups after V2 (D-OPT ISP, tickers, <code>UK.UI</code>). Not this task.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default cadence</strong></p>
+<table>
+<thead>
+<tr>
+<th>Approval</th>
+<th>Implement</th>
+<th>Then STOP</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><strong>D1</strong> InspectionHudPresenter internals</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>2</td>
+<td><strong>D2</strong> SimulationDriver tick vs HUD</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>3</td>
+<td><strong>D3</strong> AgentService Nulls + walk type</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>D4</strong> TaskReachability (+ Create* kernel if cheap)</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>D5a+D5b</strong> Labor path session + work stands + smith/cook + build/demolish (Architect combined)</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>D6</strong> BuildingEgressService</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>D7</strong> Catalog loader / Volume host sync / cave carver / enemy chase / path lift (Architect tasked)</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+<tr>
+<td>last</td>
+<td><strong>D8</strong> <code>LARGE_FILES_OVERVIEW_V2.md</code> + DECISIONS</td>
+<td><strong>done 2026-09-06</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Skip unless later tasked:</strong> D5c (haul/dig-harvest/needs/melee types), D-OPT (ISP, ticker move, <code>UK.UI</code>/<code>UK.Input</code>). <code>TilemapWorldView</code> paint split left (do not delete).</p>
+<p>Architect may combine <strong>D1+D2</strong> in one approval (same Session HUD stack). Do <strong>not</strong> combine D4 or D5 with anything else.</p>
+<hr>
+<h2>1. Restated goal</h2>
+<p>Structural-only extracts of mixed-domain hero types behind existing façades. Gameplay, tick order, Labor claim order, save format <strong>6</strong>, and public interface <strong>semantics</strong> stay frozen. No line-count target. Prefer leave over a dishonest split. Honor brief §2.3 KEEP.</p>
+<hr>
+<h2>2. In scope / out of scope</h2>
+<h3>In scope (this plan; each drop still needs its own implementation approval)</h3>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Work</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>D1</strong></td>
+<td>Split <code>InspectionHudPresenter</code> internals: formatters, world chrome, command/button layer. Keep public <code>DrawWindow</code> / <code>DrawWorldChrome</code> / <code>GetDwarfSidePanelOrigin</code> / <code>VolumeWorldChrome</code>.</td>
+</tr>
+<tr>
+<td><strong>D2</strong></td>
+<td>HUD orchestration out of <code>SimulationDriver</code>. <strong>One</strong> sim tick-order path for live and F9 (no per-tick delegates/lambdas).</td>
+</tr>
+<tr>
+<td><strong>D3</strong></td>
+<td>Delete unused <code>AgentService()</code> + nested Null* (~280 lines). Extract <code>ColonistBuildingVolumeWalk</code> to its own file.</td>
+</tr>
+<tr>
+<td><strong>D4</strong></td>
+<td>Extract <code>TaskReachability</code> (2D + volume stands, probe, budgeted recheck). Optional: one <code>RegisterNewTask</code> kernel for <code>Create*</code> insert+publish.</td>
+</tr>
+<tr>
+<td><strong>D5a</strong></td>
+<td><code>LaborPathSession</code> + <code>LaborWorkStands</code>; delete dead ranked-claim helpers.</td>
+</tr>
+<tr>
+<td><strong>D5b</strong></td>
+<td>Collapse smith/cook execute+claim and build/demolish execute+stands into shared internals.</td>
+</tr>
+<tr>
+<td><strong>D6</strong></td>
+<td>Extract <code>BuildingEgressService</code> from <code>BuildingProductionService</code>. <code>TickProduction</code> order unchanged.</td>
+</tr>
+<tr>
+<td><strong>D7</strong></td>
+<td>Catalog file loader; Volume host colony/stamp sync; <code>WorldCaveCarver</code>; <code>EnemyChasePlanner</code>; <code>ColonistVolumePathLift</code>. Do <strong>not</strong> delete <code>TilemapWorldView</code>.</td>
+</tr>
+<tr>
+<td><strong>D8</strong></td>
+<td>Overview V2 + DECISIONS + touched READMEs (after last code drop, or incrementally per drop).</td>
+</tr>
+</tbody>
+</table>
+<h3>Out of scope</h3>
+<p>Gameplay/balance/timing/cost/input; LOC cap; new assemblies; fill <code>UK.UI</code>/<code>UK.Input</code>; F9→Diagnostics; ISP on <code>IBuildingService</code>; wall/trap tickers out of Session or into Combat/Buildings; split Buildings stamps from occupy; one class per <code>TaskType</code>; Labor claim-order table; public Labor plugins; delete <code>TilemapWorldView</code> / 2D <code>Gameplay</code>; save meaning or format bump; raise path cap / Labor budget <strong>40</strong>; KEEP types in brief §2.3; Utils dump; <code>partial</code> as the design.</p>
+<hr>
+<h2>3. Affected modules / classes</h2>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Touch</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Session</strong></td>
+<td>D1/D2: <code>InspectionHudPresenter</code>, new HUD helpers under <code>Session/Hud/</code>, <code>SimulationDriver</code>. Possibly delete unused <code>BuildingSelectionController.FormatPanelText</code> if confirmed dead (D1). README.</td>
+</tr>
+<tr>
+<td><strong>Agents</strong></td>
+<td>D3: <code>AgentService</code> (remove nested types + unused ctor), new <code>ColonistBuildingVolumeWalk.cs</code>. README.</td>
+</tr>
+<tr>
+<td><strong>Tasks</strong></td>
+<td>D4: <code>TaskService</code>, new <code>TaskReachability.cs</code> (+ nested <code>VolumeStandCandidate</code> moves with it). README.</td>
+</tr>
+<tr>
+<td><strong>Labor</strong></td>
+<td>D5: <code>LaborService</code>, new session/stands/executor types. README.</td>
+</tr>
+<tr>
+<td><strong>Buildings</strong></td>
+<td>D6: <code>BuildingProductionService</code>, new <code>BuildingEgressService.cs</code>. Façade <code>BuildingService</code> <strong>unchanged</strong> unless a one-line delegate already exists. README.</td>
+</tr>
+<tr>
+<td><strong>Tests</strong></td>
+<td>Follow each drop; no golden-master rewrite. D3: confirm no <code>new AgentService()</code> callers (none on disk 2026-09-06).</td>
+</tr>
+<tr>
+<td><strong>Docs</strong></td>
+<td>READMEs as touched; DECISIONS after last drop (or a short entry per accepted drop); <code>LARGE_FILES_OVERVIEW_V2.md</code></td>
+</tr>
+<tr>
+<td><strong>Composer</strong></td>
+<td><strong>No</strong> new constructor args. Façades construct private collaborators (same as production today).</td>
+</tr>
+</tbody>
+</table>
+<p><strong>No new modules / asmdefs / events / save fields.</strong></p>
+<hr>
+<h2>4. New types (proposed names — Phase 2 may rename if a collision exists)</h2>
+<p>All <strong>same assembly</strong>, <strong><code>internal</code></strong> unless a current public caller needs the name (D1 façade stays public static).</p>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Type</th>
+<th>Responsibility</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><code>InspectionHudFormatters</code></td>
+<td><code>FormatInspectionHeader/Content</code>, dwarf/building/plant/site/enemy strings</td>
+</tr>
+<tr>
+<td>D1</td>
+<td><code>InspectionHudWorldChrome</code></td>
+<td><code>DrawWorldChrome</code> + inspect-blue / stack-list chrome</td>
+</tr>
+<tr>
+<td>D1</td>
+<td><code>InspectionHudCommands</code></td>
+<td><code>DrawInspectionInteractions</code>, dwarf/building buttons, armory deposit/withdraw</td>
+</tr>
+<tr>
+<td>D1</td>
+<td><code>InspectionHudPresenter</code></td>
+<td><strong>Keep</strong> as public façade: <code>DrawWindow</code> composes the three</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><code>GameplayHudOrchestrator</code></td>
+<td><code>DrawHud</code> toolbar/roster/edit badges; calls existing Hud* + presenter</td>
+</tr>
+<tr>
+<td>D2</td>
+<td><code>SimulationTickRunner</code></td>
+<td>Ordered sim slices; optional <strong>reused</strong> probe for F9 alloc/ms (field, not per-frame alloc)</td>
+</tr>
+<tr>
+<td>D3</td>
+<td><code>ColonistBuildingVolumeWalk</code></td>
+<td>Move nested class; <code>IWalkabilityMap</code> + <code>IVolumeWalkabilityMap</code></td>
+</tr>
+<tr>
+<td>D4</td>
+<td><code>TaskReachability</code></td>
+<td>Dig/harvest/position reach, volume stands, budgeted recheck given task list + probe</td>
+</tr>
+<tr>
+<td>D5a</td>
+<td><code>LaborPathSession</code></td>
+<td>Path budget, <code>_activeFeet</code>, <code>_lastVolumePath</code>, multi-goal scratch, <code>TryPathToFrom</code> / <code>TryRunMultiGoal</code> / <code>TryConsumePathBudget</code></td>
+</tr>
+<tr>
+<td>D5a</td>
+<td><code>LaborWorkStands</code></td>
+<td><code>Collect*Stands</code>, <code>TryResolve*WorkStand</code>, adjacency / <code>IsDwarfFeetPassable</code></td>
+</tr>
+<tr>
+<td>D5b</td>
+<td><code>LaborStationWork</code></td>
+<td>Shared smith/cook (and ProductionWork if the loop matches without lying)</td>
+</tr>
+<tr>
+<td>D5b</td>
+<td><code>LaborTimedStructureWork</code></td>
+<td>Shared build/demolish stand → timer → <code>Finalize*</code></td>
+</tr>
+<tr>
+<td>D6</td>
+<td><code>BuildingEgressService</code></td>
+<td>Output reserves, <code>EnsureBuildingEgress</code>, pickup/return, export cancel tracking</td>
+</tr>
+</tbody>
+</table>
+<p><code>LaborService</code> keeps: ctor, <code>Tick</code>, <code>TickColonist</code>, <code>TryAssignWork</code> <strong>order</strong>, <code>ExecuteCurrentTask</code> dispatch, <code>_boards</code>, save, <code>GetDigWorkDurationSeconds</code>.</p>
+<p><code>BuildingService</code> keeps: registry, sites, stamps, occupy, construction hauls, HP/doors, armory, save shell, production <strong>passthrough</strong>.</p>
+<p><code>TaskService</code> keeps: <code>_tasks</code> / <code>_byId</code> / <code>_nextId</code>, lifecycle, availability cache, save, <code>ITaskService</code> surface.</p>
+<hr>
+<h2>5. Architecture</h2>
+<h3>5.1 Policy (frozen)</h3>
+<ul>
+<li>No hard LOC cap.</li>
+<li>Composition over <code>partial</code>.</li>
+<li>Façades keep names and public method semantics.</li>
+<li>Collaborators owned by the façade (private fields), not <code>GameplayComposer</code>.</li>
+<li>Do not expose Labor blackboard fields as a public bag.</li>
+</ul>
+<h3>5.2 D1 — Inspection HUD</h3>
+<p><strong>Today:</strong> one static class (~1820 lines) formats, draws chrome, and <strong>mutates</strong> sim via building/dwarf/task APIs. Layout is already <code>InspectionInfoWindowLayout</code>.</p>
+<p><strong>Target</strong></p>
+<pre><code class="language-text">InspectionHudPresenter.DrawWindow(...)
+  measure + layout (existing)
+  content = InspectionHudFormatters.Format*(...)
+  InspectionHudCommands.Draw*(... existing IBuildingService / controllers ...)
+InspectionHudPresenter.DrawWorldChrome → InspectionHudWorldChrome
+</code></pre>
+<p><strong>Public API freeze:</strong> <code>DrawWindow</code>, <code>DrawWorldChrome</code>, <code>GetDwarfSidePanelOrigin</code>, <code>VolumeWorldChrome</code>. Bootstrap / <code>SimulationDriver</code> / layout tests keep calling the presenter.</p>
+<p>Commands stay in Session (not Presentation): they already call <code>IBuildingService</code> / designate controllers. Do <strong>not</strong> move mutation into <code>InspectionController</code>.</p>
+<p>If <code>BuildingSelectionController.FormatPanelText</code> has no callers (review: none), delete it in D1 as dead code in a touched neighborhood — only if grep is still clean at implement time.</p>
+<h3>5.3 D2 — Tick host vs HUD</h3>
+<p><strong>Today:</strong> <code>Update</code> duplicates the full tick list (F9 instrumented vs live). <code>OnGUI</code>/<code>DrawHud</code> paints the gameplay HUD.</p>
+<p><strong>Target</strong></p>
+<ul>
+<li><code>SimulationDriver</code> remains the MonoBehaviour: clock, probe, ghost, pause gate, <code>OnGUI</code> scale wrapper.</li>
+<li><code>GameplayHudOrchestrator.Draw(...)</code> owns current <code>DrawHud</code> body (resource bar, tools, roster, inspection window call).</li>
+<li><code>SimulationTickRunner.Tick(session, dt, probe)</code> owns <strong>one</strong> order:</li>
+</ul>
+<pre><code class="language-text">Tasks → Buildings → World.TickRegrowth → Labor → motors
+→ (if Agents) StarvationDamageEnabled from Settings; TickFood; TickAttention
+→ Enemies → TrapCombat → WallCombat → Ambient
+</code></pre>
+<p><strong>F9 probe:</strong> a <strong>field</strong> on <code>SimulationDriver</code> (<code>StressTickProbe</code>), reset each measured frame. <code>TickSlice(index, Action-like)</code> <strong>must not</strong> allocate. Implement as explicit methods (<code>TickTasks</code>, <code>TickBuildings</code>, …) called in order; probe <code>Begin(i)</code>/<code>End(i)</code> uses <code>GetAllocatedBytesForCurrentThread</code> + timestamp like today. <strong>No lambdas, no delegates allocated in <code>Update</code>.</strong></p>
+<p>Live path: same runner, no-op probe (empty methods, not a new object per frame).</p>
+<p>Do not change slice <strong>names/indices</strong> expected by <code>StressServiceAllocTracker.SliceNames</code> without updating that tracker in the same drop.</p>
+<h3>5.4 D3 — AgentService</h3>
+<p><strong>On disk:</strong> <code>public AgentService()</code> has <strong>zero</strong> call sites. Nested <code>NullBuildingService</code> (~225 lines) exists only for that ctor.</p>
+<p><strong>Target</strong></p>
+<ol>
+<li>Delete parameterless ctor and all nested Null* / <code>NullSubscription</code>.</li>
+<li>Move <code>ColonistBuildingVolumeWalk</code> to <code>Agents/ColonistBuildingVolumeWalk.cs</code> (<code>internal sealed</code>, same interfaces). Comment: World must not reference Buildings — same as <code>EnemyPathWalkability</code>.</li>
+<li>Production ctor unchanged.</li>
+</ol>
+<p>If Phase 2 finds a caller of <code>new AgentService()</code>, <strong>STOP</strong> and keep the ctor with Nulls moved to <code>Tests/EditMode/Agents/</code> instead of deleting.</p>
+<p>This is a public ctor removal of an unused test helper, not <code>IAgentService</code> semantic churn.</p>
+<h3>5.5 D4 — Task reachability</h3>
+<p><strong>Today:</strong> <code>TaskService</code> owns the board <strong>and</strong> ~550 lines of 2D/volume stand pathing (<code>Tick</code> budgeted recheck, <code>VolumeStandCandidate</code>, Z segments).</p>
+<p><strong>Target</strong></p>
+<pre><code class="language-text">TaskReachability(world, pathfinding, motion)
+  IsDigReachable / IsHarvestReachable / IsPositionReachable
+  RecheckUnreachable(tasks, cursor, maxPathChecks, probe) → new cursor + whether cache dirty
+
+TaskService.Tick → reachability.Recheck(...)
+Create* → unreachable = !_reach.Is*(...)
+</code></pre>
+<p>Probe override (<code>SetReachabilityProbe</code>) stays on <code>TaskService</code>; pass current probe into reachability each call (or a small <code>SetProbe</code> on the helper). Cursor can live on the helper <strong>or</strong> stay on the service — pick one owner in Phase 2; do not duplicate.</p>
+<p><strong>Create* kernel (same drop, abort if messy):</strong> private <code>RegisterNewTask(Task task)</code> = add to lists, invalidate cache, <code>Publish(TaskCreated)</code>. Leave per-type <strong>validation</strong> on each <code>Create*</code>. Do <strong>not</strong> invent one class per <code>TaskType</code>.</p>
+<p><code>ITaskService</code> unchanged.</p>
+<h3>5.6 D5 — Labor (two approvals)</h3>
+<p><strong>D5a — session + stands (foundational)</strong></p>
+<p><code>LaborPathSession</code> owns tick-scoped mutable path state that claim <strong>and</strong> execute share:</p>
+<ul>
+<li><code>_pathFindsLeft</code>, <code>_pathBudgetExhausted</code></li>
+<li><code>_activeFeet</code>, <code>_lastVolumePath</code></li>
+<li>multi-goal scratch dictionaries/lists</li>
+<li><code>TryPathToFrom</code>, <code>TryRunMultiGoal</code>, <code>TryFindNearestVolumeFrom</code>, <code>ApplyMotorPath</code>, <code>TryConsumePathBudget</code></li>
+</ul>
+<p>Reset budget at start of <code>LaborService.Tick</code> (same constants). Bind active feet at start of <code>TickColonist</code>.</p>
+<p><code>LaborWorkStands</code> is geometry: collect/resolve stands, adjacency. Path calls go <strong>through</strong> the session (callback or session passed in). Do not copy path budget into stands.</p>
+<p>Delete unused <code>RankedClaim</code> / <code>PushRankedClaim</code> / <code>SortRankedClaimScratch</code> / <code>TryGetExternalWorkFootprintForBuild</code> if still unreferenced at implement time.</p>
+<p><strong>D5b — collapse copy-paste executors</strong></p>
+<ul>
+<li>Smith <code>ExecuteSmithing</code> ≈ <code>ExecuteCooking</code> → one <code>TryExecuteProductionOrder(task, isCook)</code> (access, <code>CanProduceOne</code>, timer, <code>TryProcessProductionOrder</code>, Hold on need_inputs).</li>
+<li>Claim twins <code>TryClaimAvailableSmithing</code> ≈ <code>TryClaimAvailableCooking</code> → one helper with type/order lookup.</li>
+<li>Build ≈ demolish execute + stand resolve → <code>LaborTimedStructureWork</code>.</li>
+</ul>
+<p><strong>Do not</strong> in D5b: haul/export, dig/harvest, eat/sleep, melee (D5c deferred). Claim <strong>order</strong> in <code>TryAssignWork</code> stays a readable ladder (README lock).</p>
+<p><code>ILaborService</code> stays <code>Tick</code> only. Save snapshot API on <code>LaborService</code> unchanged. Do not drop unused <code>IStockpileAnchor</code> ctor arg (DI compatibility). Do not remove Combat asmdef “while here” unless grep shows zero use <strong>and</strong> Architect includes it in the drop approval (default: leave asmdef).</p>
+<h3>5.7 D6 — Egress</h3>
+<p><strong>Today:</strong> <code>BuildingProductionService</code> is refinement + ProductionWork + input hauls <strong>and</strong> output egress (~<code>EnsureBuildingEgress</code>, reserves, pickup/return, <code>OnTaskCancelled</code> export untrack).</p>
+<p><strong>Target:</strong> <code>internal BuildingEgressService</code> constructed by production (same <code>getBuilding</code> / <code>getAllBuildings</code> / access / tasks / event bus). Production <code>TickProduction</code> still:</p>
+<pre><code class="language-text">EnsureProductionWorkTask (all)
+EnsureEgressForAllBuildings   // even if dt==0
+if dt&lt;=0 return
+ResumeHeldBuildingDelivers
+ResumeHeldRefinementTasks
+EnsureHaulsForAllRefinementBuildings
+ResumeHeldProductionWorkTasks
+</code></pre>
+<p>Public <code>IBuildingService</code> passthroughs on <code>BuildingService</code> stay one-liners into production, which may forward to egress. <strong>No</strong> second stamp/occupy writer. Construction hauls stay on <code>BuildingService</code>.</p>
+<h3>5.8 Public APIs / events / save</h3>
+<table>
+<thead>
+<tr>
+<th>Surface</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>ILaborService</code>, <code>ITaskService</code>, <code>IBuildingService</code>, <code>IAgentService</code></td>
+<td><strong>None</strong> (except unused <code>AgentService()</code> ctor removal in D3)</td>
+</tr>
+<tr>
+<td>Events</td>
+<td>Same publish points; do not add buses</td>
+</tr>
+<tr>
+<td>Save format</td>
+<td><strong>6</strong>; snapshot DTOs unchanged; capture/apply still on façades</td>
+</tr>
+<tr>
+<td><code>GameplayComposer</code></td>
+<td>No new <code>new</code> of collaborators</td>
+</tr>
+</tbody>
+</table>
+<h3>5.9 Dependencies / ownership</h3>
+<p>Unchanged direction. Labor remains a hub <strong>orchestrator</strong>; extracted types are not new assemblies.</p>
+<table>
+<thead>
+<tr>
+<th>Fact</th>
+<th>Owner after extracts</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Task list</td>
+<td><code>TaskService</code></td>
+</tr>
+<tr>
+<td>Reachability policy</td>
+<td><code>TaskReachability</code> (no board mutation except unreachable flags via service or explicit method)</td>
+</tr>
+<tr>
+<td>Building registry / stamps / occupy</td>
+<td><code>BuildingService</code> only</td>
+</tr>
+<tr>
+<td>Production orders / work accumulators</td>
+<td><code>BuildingProductionService</code></td>
+</tr>
+<tr>
+<td>Output export reserves</td>
+<td><code>BuildingEgressService</code> (still production-owned lifetime)</td>
+</tr>
+<tr>
+<td>Colonist boards</td>
+<td><code>LaborService</code></td>
+</tr>
+<tr>
+<td>Path budget this Labor tick</td>
+<td><code>LaborPathSession</code></td>
+</tr>
+<tr>
+<td>HUD paint</td>
+<td>Hud* + D1 helpers; tick host does not layout buttons</td>
+</tr>
+</tbody>
+</table>
+<h3>5.10 Extension points</h3>
+<p>None. No plugin executors. No data-driven claim table.</p>
+<hr>
+<h2>6. Candidate map (brief §2.2) — split vs leave</h2>
+<table>
+<thead>
+<tr>
+<th>File</th>
+<th>Plan</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>LaborService.cs</code></td>
+<td><strong>Split</strong> D5a/D5b; leave haul/dig/needs/melee on façade (D5c later)</td>
+</tr>
+<tr>
+<td><code>BuildingService.cs</code></td>
+<td><strong>Leave</strong> (stamps+occupy+registry). No UpgradeService.</td>
+</tr>
+<tr>
+<td><code>BuildingProductionService.cs</code></td>
+<td><strong>Split</strong> D6 egress only</td>
+</tr>
+<tr>
+<td><code>TaskService.cs</code></td>
+<td><strong>Split</strong> D4 reachability; leave board+lifecycle</td>
+</tr>
+<tr>
+<td><code>InspectionHudPresenter.cs</code></td>
+<td><strong>Split</strong> D1</td>
+</tr>
+<tr>
+<td><code>TilemapWorldView.cs</code></td>
+<td><strong>Leave</strong> (2D debug). Do not delete; paint split not taken</td>
+</tr>
+<tr>
+<td><code>AgentService.cs</code></td>
+<td><strong>Split</strong> D3 (delete Nulls; extract walk)</td>
+</tr>
+<tr>
+<td><code>PresentationSpriteCatalog.cs</code></td>
+<td><strong>Split</strong> D7 file loader</td>
+</tr>
+<tr>
+<td><code>EnemyService.cs</code></td>
+<td><strong>Split</strong> D7 chase planner</td>
+</tr>
+<tr>
+<td><code>StressTestHarness.cs</code></td>
+<td><strong>Leave</strong></td>
+</tr>
+<tr>
+<td><code>WorldVolumeViewHost.cs</code></td>
+<td><strong>Split</strong> D7 colony/stamp sync</td>
+</tr>
+<tr>
+<td><code>AgentInventory.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>SimulationDriver.cs</code></td>
+<td><strong>Split</strong> D2</td>
+</tr>
+<tr>
+<td><code>WorldGenerator.cs</code></td>
+<td><strong>Split</strong> D7 cave carver</td>
+</tr>
+<tr>
+<td><code>MainMenuController.cs</code></td>
+<td><strong>Leave</strong></td>
+</tr>
+<tr>
+<td><code>BuildingInventory.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>PathfindingService.cs</code></td>
+<td><strong>Split</strong> D7 colonist volume lift</td>
+</tr>
+<tr>
+<td><code>WallCombatTicker.cs</code></td>
+<td><strong>KEEP in Session</strong></td>
+</tr>
+<tr>
+<td><code>StressServiceAllocTracker.cs</code></td>
+<td><strong>Leave</strong> (D2 must keep slice indices)</td>
+</tr>
+<tr>
+<td><code>InspectionController.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>GameplayComposer.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>BuildingSelectionController.cs</code></td>
+<td><strong>Leave</strong> except dead <code>FormatPanelText</code> if D1 grep-clean</td>
+</tr>
+<tr>
+<td><code>WorldService.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>SaveService.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>EconomyService.cs</code></td>
+<td><strong>KEEP</strong></td>
+</tr>
+<tr>
+<td><code>IBuildingService.cs</code></td>
+<td><strong>Freeze</strong> (ISP is D-OPT, not this plan)</td>
+</tr>
+<tr>
+<td><code>Bootstrap</code> / <code>VolumeWorldBootstrap</code></td>
+<td><strong>KEEP</strong> as hosts; still set <code>VolumeWorldChrome</code></td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>7. Risks / mitigations</h2>
+<table>
+<thead>
+<tr>
+<th>Risk</th>
+<th>Mitigation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Labor path budget / <code>_lastVolumePath</code> desync after extract</td>
+<td>D5a only after tests; session reset at Tick / TickColonist exactly as today</td>
+</tr>
+<tr>
+<td>Volume task reach behind walls</td>
+<td>D4 must keep volume stand collection; run <code>VolumeTaskReachBehindTests</code> + <code>VolumePathfindingTests</code></td>
+</tr>
+<tr>
+<td>F9 alloc attribution drift</td>
+<td>D2: no lambdas; same slice order/indices</td>
+</tr>
+<tr>
+<td>Inspection buttons stop mutating</td>
+<td>D1 commands still call the same service methods; smoke pause/cancel/upgrade/armory</td>
+</tr>
+<tr>
+<td>Egress vs input-haul tick order</td>
+<td>D6: <code>TickProduction</code> sequence copied verbatim</td>
+</tr>
+<tr>
+<td>Stamps vs occupy split by accident</td>
+<td>Hard forbid; D6 does not touch <code>BuildingService</code> stamps</td>
+</tr>
+<tr>
+<td>Unused ctor actually used in a scene/prefab</td>
+<td>D3: grep + Unity serialize check; STOP if found</td>
+</tr>
+<tr>
+<td>Too-large drop</td>
+<td>Default one drop per approval; D5 split into a/b</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>8. Test plan (EditMode)</h2>
+<table>
+<thead>
+<tr>
+<th>Drop</th>
+<th>Suites (minimum)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>D1</td>
+<td><code>InspectionInfoWindowLayoutTests</code>, <code>InspectionStackBuilderTests</code>, <code>HudLayoutV1Tests</code></td>
+</tr>
+<tr>
+<td>D2</td>
+<td>Session HUD layout tests; compile; F9 not required in EditMode — keep slice names stable for <code>StressServiceAllocTracker</code></td>
+</tr>
+<tr>
+<td>D3</td>
+<td><code>AgentServiceTests</code>, <code>AttentionSleepTests</code>, <code>FoodStarvationTests</code>, <code>VolumeMotionSaveTests</code></td>
+</tr>
+<tr>
+<td>D4</td>
+<td><code>TaskServiceTests</code>, <code>VolumeTaskReachBehindTests</code>, <code>VolumePathfindingTests</code> as referenced</td>
+</tr>
+<tr>
+<td>D5</td>
+<td><code>LaborServiceTests</code>, <code>SleepAttentionTests</code>, <code>FoodEatAutoTests</code>, <code>ReservationLeakTests</code>, <code>LaborClaimDistanceTests</code></td>
+</tr>
+<tr>
+<td>D6</td>
+<td><code>ProductionEconomyTests</code>, <code>BuildingOutputEgressTests</code>, <code>BuildingServiceTests</code> as relevant</td>
+</tr>
+<tr>
+<td>Any</td>
+<td>Compile EditMode; no new GPU tests</td>
+</tr>
+</tbody>
+</table>
+<p>No intentional assertion rewrites except call-site updates (D3 ctor deletion).</p>
+<hr>
+<h2>9. Docs (proposal — write when the drop lands)</h2>
+<table>
+<thead>
+<tr>
+<th>Doc</th>
+<th>Change</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>Session/README.md</code></td>
+<td>Presenter helpers; <code>SimulationDriver</code> = tick host + thin OnGUI; HUD orchestrator</td>
+</tr>
+<tr>
+<td><code>Agents/README.md</code></td>
+<td>No parameterless ctor; walk type file</td>
+</tr>
+<tr>
+<td><code>Tasks/README.md</code></td>
+<td>Reachability collaborator; board still owner</td>
+</tr>
+<tr>
+<td><code>Labor/README.md</code></td>
+<td>Path session + stands + collapsed station/structure work; claim order unchanged</td>
+</tr>
+<tr>
+<td><code>Buildings/README.md</code></td>
+<td>Egress collaborator under production</td>
+</tr>
+<tr>
+<td><code>docs/DECISIONS.md</code></td>
+<td>Index row + dated V2 split entry (policy restated; drops that landed)</td>
+</tr>
+<tr>
+<td><code>briefs/features/LARGE_FILES_OVERVIEW_V2.md</code></td>
+<td>Required D8</td>
+</tr>
+<tr>
+<td><code>coding_plans/README.md</code></td>
+<td>Index this plan</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>10. File list (expected; Phase 2 may add/rename)</h2>
+<p><strong>D1 (new):</strong> <code>Session/Hud/InspectionHudFormatters.cs</code>, <code>InspectionHudWorldChrome.cs</code>, <code>InspectionHudCommands.cs</code><br>
+<strong>D1 (edit):</strong> <code>InspectionHudPresenter.cs</code> (façade)</p>
+<p><strong>D2 (new):</strong> <code>Session/SimulationTickRunner.cs</code>, <code>Session/Hud/GameplayHudOrchestrator.cs</code><br>
+<strong>D2 (edit):</strong> <code>SimulationDriver.cs</code></p>
+<p><strong>D3 (new):</strong> <code>Agents/ColonistBuildingVolumeWalk.cs</code><br>
+<strong>D3 (edit):</strong> <code>AgentService.cs</code> (delete nested Nulls + unused ctor + nested walk)</p>
+<p><strong>D4 (new):</strong> <code>Tasks/TaskReachability.cs</code><br>
+<strong>D4 (edit):</strong> <code>TaskService.cs</code></p>
+<p><strong>D5a (new):</strong> <code>Labor/LaborPathSession.cs</code>, <code>Labor/LaborWorkStands.cs</code><br>
+<strong>D5a (edit):</strong> <code>LaborService.cs</code></p>
+<p><strong>D5b (new):</strong> <code>Labor/LaborStationWork.cs</code>, <code>Labor/LaborTimedStructureWork.cs</code> (or private helpers on existing types if smaller)<br>
+<strong>D5b (edit):</strong> <code>LaborService.cs</code></p>
+<p><strong>D6 (new):</strong> <code>Buildings/BuildingEgressService.cs</code><br>
+<strong>D6 (edit):</strong> <code>BuildingProductionService.cs</code></p>
+<p><strong>D7 (new):</strong> <code>World/WorldCaveCarver.cs</code>, <code>Pathfinding/ColonistVolumePathLift.cs</code>, <code>Enemies/EnemyChasePlanner.cs</code>, <code>Presentation/PresentationSpriteFileLoader.cs</code>, <code>Presentation/WorldVolume/WorldVolumeColonySync.cs</code><br>
+<strong>D7 (edit):</strong> <code>WorldGenerator.cs</code>, <code>PathfindingService.cs</code>, <code>EnemyService.cs</code>, <code>PresentationSpriteCatalog.cs</code>, <code>WorldVolumeViewHost.cs</code><br>
+<strong>D7 (leave):</strong> <code>TilemapWorldView.cs</code> (do not delete)</p>
+<p><strong>D8 (new):</strong> <code>architecture_docs/briefs/features/LARGE_FILES_OVERVIEW_V2.md</code><br>
+<strong>D8 (edit):</strong> <code>docs/DECISIONS.md</code>, touched READMEs</p>
+<hr>
+<h2>11. Implementation options (Architect picks via approval text)</h2>
+<table>
+<thead>
+<tr>
+<th>Option</th>
+<th>Meaning</th>
+<th>Recommendation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>A. D1 only</strong> (default)</td>
+<td>First Phase 2 is inspection presenter</td>
+<td><strong>Yes</strong> — smallest behavior surface, unblocks D2</td>
+</tr>
+<tr>
+<td><strong>B. D1+D2 together</strong></td>
+<td>One Session HUD slice</td>
+<td>OK if you want fewer stops; still not D4/D5</td>
+</tr>
+<tr>
+<td><strong>C. Start at D5 Labor</strong></td>
+<td>Skip HUD first</td>
+<td>Allowed by brief §15 Q4; higher risk; still D5a then D5b</td>
+</tr>
+<tr>
+<td><strong>D. Whole V2 one run</strong></td>
+<td>D1–D6 in one Phase 2</td>
+<td><strong>Reject</strong> — cannot bisect</td>
+</tr>
+<tr>
+<td><strong>E. Include D7 / D-OPT</strong></td>
+<td>Presentation leftovers, ISP, tickers</td>
+<td><strong>Out</strong> unless you write it in the approval</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>12. Missing information</h2>
+<p>None required to implement D1. Confirm in the implementation approval:</p>
+<ol>
+<li>First drop = <strong>A (D1 only)</strong> unless you name B/C.</li>
+<li>D7 / D-OPT remain skipped.</li>
+</ol>
+<hr>
+<h2>13. Exit for this Phase 1</h2>
+<p>Plan on disk + chat. <strong>No production code</strong> until Architect approves implementation <strong>and names the drop</strong>.</p>
+<p>After each approved drop: compile, listed tests, forbids, README touch if that module changed, <strong>STOP</strong>. After the last approved code drop: D8 overview + DECISIONS, then STOP for accept.</p>
+<hr>
+<p><em>End of plan — UK-FEAT-LARGE-SERVICE-SPLIT-V2</em></p>
           </div>
         </details>
           </div>
