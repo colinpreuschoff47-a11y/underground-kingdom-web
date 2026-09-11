@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Progress — Underground Kingdom</title>
-  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway.">
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Progress">
-  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway.">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -140,6 +140,14 @@
               <li><time datetime="2026-09-08">8 Sep 2026</time><span class="done">Volume forge building recipe V1 — unique Modular shell + sparse interior.</span></li>
               <li><time datetime="2026-09-08">8 Sep 2026</time><span class="done">Starter hall expand V1 — 55×7 right wing for Marketplace; hall enemy exclude.</span></li>
               <li><time datetime="2026-09-08">8 Sep 2026</time><span class="done">Volume shell dollhouse cutaway — skip near-face block/trim at z=0 (floors stay).</span></li>
+            </ul>
+          </li>
+          <li class="era">
+            <p class="when">10 September 2026</p>
+            <h3>Volume recipe visual editor V1 <span class="badge badge-done">Implemented</span></h3>
+            <p>Each building type now has its own authored Volume recipe on disk, registered through a catalog so editing one chamber never rewrites another. A WYSIWYG editor assigns Modular sprites in a preview scene; play still falls back to the factory resolve path when no catalog is wired.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-10">10 Sep 2026</time><span class="done">Volume recipe visual editor V1 (UK-FEAT-VOLUME-RECIPE-VISUAL-EDITOR-V1) — unique authored recipe per type + catalog-first resolve.</span></li>
             </ul>
             <div class="remain-box">
               <h4>Remaining (honest)</h4>
