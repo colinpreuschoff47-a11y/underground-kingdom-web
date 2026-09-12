@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Progress — Underground Kingdom</title>
-  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor.">
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Progress">
-  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor.">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -149,13 +149,22 @@
             <ul class="commit-list">
               <li><time datetime="2026-09-10">10 Sep 2026</time><span class="done">Volume recipe visual editor V1 (UK-FEAT-VOLUME-RECIPE-VISUAL-EDITOR-V1) — unique authored recipe per type + catalog-first resolve.</span></li>
             </ul>
+          </li>
+          <li class="era">
+            <p class="when">11 September 2026</p>
+            <h3>Earth seamless UV + dual-density presentation <span class="badge badge-done">Implemented</span></h3>
+            <p>Cutaway earth–earth joins now sample the seamless plate by world XY the same way 2D crops do, so side-by-side cave walls no longer show a hard texture jump. Presentation also keeps shipped 64-density occupancy looking identical while accepting per-asset 128 remakes at the same tile fill — forward art lock is 128 PPT without a global half-size flip.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-11">11 Sep 2026</time><span class="done">Volume earth −Z seamless UV V1 (UK-FEAT-VOLUME-EARTH-SEAMLESS-UV-V1) — cutaway earth UVs match 2D period sampling.</span></li>
+              <li><time datetime="2026-09-11">11 Sep 2026</time><span class="done">Presentation dual-density occupancy PPU V1 (UK-FEAT-PRESENTATION-DUAL-DENSITY-PPU-V1) — shipped 64 look frozen; 128 drop-in ready.</span></li>
+            </ul>
             <div class="remain-box">
               <h4>Remaining (honest)</h4>
               <ul>
                 <li><span class="badge badge-done">Done</span> Volume product roadmap (V1–V5 + F). G cancelled — not remaining work.</li>
                 <li><span class="badge badge-go">Approved</span> Ladder path fix V1 — coding plan exists (26 Aug 2026), no accept commit. Volume ladders may stay broken; V5 free-climb is the upstairs path.</li>
               </ul>
-              <p style="margin:0.8rem 0 0">Fresh product slices start only when the Architect tasks them. Color kit fallbacks remain valid until an explicit <code>ASSET_*</code> task.</p>
+              <p style="margin:0.8rem 0 0">Fresh product slices start only when the Architect tasks them. Color kit fallbacks remain valid until an explicit <code>ASSET_*</code> task. Production art remakes to 128 PPT land one asset at a time.</p>
             </div>
           </li>
         </ol>
