@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Progress — Underground Kingdom</title>
-  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU.">
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Progress">
-  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU.">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -117,7 +117,7 @@
           <li class="era">
             <p class="when">5 September 2026</p>
             <h3>Volume product V4–V5 + cutover F <span class="badge badge-done">Implemented</span></h3>
-            <p>V4 1-tall ladder/wall visuals (accepted in a prior session; roadmap marked done). V5 back-wall climb: colonists walk to z = d−1 then ±Y, including d=1 dig; enemies stay ladder-only. F cutover: New Game / Load / Edit open Volume World; 2D Gameplay stays as debug. Product save formatVersion 6.</p>
+            <p>V4 1-tall ladder/wall visuals (accepted in a prior session; roadmap marked done). V5 back-wall climb: colonists walk to z = d−1 then ±Y, including d=1 dig; enemies stay ladder-only. F cutover: New Game / Load / Edit open Volume World (product save formatVersion 6). A later slice removed the leftover 2D debug host entirely.</p>
             <ul class="commit-list">
               <li><time datetime="2026-09-05">5 Sep 2026</time><span class="done">Volume V4 1-tall ladder/wall (roadmap done). Volume V5 back-wall climb (UK-FEAT-VOLUME-BACK-WALL-CLIMB-V1). Volume cutover F (UK-FEAT-VOLUME-CUTOVER-V1).</span></li>
             </ul>
@@ -158,10 +158,19 @@
               <li><time datetime="2026-09-11">11 Sep 2026</time><span class="done">Volume earth −Z seamless UV V1 (UK-FEAT-VOLUME-EARTH-SEAMLESS-UV-V1) — cutaway earth UVs match 2D period sampling.</span></li>
               <li><time datetime="2026-09-11">11 Sep 2026</time><span class="done">Presentation dual-density occupancy PPU V1 (UK-FEAT-PRESENTATION-DUAL-DENSITY-PPU-V1) — shipped 64 look frozen; 128 drop-in ready.</span></li>
             </ul>
+          </li>
+          <li class="era">
+            <p class="when">12 September 2026</p>
+            <h3>Volume-only host + placement in depth <span class="badge badge-done">Implemented</span></h3>
+            <p>The leftover Main Menu 2D (debug) path is gone: Volume World is the only gameplay host. Scene Gameplay and unused DevSandbox are deleted; 2D tilemap views are out of the product path. Designate, inspect, and build pick now follow the designated depth cell along the camera ray, and overlay chrome sits at occupancy depth instead of the cutaway plane at z≈0 — so the angled view no longer misses the floor you meant.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-12">12 Sep 2026</time><span class="done">Remove 2D debug host V1 (UK-FEAT-REMOVE-2D-DEBUG-HOST-V1) — Volume-only host; also Volume placement / pick / chrome off z=0.</span></li>
+            </ul>
             <div class="remain-box">
               <h4>Remaining (honest)</h4>
               <ul>
                 <li><span class="badge badge-done">Done</span> Volume product roadmap (V1–V5 + F). G cancelled — not remaining work.</li>
+                <li><span class="badge badge-done">Done</span> 2D debug host removed — Volume World is the only gameplay host.</li>
                 <li><span class="badge badge-go">Approved</span> Ladder path fix V1 — coding plan exists (26 Aug 2026), no accept commit. Volume ladders may stay broken; V5 free-climb is the upstairs path.</li>
               </ul>
               <p style="margin:0.8rem 0 0">Fresh product slices start only when the Architect tasks them. Color kit fallbacks remain valid until an explicit <code>ASSET_*</code> task. Production art remakes to 128 PPT land one asset at a time.</p>
