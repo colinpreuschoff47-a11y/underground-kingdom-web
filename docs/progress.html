@@ -4,11 +4,11 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Progress — Underground Kingdom</title>
-  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0, Volume-only motion, editor RAM import cleanup.">
+  <meta name="description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0, Volume-only motion, editor RAM import cleanup V1–V3, labor fail-policy, tick/HUD/path/save pack, HUD click-through, cave-mouth climb lip.">
   <meta name="theme-color" content="#080A0E">
   <meta name="robots" content="index,follow">
   <meta property="og:title" content="Progress">
-  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0, Volume-only motion, editor RAM import cleanup.">
+  <meta property="og:description" content="Timeline from git commits and roadmaps: Unity migration, needs, 2.5D Phases A–E, Volume V1–V5 + cutover F (complete; G cancelled), large service split V2, recipe unify, forge Modular shell, starter hall expand, dollhouse cutaway, recipe visual editor, earth seamless UV, dual-density PPU, Volume-only host, placement off z=0, Volume-only motion, editor RAM import cleanup V1–V3, labor fail-policy, tick/HUD/path/save pack, HUD click-through, cave-mouth climb lip.">
   <meta property="og:type" content="website">
   <meta property="og:image" content="https://colinpreuschoff47-a11y.github.io/underground-kingdom-web/assets/og-card.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -177,14 +177,34 @@
               <li><time datetime="2026-09-15">15 Sep 2026</time><span class="done">Editor RAM cleanup V2b (UK-FEAT-EDITOR-RAM-IMPORT-CLEANUP-V2) — production uses imported sprites (no LoadImage hot path); lazy recipe palette thumbs.</span></li>
               <li><time datetime="2026-09-15">15 Sep 2026</time><span class="done">Editor RAM cleanup V2a (UK-FEAT-EDITOR-RAM-IMPORT-CLEANUP-V2) — Modular Sprite Atlases for live uk_* building art.</span></li>
             </ul>
+          </li>
+          <li class="era">
+            <p class="when">18–19 September 2026</p>
+            <h3>Labor hygiene + tick / HUD / path / save pack <span class="badge badge-done">Implemented</span></h3>
+            <p>Labor no longer ghosts assignees when work fails mid-job: abandon requires Hold, Unassign, or Cancel, and upgrade/site haul failures return cargo cleanly. The job board gains existence/scan helpers so sim ticks stop cloning the board just to ask “is anything open?” A same-era performance pack cuts per-tick and presentation allocs (motor hop scratch, Volume view dirty caches, HUD style/resource caches, pathfinding scratch + lift cache) and makes campaign/edit saves atomic (temp file then replace) so a crash cannot tear a slot.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-18">18 Sep 2026</time><span class="done">Labor fail-policy V1 (UK-FEAT-LABOR-FAIL-POLICY-V1) — abandon needs Hold/Unassign/Cancel; haul fail returns cargo.</span></li>
+              <li><time datetime="2026-09-18">18 Sep 2026</time><span class="done">Task board query hygiene V1 — HasAvailable / ForEachIncomplete; Tick + Labor claim stop cloning for existence scans.</span></li>
+              <li><time datetime="2026-09-19">19 Sep 2026</time><span class="done">Codebase improvement pack V1 — tick alloc scratch, Volume view + HUD cache, path scratch + lift cache, atomic save write + SimFixture.</span></li>
+            </ul>
+          </li>
+          <li class="era">
+            <p class="when">20 September 2026</p>
+            <h3>Editor RAM V3, HUD click-through, cave-mouth climb lip <span class="badge badge-done">Implemented</span></h3>
+            <p>Editor RAM cleanup finishes the optional package purge and related settings: unused Package Manager deps drop out, URP shadow/cookie maps step down to 1024 with Standalone High as the shipping default, and the Main Menu logo uses the imported texture instead of decoding a PNG at open. Tool LMB no longer punches through Session HUD chrome (same blocker as inspect). Colonists gain a cave-mouth lip node so they can enter or leave a depth-1 hole under a deeper cave mouth without a ladder; enemies stay ladder-only.</p>
+            <ul class="commit-list">
+              <li><time datetime="2026-09-20">20 Sep 2026</time><span class="done">Editor RAM import cleanup V3 (UK-FEAT-EDITOR-RAM-IMPORT-CLEANUP-V3) — V3a unused packages; V3b URP 1024 + Standalone High; V3c Main Menu logo off LoadImage.</span></li>
+              <li><time datetime="2026-09-20">20 Sep 2026</time><span class="done">HUD click-through V1 (UK-FEAT-HUD-CLICK-THROUGH-V1) — Build/Dig/Fill/Harvest/Move/Edit Anchors gate world LMB on HUD chrome.</span></li>
+              <li><time datetime="2026-09-20">20 Sep 2026</time><span class="done">Volume climb d=1 below cave V1 (UK-FEAT-VOLUME-CLIMB-DEPTH1-BELOW-CAVE-V1) — cave-mouth lip for colonist path into a shallow hole under a cave mouth.</span></li>
+            </ul>
             <div class="remain-box">
               <h4>Remaining (honest)</h4>
               <ul>
                 <li><span class="badge badge-done">Done</span> Volume product roadmap (V1–V5 + F). G cancelled — not remaining work.</li>
                 <li><span class="badge badge-done">Done</span> 2D debug host removed — Volume World is the only gameplay host.</li>
                 <li><span class="badge badge-done">Done</span> Volume-only motion — one motion graph on live volume Feet.</li>
-                <li><span class="badge badge-done">Done</span> Editor RAM cleanup V1 + V2a/V2b — unused art shelved, imported sprites, Modular atlases.</li>
-                <li><span class="badge badge-go">Open</span> Editor package purge (V2c) — optional later; not started.</li>
+                <li><span class="badge badge-done">Done</span> Editor RAM cleanup V1–V3 — unused art shelved, imported sprites, Modular atlases, package purge, URP/High defaults, Main Menu logo import.</li>
+                <li><span class="badge badge-done">Done</span> Labor fail-policy + task board query hygiene; tick/HUD/path/save pack; HUD click-through; cave-mouth climb lip.</li>
                 <li><span class="badge badge-go">Approved</span> Ladder path fix V1 — coding plan exists (26 Aug 2026), no accept commit. Volume ladders may stay broken; V5 free-climb is the upstairs path.</li>
               </ul>
               <p style="margin:0.8rem 0 0">Fresh product slices start only when the Architect tasks them. Color kit fallbacks remain valid until an explicit <code>ASSET_*</code> task. Production art remakes to 128 PPT land one asset at a time.</p>
